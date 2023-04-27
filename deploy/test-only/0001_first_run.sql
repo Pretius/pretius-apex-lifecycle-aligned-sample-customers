@@ -23,6 +23,12 @@ begin
     -- Load Sample Data
    eba_cust_sample_data.create_sample_data();
 
+    -- Create Session
+    apex_session.create_session (
+    p_app_id   => l_application_id,
+    p_page_id  => 1,
+    p_username => 'JENKINS' );
+
     -- Set Build Options
         for c1 in ( select BUILD_OPTION_ID
                     from apex_application_build_options
@@ -34,9 +40,13 @@ begin
                                                     p_build_status => 'INCLUDE' );
         end loop;
 
+    -- Delete Session
+    apex_session.delete_session;
+
     -- Set First Run to No
     eba_cust_fw.set_preference_value (
         p_preference_name  => 'FIRST_RUN',
         p_preference_value => 'NO' );
+
 end;
 /
