@@ -1,0 +1,354 @@
+---
+# ====== Page: Customer Usage Metrics ========================
+id: 13
+identification: 
+  name: Customer Usage Metrics
+  alias: CUSTOMER-USAGE-METRICS
+  title: Customer Usage Metrics
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Customer Usage Metrics ======================
+  id: 14938148483464440949
+  identification: 
+    title: Customer Usage Metrics
+    type: Calendar
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select
+          trunc(view_timestamp) view_timestamp,
+          trim(to_char(count(*),'999G999G999G990')) ||' Views / '||
+          trim(to_char(count(distinct app_username),'999G999G999G990')) ||' Users' Events
+      from
+          eba_cust_clicks
+      where
+          cust_id = :P13_ID 
+      and
+          view_timestamp > sysdate - 90
+      group by trunc(view_timestamp ) 
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      version: FullCalendar 3 [Deprecated]
+      display-column: EVENTS
+      start-date-column: VIEW_TIMESTAMP
+      show-time: false
+      multiple-line-events: true
+      show-tooltip: true
+      additional-calendar-views: 'list:navigation'
+      maximum-events-/-day: 10
+      show-weekend: true
+
+    performance: 
+      lazy-loading: true
+
+- # ====== Region: Hidden Items ================================
+  id: 14938149705296440955
+  identification: 
+    title: Hidden Items
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 14938150284384440956
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P13_CALENDAR_TYPE ========================
+  id: 14938148896083440949
+  identification: 
+    name: P13_CALENDAR_TYPE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Customer Usage Metrics # 14938148483464440949
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Item
+    item: P13_CALENDAR_TYPE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  comments: 
+    comments: Generated by Calendar wizard on 11/08/2013
+
+- # ====== Page Item: P13_CALENDAR_DATE ========================
+  id: 14938149076414440951
+  identification: 
+    name: P13_CALENDAR_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Customer Usage Metrics # 14938148483464440949
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Item
+    item: P13_CALENDAR_DATE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: return sysdate;
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  comments: 
+    comments: Generated by Calendar wizard on 11/08/2013
+
+- # ====== Page Item: P13_CALENDAR_END_DATE ====================
+  id: 14938149289872440954
+  identification: 
+    name: P13_CALENDAR_END_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Customer Usage Metrics # 14938148483464440949
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Item
+    item: P13_CALENDAR_END_DATE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: return sysdate+3;
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  comments: 
+    comments: Generated by Calendar wizard on 11/08/2013
+
+- # ====== Page Item: P13_ID ===================================
+  id: 14938149901044440955
+  identification: 
+    name: P13_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Hidden Items # 14938149705296440955
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: RETURN_TO_CUSTOMER ==========================
+  id: 14938147680951440947
+  identification: 
+    button-name: RETURN_TO_CUSTOMER
+    label: Return to Customer
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 14938150284384440956
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:RP,50:P50_ID:&P13_ID.'
+      page: 50 # Customer
+      clear-cache: RP,50
+      values: 
+        p50_id: '&P13_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+

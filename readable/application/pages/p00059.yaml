@@ -1,0 +1,4670 @@
+---
+# ====== Page: Customers =====================================
+id: 59
+identification: 
+  name: Customers
+  alias: CUSTOMERS
+  title: Customers
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Left Side Column # 14857694771998769797
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+javascript: 
+  execute-when-page-loads: |
+    // standard, cacheable elements
+    var timeout = 0; // used for debounce on search
+    var CONTAINER_SEL = '.t-Form-fieldContainer';
+    var pagePrefix = 'P' + $('#pFlowStepId').val();
+    var displayAsId = pagePrefix + '_DISPLAY_AS';
+    var $displayAs = $('#' + displayAsId);
+    var $body = $('.t-PageBody');
+    var $search = $('#' + pagePrefix + '_SEARCH');
+    var $sort = $('#' + pagePrefix + '_SORT');
+    var $reset = $('#reset_button');
+    var $cardsReg = $('#cards_region');
+    var $reportReg = $('#report_region');
+    var $logoReg = $('#logo_region');
+    
+    // custom items (will vary by page)
+    var $geo             = $('#' + pagePrefix + '_GEO');
+    var $industry        = $('#' + pagePrefix + '_INDUSTRY');
+    var $category        = $('#' + pagePrefix + '_CATEGORY');
+    var $product         = $('#' + pagePrefix + '_PRODUCT');
+    var $status          = $('#' + pagePrefix + '_STATUS');
+    var $max_rows        = $('#' + pagePrefix + '_MAX_ROWS');
+    var $reference_types = $('#' + pagePrefix + '_REFERENCE_TYPES');
+    var $marquee_cust    = $('#' + pagePrefix + '_MARQUEE_CUST');
+    var $scp_cust        = $('#' + pagePrefix + '_SCP_CUST');
+    var $type            = $('#' + pagePrefix + '_TYPE');
+    var $use_case        = $('#' + pagePrefix + '_USE_CASE');
+    var $referenceable   = $('#' + pagePrefix + '_REFERENCEABLE');
+    var $imp_partner     = $('#' + pagePrefix + '_IMP_PARTNER');
+    var $competitor      = $('#' + pagePrefix + '_COMPETITOR');
+    var $logo_size       = $('#' + pagePrefix + '_LOGO_SIZE');
+    
+    function showLeftColumn() {
+        $body
+            .removeClass('t-PageBody--hideLeft')
+            .addClass('t-PageBody--showLeft');
+    
+        // Takes 200ms to hide column
+        setTimeout(function() {
+            // Ensure column headers align correctly
+            $(window).trigger('apexwindowresized');
+        }, 250);
+    }
+    
+    function hideLeftColumn() {
+        $body
+            .removeClass('t-PageBody--showLeft')
+            .addClass('t-PageBody--hideLeft');
+    
+        // Takes 200ms to hide column
+        setTimeout(function() {
+            // Ensure column headers align correctly
+            $(window).trigger('apexwindowresized');
+        }, 250);
+    }
+    
+    // applyFilters triggers the refresh event on the correct region
+    function applyFilters() {
+        var display = $v(displayAsId);
+    
+        if (display === 'CARDS') {
+            $cardsReg.trigger('apexrefresh');
+        } else if (display === 'REPORT') {
+            $reportReg.trigger('apexrefresh');
+        } else if (display === 'LOGOS') {
+            $logoReg.trigger('apexrefresh');
+        }
+    }
+    
+    // toggleRegionDisplay is similar to applyFilters except that it also
+    // takes into account what regions or items need to be displayed or hidden
+    function toggleRegionDisplay(refresh) {
+        var display = $v(displayAsId);
+    
+        refresh = (refresh === false) ? false : true;
+    
+        if (display === 'CARDS') {
+            $reportReg.hide();
+            $logoReg.hide();
+            $logo_size.closest(CONTAINER_SEL).hide();
+            showLeftColumn();
+    
+            if (refresh) {
+                $cardsReg.trigger('apexrefresh');
+            }
+    
+            $cardsReg.show();
+        } else if (display === 'REPORT') {
+            $cardsReg.hide();
+            $logoReg.hide();
+            $logo_size.closest(CONTAINER_SEL).hide();
+            hideLeftColumn();
+            if (refresh) {
+                $reportReg.trigger('apexrefresh');
+            }
+    
+            $reportReg.show();
+        } else if (display === 'LOGOS') {
+            $cardsReg.hide();
+            $reportReg.hide();
+            $logo_size.closest(CONTAINER_SEL).show();
+            showLeftColumn();
+            if (refresh) {
+                $logoReg.trigger('apexrefresh');
+            }
+            $logoReg.show();
+        }
+    }
+    
+    function debounceSearch(e) {
+        /* 
+         * Prevent search for following keys:
+         * TAB:     9
+         * SHIFT:   16
+         * LEFT:    37
+         * RIGHT:   39
+         */
+        if ( e.which === 9 || e.which === 16 || e.which === 37 || e.which === 39 ) {
+            return false;
+        }
+    
+        clearTimeout(timeout);
+        timeout = setTimeout(applyFilters, 250);
+    }
+    
+    function preventSubmitOnEnter(e) {
+        if (e.which === 13) {
+            return false;
+        }
+    }
+    
+    function resetFilters() {
+        $search.val(null);
+    
+        $sort.val(null);
+        $geo.val(null);
+        $industry.val(null);
+        $category.val(null);
+        $product.val(null);
+        $status.val(null);
+        $max_rows.val(null);
+        $reference_types.val(null);
+        $marquee_cust.val(null);
+        $scp_cust.val(null);
+        $type.val(null);
+        $use_case.val(null);
+        $referenceable.val(null);
+        $imp_partner.val(null);
+        $competitor.val(null);
+        $logo_size.val('S');
+    
+        applyFilters();
+    }
+    
+    // standard search event bindings
+    $search.keydown(preventSubmitOnEnter);
+    $search.keyup(debounceSearch);
+    
+    // dynamic event bindings (will vary by filter page)
+    $sort.change(applyFilters);
+    $geo.change(applyFilters);
+    $industry.change(applyFilters);
+    $category.change(applyFilters);
+    $product.change(applyFilters);
+    $status.change(applyFilters);
+    $max_rows.change(applyFilters);
+    $reference_types.change(applyFilters);
+    $marquee_cust.change(applyFilters);
+    $scp_cust.change(applyFilters);
+    $type.change(applyFilters);
+    $use_case.change(applyFilters);
+    $referenceable.change(applyFilters);
+    $imp_partner.change(applyFilters);
+    $competitor.change(applyFilters);
+    
+    // standard display, sort, reset event bindings
+    $displayAs.change(toggleRegionDisplay);
+    $reset.click(resetFilters);
+    
+    toggleRegionDisplay(false);
+
+css: 
+  inline: |
+    .logo-cards .t-Card-icon, .logo-cards .t-Card-titleWrap, .logo-cards .t-Card-info { display: none !important }
+    .logo-cards .t-Card .t-Card-body { padding: 0; border: none; margin: 0 }
+    .logo-cards .t-Card .t-Card-desc {position: relative;}
+    .logo-cards .t-Card img { width: 100%; vertical-align: middle; max-height: ; }
+    span.no-image { display: block; text-align: center; color: #909090; font-weight: 200; white-space: nowrap; padding: 0 12px; }
+    .t-Cards--float .t-Cards-item { max-width: 100% }
+    .t-Cards--float.large-logos .t-Cards-item { width: 480px }
+    .t-Cards--float.large-logos.logo-cards .t-Card .t-Card-desc { line-height: 300px; height: 300px}
+    .t-Cards--float.large-logos span.no-image {font-size: 24px;}
+    .t-Cards--float.medium-logos .t-Cards-item { width: 320px }
+    .t-Cards--float.medium-logos.logo-cards .t-Card .t-Card-desc { line-height: 180px; height: 180px}
+    .t-Cards--float.medium-logos span.no-image {font-size: 20px;}
+    .t-Cards--float.small-logos .t-Cards-item { width: 180px }
+    .t-Cards--float.small-logos.logo-cards .t-Card .t-Card-desc { line-height: 120px; height: 120px}
+    .t-Cards--float.small-logos span.no-image {font-size: 14px;}
+    
+    span.customer-logo {
+        display: block;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        background-size: contain;
+        margin: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: |
+    <h2>About this Application</h2>
+    <p>Customers helps you improve your customer interactions by offering a centralized repository of information.</p>
+    <p>Each customer can have multiple contacts and be associated with multiple products.  Each contact has a variety of standard attributes, such as category, geography, industry and status, as well as the ability to add tags to a customer for further ad hoc classification.  You can indicate the reference status for a customer and enter free form text as a customer profile.</p>
+    <p>You can create activity records to log interactions with each customer.  Customers includes a variety of reports which let you view recent activities, status changes and tags.  You can also use interactive reports to give your users the ability to filter and shape customer, contact, activity and interaction data.</p>
+    <p>Customers gives you the ability to define your own standards for attributes such as categories, statuses, customer and activity types, and products, allowing you to create a customized version of Customers to meet your own needs.</p>
+
+regions: 
+- # ====== Region: Customer Logos ==============================
+  id: 14276348520250669529
+  identification: 
+    title: Customer Logos
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||a.id) card_link,
+             a.customer_name card_title,
+             case
+               when logo_blob is null
+               then '<span class="no-image">'||apex_escape.html(a.customer_name)||'</span>'
+               else '<span class="customer-logo" style="background-image: url(''' || apex_util.prepare_url('f?p=' || :APP_ID
+                   || ':IMAGE::APPLICATION_PROCESS=GET_IMAGE:::GET_ID:' || a.id) || ''');" title="'
+                   ||apex_escape.html(a.customer_name)||'"></span>'
+             end card_text,
+             null card_subtext,
+             null card_initials,
+              a.id
+      from eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case f
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = f.id(+)
+          and (:P59_SEARCH is null or
+                  instr(upper(a.customer_name),upper(:P59_SEARCH)) > 0 or
+                             instr(upper(a.summary),upper(:P59_SEARCH)) > 0 )
+          and (NVL(:P59_GEO,0) = 0 or :P59_GEO = a.geography_id)
+          and (NVL(:P59_COUNTRY,0) = 0 or :P59_COUNTRY = a.country_id)
+          and (NVL(:P59_INDUSTRY,0) = 0 or  :P59_INDUSTRY = a.industry_id)
+          and (NVL(:P59_CATEGORY,0) = 0 or :P59_CATEGORY = a.category_id)
+          and (NVL(:P59_STATUS,0) = 0 or :P59_STATUS = a.status_id)
+          and (NVL(:P59_TYPE,0) = 0 or :P59_TYPE = a.type_id)
+          and (NVL(:P59_USE_CASE,0) = 0 or :P59_USE_CASE = a.use_case_id)
+          and (:P59_MARQUEE_CUST is null or :P59_MARQUEE_CUST = a.marquee_customer_yn)
+          and (:P59_IMP_PARTNER is null
+              or exists ( select null
+                          from eba_cust_cust_partner_ref rf
+                          where rf.customer_id = a.id
+                              and rf.partner_id = :P59_IMP_PARTNER ))
+          and (:P59_COMPETITOR is null
+              or exists ( select null
+                          from eba_cust_cust_competitor_ref rf
+                          where rf.customer_id = a.id
+                              and rf.competitor_id = :P59_COMPETITOR ))
+          and (:P59_REFERENCEABLE is null or :P59_REFERENCEABLE = a.referencable)
+          and (:P59_SCP_CUST is null or :P59_SCP_CUST = a.strategic_customer_program_yn)
+          and (
+              exists (select 1 from eba_cust_customer_reftype_ref r
+              where r.customer_id = a.id and
+                    instr(':'||:P59_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+              or 
+              :P59_REFERENCE_TYPES is null
+              )
+          and  NVL(:P59_DISPLAY_AS,'X') = 'LOGOS'
+          and (NVL(:P59_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P59_PRODUCT))
+      order by
+          case :P59_SORT
+              when 'NAME' then lower(a.customer_name)
+              else null
+          end,
+          case :P59_SORT
+              when 'UPDATED' then current_timestamp - a.updated
+              when 'OLDFIRST' then a.created - current_timestamp
+              when 'NEWFIRST' then current_timestamp - a.created
+              else null
+          end,
+          case :P59_SORT
+              when 'NAME' then current_timestamp - a.updated
+              else null
+          end,
+          case :P59_SORT
+              when 'UPDATED' then lower(a.customer_name)
+              when 'OLDFIRST' then lower(a.customer_name)
+              when 'NEWFIRST' then lower(a.customer_name)
+              else null
+          end
+    page-items-to-submit: 
+    - P59_SEARCH
+    - P59_SORT
+    - P59_GEO
+    - P59_INDUSTRY
+    - P59_CATEGORY
+    - P59_STATUS
+    - P59_MAX_ROWS
+    - P59_REFERENCE_TYPES
+    - P59_MARQUEE_CUST
+    - P59_SCP_CUST
+    - P59_TYPE
+    - P59_USE_CASE
+    - P59_LOGO_SIZE
+    - P59_REFERENCEABLE
+    - P59_IMP_PARTNER
+    - P59_COMPETITOR
+    - P59_DISPLAY_AS
+    - P59_PRODUCT
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: logo_region
+    custom-attributes: 
+    - 'style="display:'
+    - none;"
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 5000
+
+    appearance: 
+      template-type: Theme
+      template: Cards # 15019743609388106675
+      template-options: 
+      - '#DEFAULT#'
+      - t-Cards--featured force-fa-lg
+      - t-Cards--float
+      - t-Cards--animRaiseCard
+      css-classes: 
+      - logo-cards
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges 1-15 16-30 in select list (with pagination)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    messages: 
+      when-no-data-found: No customers found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ID ==========================================
+    id: 14995199689939442581
+    identification: 
+      column-name: ID
+      type: Plain Text
+
+    heading: 
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_LINK ===================================
+    id: 14998855385997637988
+    identification: 
+      column-name: CARD_LINK
+      type: Plain Text
+
+    heading: 
+      heading: Card link
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_TITLE ==================================
+    id: 14998855494738637989
+    identification: 
+      column-name: CARD_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Card title
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_TEXT ===================================
+    id: 14998855589697637990
+    identification: 
+      column-name: CARD_TEXT
+      type: Plain Text
+
+    heading: 
+      heading: Card text
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: false
+
+  - # ====== Column: CARD_SUBTEXT ================================
+    id: 14998855744415637991
+    identification: 
+      column-name: CARD_SUBTEXT
+      type: Plain Text
+
+    heading: 
+      heading: Card subtext
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_INITIALS ===============================
+    id: 14998855798927637992
+    identification: 
+      column-name: CARD_INITIALS
+      type: Plain Text
+
+    heading: 
+      heading: Card initials
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Breadcrumb ==================================
+  id: 14863055491726863442
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+
+- # ====== Region: Customer Cards ==============================
+  id: 14863240054048967870
+  identification: 
+    title: Customer Cards
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||a.id) card_link,
+             a.customer_name card_title,
+             NVL(substr(a.summary,1,255), DBMS_LOB.substr(a.customer_profile,255,1))      card_text,
+             --nvl(c.status,'Unknown Status')||', '||
+             nvl((select INDUSTRY_NAME from EBA_CUST_INDUSTRIES i where i.id = a.INDUSTRY_ID),'')||decode(geography_name,null,null,', '|| geography_name) card_subtext,
+              upper(
+                decode(instr(a.customer_name,' '),
+                       0, 
+                       substr(a.customer_name,1,2),
+                       substr(a.customer_name,1,1)||substr(a.customer_name,instr(a.customer_name,' ')+1,1)
+                 )) card_initials
+      from eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case f
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = f.id(+)
+          and (:P59_SEARCH is null or
+                  instr(upper(a.customer_name),upper(:P59_SEARCH)) > 0 or
+                             instr(upper(a.summary),upper(:P59_SEARCH)) > 0 )
+          and (NVL(:P59_GEO,0) = 0 or :P59_GEO = a.geography_id)
+          and (NVL(:P59_COUNTRY,0) = 0 or :P59_COUNTRY = a.country_id)
+          and (NVL(:P59_INDUSTRY,0) = 0 or  :P59_INDUSTRY = a.industry_id)
+          and (NVL(:P59_CATEGORY,0) = 0 or :P59_CATEGORY = a.category_id)
+          and (NVL(:P59_STATUS,0) = 0 or :P59_STATUS = a.status_id)
+          and (NVL(:P59_TYPE,0) = 0 or :P59_TYPE = a.type_id)
+          and (NVL(:P59_USE_CASE,0) = 0 or :P59_USE_CASE = a.use_case_id)
+          and (:P59_MARQUEE_CUST is null or :P59_MARQUEE_CUST = a.marquee_customer_yn)
+          and (:P59_IMP_PARTNER is null
+              or exists ( select null
+                          from eba_cust_cust_partner_ref rf
+                          where rf.customer_id = a.id
+                              and rf.partner_id = :P59_IMP_PARTNER ))
+          and (:P59_COMPETITOR is null
+              or exists ( select null
+                          from eba_cust_cust_competitor_ref rf
+                          where rf.customer_id = a.id
+                              and rf.competitor_id = :P59_COMPETITOR ))
+          and (:P59_REFERENCEABLE is null or :P59_REFERENCEABLE = a.referencable)
+          and (:P59_SCP_CUST is null or :P59_SCP_CUST = a.strategic_customer_program_yn)
+          and (
+              exists (select 1 from eba_cust_customer_reftype_ref r
+              where r.customer_id = a.id and
+                    instr(':'||:P59_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+              or 
+              :P59_REFERENCE_TYPES is null
+              )
+          and  NVL(:P59_DISPLAY_AS,'X') = 'CARDS'
+          and (NVL(:P59_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P59_PRODUCT))
+      order by
+          case :P59_SORT
+              when 'NAME' then lower(a.customer_name)
+              else null
+          end,
+          case :P59_SORT
+              when 'UPDATED' then current_timestamp - a.updated
+              when 'OLDFIRST' then a.created - current_timestamp
+              when 'NEWFIRST' then current_timestamp - a.created
+              else null
+          end,
+          case :P59_SORT
+              when 'NAME' then current_timestamp - a.updated
+              else null
+          end,
+          case :P59_SORT
+              when 'UPDATED' then lower(a.customer_name)
+              when 'OLDFIRST' then lower(a.customer_name)
+              when 'NEWFIRST' then lower(a.customer_name)
+              else null
+          end
+    page-items-to-submit: 
+    - P59_SEARCH
+    - P59_SORT
+    - P59_GEO
+    - P59_INDUSTRY
+    - P59_CATEGORY
+    - P59_STATUS
+    - P59_MAX_ROWS
+    - P59_REFERENCE_TYPES
+    - P59_MARQUEE_CUST
+    - P59_SCP_CUST
+    - P59_TYPE
+    - P59_USE_CASE
+    - P59_REFERENCEABLE
+    - P59_IMP_PARTNER
+    - P59_COMPETITOR
+    - P59_DISPLAY_AS
+    - P59_PRODUCT
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: cards_region
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  comments: 
+    comments: |2
+          --and (NVL(:P59_PRODUCT,0) = 0 or instr((select listagg(p.id,',') within group (order by p.id) from eba_cust_products p, eba_cust_product_uses u where u.customer_id = a._id and u.product_id = p.id), :P59_PRODUCT) > 0)
+      
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 50
+
+    appearance: 
+      template-type: Theme
+      template: Cards # 15019743609388106675
+      template-options: 
+      - '#DEFAULT#'
+      - t-Cards--desc-2ln
+      - u-colors
+      - t-Cards--displayInitials
+      - t-Cards--3cols
+      - t-Cards--basic
+      - t-Cards--animColorFill
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges X to Y of Z (with pagination)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: CARD_LINK ===================================
+    id: 16887362136701421802
+    identification: 
+      column-name: CARD_LINK
+      type: Plain Text
+
+    heading: 
+      heading: Card link
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_TITLE ==================================
+    id: 16887362182377421803
+    identification: 
+      column-name: CARD_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Card title
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_TEXT ===================================
+    id: 16887362359403421804
+    identification: 
+      column-name: CARD_TEXT
+      type: Plain Text
+
+    heading: 
+      heading: Card text
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_SUBTEXT ================================
+    id: 16887362382287421805
+    identification: 
+      column-name: CARD_SUBTEXT
+      type: Plain Text
+
+    heading: 
+      heading: Card subtext
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_INITIALS ===============================
+    id: 16887362477042421806
+    identification: 
+      column-name: CARD_INITIALS
+      type: Plain Text
+
+    heading: 
+      heading: Card initials
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Filters =====================================
+  id: 14863255565584037860
+  identification: 
+    title: Filters
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Customers Report ============================
+  id: 15752376011403957707
+  identification: 
+    title: Customers Report
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select a.row_key,
+          a.id,
+          a.parent_customer_id,
+          a.customer_account_number,
+          to_char(nvl(a.DISCOUNT_LEVEL,0),'999G999G999G999G999G999G990') || '%' discount_level,
+          '$' || to_char(nvl(a.TOTAL_CONTRACT_VALUE,0),'999G999G999G999G999G999G990') total_contract_value,
+          (select count('x') from eba_cust_activity_ref r where a.id = r.customer_id) activities,
+          customer_name,
+          a.STRATEGIC_CUSTOMER_PROGRAM_YN,
+          (select country_name from eba_cust_countries c where id = a.country_id) as country,
+          c.status,
+          e.type,
+          f.use_case,
+          category,
+          nvl(geography_name,'Not Defined') geography_name,
+          decode(referencable, null, 'No', referencable) referencable,
+          (select status from EBA_CUST_REF_PHASE p where p.id = a.reference_phase_id) ref_phase,
+          a.REF_RECRUITMENT_OWNER,
+          (select channel from EBA_CUST_SALES_CHANNEL sc where sc.id = a.SALES_CHANNEL_ID) sales_channel,
+          number_of_users,
+          decode(marquee_customer_yn, null, 'No', 'N', 'No', 'Y', 'Yes') marquee_customer,
+          decode(greatest(length(nvl(summary,' ')),50),50,summary,substr(summary,1,50)||'...') summary,
+          web_site,
+          (   select listagg(p.product_name, ', ') within group (order by p.product_name) product_uses
+              from eba_cust_customers c, eba_cust_product_uses u, eba_cust_products p
+              where c.id = u.customer_id
+                  and u.product_id = p.id
+                  and c.id = a.id
+              group by c.customer_name
+          ) product_uses,
+          tags,
+          nvl((select INDUSTRY_NAME from EBA_CUST_INDUSTRIES i where i.id = a.INDUSTRY_ID),'Not Defined') industry,
+          a.industry_id,
+          a.created,
+          a.created_by,
+          a.updated,
+          a.updated_by,
+          (   select listagg(rt.reference_type, ', ') within group (order by rt.reference_type) reference_types
+              from eba_cust_reference_types rt, eba_cust_customer_reftype_ref ref
+              where ref.customer_id = a.id
+                  and rt.id = ref.reference_type_id
+          ) referencability
+      from eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case f
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = f.id(+)
+      --
+      --    and (:P59_SEARCH is null or
+      --            instr(upper(a.customer_name),upper(:P59_SEARCH)) > 0 or
+      --                       instr(upper(a.summary),upper(:P59_SEARCH)) > 0 )
+      --    and (NVL(:P59_GEO,0) = 0 or :P59_GEO = a.geography_id)
+      --    and (NVL(:P59_COUNTRY,0) = 0 or :P59_COUNTRY = a.country_id)
+      --    and (NVL(:P59_INDUSTRY,0) = 0 or  :P59_INDUSTRY = a.industry_id)
+      --    and (NVL(:P59_CATEGORY,0) = 0 or :P59_CATEGORY = a.category_id)
+      --    and (NVL(:P59_STATUS,0) = 0 or :P59_STATUS = a.status_id)
+      --    and (NVL(:P59_TYPE,0) = 0 or :P59_TYPE = a.type_id)
+      --    and (NVL(:P59_USE_CASE,0) = 0 or :P59_USE_CASE = a.use_case_id)
+      --    and (:P59_MARQUEE_CUST is null or :P59_MARQUEE_CUST = a.marquee_customer_yn)
+      --    and (:P59_IMP_PARTNER is null
+      --        or exists ( select null
+      --                    from eba_cust_cust_partner_ref rf
+      --                    where rf.customer_id = a.id
+      --                        and rf.partner_id = :P59_IMP_PARTNER ))
+      --    and (:P59_COMPETITOR is null
+      --        or exists ( select null
+      --                    from eba_cust_cust_competitor_ref rf
+      --                    where rf.customer_id = a.id
+      --                        and rf.competitor_id = :P59_COMPETITOR ))
+      --    and (:P59_REFERENCEABLE is null or :P59_REFERENCEABLE = a.referencable)
+      --    and (:P59_SCP_CUST is null or :P59_SCP_CUST = a.strategic_customer_program_yn)
+      --    and (
+      --        exists (select 1 from eba_cust_customer_reftype_ref r
+      --        where r.customer_id = a.id and
+      --              instr(':'||:P59_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+      --        or 
+      --        :P59_REFERENCE_TYPES is null
+      --        )
+          and NVL(:P59_DISPLAY_AS,'X') = 'REPORT'
+      --    and (NVL(:P59_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P59_PRODUCT))
+    page-items-to-submit: 
+    - P59_DISPLAY_AS
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    - js-showMaximizeButton
+    render-components: Above Content
+
+  advanced: 
+    static-id: report_region
+    custom-attributes: 
+    - 'style="display:'
+    - none;"
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 15752376250521957712
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 100000
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: false
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: false
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: SORT_BY_UPD ===========================
+      id: 2044934296228461486
+      identification: 
+        name: SORT_BY_UPD
+        alias: 20424235
+
+    - # ====== Saved Report: Primary Report ========================
+      id: 15752390796119957749
+      identification: 
+        name: Primary Report
+        alias: 23280856
+
+    columns: 
+    - # ====== Column: DISCOUNT_LEVEL ==============================
+      id: 1105865339960847954
+      identification: 
+        column-name: DISCOUNT_LEVEL
+        type: Plain Text
+
+      heading: 
+        heading: Discount Level
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 121
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TOTAL_CONTRACT_VALUE ========================
+      id: 1105865452106847955
+      identification: 
+        column-name: TOTAL_CONTRACT_VALUE
+        type: Plain Text
+
+      heading: 
+        heading: Total Contract Value
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 131
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACTIVITIES ==================================
+      id: 1105865489015847956
+      identification: 
+        column-name: ACTIVITIES
+        type: Plain Text
+
+      heading: 
+        heading: Activities
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 141
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: REFERENCABILITY =============================
+      id: 15121320694565668397
+      identification: 
+        column-name: REFERENCABILITY
+        type: Plain Text
+
+      heading: 
+        heading: Referencability
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 51
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ID ==========================================
+      id: 15752376374740957717
+      identification: 
+        column-name: ID
+        type: Hidden Column
+
+      heading: 
+        heading: Selected Customer
+
+      layout: 
+        sequence: 1
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: CUSTOMER_NAME ===============================
+      id: 15752383623887957729
+      identification: 
+        column-name: CUSTOMER_NAME
+        type: Link
+
+      heading: 
+        heading: Customer
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 2
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:RP,50:P50_ID:#ID#'
+          page: 50 # Customer
+          clear-cache: RP,50
+          values: 
+            p50_id: '#ID#'
+
+        link-text: '#CUSTOMER_NAME#'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STATUS ======================================
+      id: 15752383943678957729
+      identification: 
+        column-name: STATUS
+        type: Plain Text
+
+      heading: 
+        heading: Status
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 17
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CATEGORY ====================================
+      id: 15752384377939957731
+      identification: 
+        column-name: CATEGORY
+        type: Plain Text
+
+      heading: 
+        heading: Category
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 16
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: REFERENCABLE ================================
+      id: 15752384758804957733
+      identification: 
+        column-name: REFERENCABLE
+        type: Plain Text
+
+      heading: 
+        heading: Publicly Referenceable
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 3
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: |
+          APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Customer Referencability') = 'INCLUDE'
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: NUMBER_OF_USERS =============================
+      id: 15752385142148957733
+      identification: 
+        column-name: NUMBER_OF_USERS
+        type: Plain Text
+
+      heading: 
+        heading: '# of Users'
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 4
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Function Body
+        language: PL/SQL
+        pl/sql-function-body: return wwv_flow_utilities.is_build_option_enabled('Number_of_users');
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SUMMARY =====================================
+      id: 15752385630874957734
+      identification: 
+        column-name: SUMMARY
+        type: Plain Text
+
+      heading: 
+        heading: Summary
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 5
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: WEB_SITE ====================================
+      id: 15752386026741957736
+      identification: 
+        column-name: WEB_SITE
+        type: Plain Text
+
+      heading: 
+        heading: Web Site
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 6
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 15752386374789957736
+      identification: 
+        column-name: CREATED_BY
+        type: Hidden Column
+
+      heading: 
+        heading: Created By
+
+      layout: 
+        sequence: 13
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 15752386732643957736
+      identification: 
+        column-name: UPDATED_BY
+        type: Hidden Column
+
+      heading: 
+        heading: Updated By
+
+      layout: 
+        sequence: 15
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: TAGS ========================================
+      id: 15752387201578957737
+      identification: 
+        column-name: TAGS
+        type: Plain Text
+
+      heading: 
+        heading: Tags
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 18
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Defined List of Values to Filter Word Contains
+        sql-query: |
+          select tag
+            from eba_cust_tags_type_sum
+           where content_type = 'CUSTOMER'
+             and tag_count > 0
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ROW_KEY =====================================
+      id: 15752387540767957739
+      identification: 
+        column-name: ROW_KEY
+        type: Link
+
+      heading: 
+        heading: View
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 19
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:50:P50_ID:#ID#'
+          page: 50 # Customer
+          clear-cache: 50
+          values: 
+            p50_id: '#ID#'
+
+        link-text: <span>#ROW_KEY#</span>
+        link-attributes: class="t-Button t-Button--small t-Button--hot t-Button--simple t-Button--stretch"
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED =====================================
+      id: 15752388018522957742
+      identification: 
+        column-name: CREATED
+        type: Plain Text
+
+      heading: 
+        heading: Created
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED =====================================
+      id: 15752388384617957743
+      identification: 
+        column-name: UPDATED
+        type: Plain Text
+
+      heading: 
+        heading: Updated
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 21
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: GEOGRAPHY_NAME ==============================
+      id: 15752388770785957743
+      identification: 
+        column-name: GEOGRAPHY_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Geography
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 22
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: wwv_flow_utilities.is_build_option_enabled('Geography')
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PRODUCT_USES ================================
+      id: 15752389166550957745
+      identification: 
+        column-name: PRODUCT_USES
+        type: Plain Text
+
+      heading: 
+        heading: Products
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 23
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: wwv_flow_utilities.is_build_option_enabled('Products and Services')
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MARQUEE_CUSTOMER ============================
+      id: 15752389547318957746
+      identification: 
+        column-name: MARQUEE_CUSTOMER
+        type: Plain Text
+
+      heading: 
+        heading: Marquee Customer
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 24
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: INDUSTRY ====================================
+      id: 15752389939561957748
+      identification: 
+        column-name: INDUSTRY
+        type: Plain Text
+
+      heading: 
+        heading: Industry
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 25
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: INDUSTRY_ID =================================
+      id: 15752390361208957748
+      identification: 
+        column-name: INDUSTRY_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Selected Industry
+
+      layout: 
+        sequence: 26
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: REF_PHASE ===================================
+      id: 15842693728696242439
+      identification: 
+        column-name: REF_PHASE
+        type: Plain Text
+
+      heading: 
+        heading: Ref Phase
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 48
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: |
+          APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Customer Referencability') = 'INCLUDE'
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SALES_CHANNEL ===============================
+      id: 15843023840669541598
+      identification: 
+        column-name: SALES_CHANNEL
+        type: Plain Text
+
+      heading: 
+        heading: Sales Channel
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 49
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: REF_RECRUITMENT_OWNER =======================
+      id: 15843025450625543122
+      identification: 
+        column-name: REF_RECRUITMENT_OWNER
+        type: Plain Text
+
+      heading: 
+        heading: Ref Recruitment Owner
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: |
+          APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Customer Referencability') = 'INCLUDE'
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: COUNTRY =====================================
+      id: 16930141829329711785
+      identification: 
+        column-name: COUNTRY
+        type: Plain Text
+
+      heading: 
+        heading: Country
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 61
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TYPE ========================================
+      id: 17000538490501322491
+      identification: 
+        column-name: TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 71
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: USE_CASE ====================================
+      id: 17000538823965322494
+      identification: 
+        column-name: USE_CASE
+        type: Plain Text
+
+      heading: 
+        heading: Use Case
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 81
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: STRATEGIC_CUSTOMER_PROGRAM_YN ===============
+      id: 17140194854934326584
+      identification: 
+        column-name: STRATEGIC_CUSTOMER_PROGRAM_YN
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: Y_OR_N # 17800927397335229149
+
+      heading: 
+        heading: SCP Customer
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 91
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: PARENT_CUSTOMER_ID ==========================
+      id: 18458898027743279623
+      identification: 
+        column-name: PARENT_CUSTOMER_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: CUSTOMERS # 16589419985608937808
+
+      heading: 
+        heading: Parent
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 101
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: CUSTOMER_ACCOUNT_NUMBER =====================
+      id: 18458898130800279624
+      identification: 
+        column-name: CUSTOMER_ACCOUNT_NUMBER
+        type: Plain Text
+
+      heading: 
+        heading: Customer account number
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 111
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: Hidden Items ================================
+  id: 15752391544077997254
+  identification: 
+    title: Hidden Items
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: More Filters ================================
+  id: 17934072878440363496
+  identification: 
+    title: More Filters
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: &APPLICATION_TITLE. =========================
+  id: 20224617893726551994
+  identification: 
+    title: '&APPLICATION_TITLE.'
+    type: PL/SQL Dynamic Content
+
+  source: 
+    pl/sql-code: |
+      declare 
+        t varchar2(4000) := null;
+      begin
+        begin
+            t := EBA_CUST_FW.get_preference_value('WELCOME_TEXT');
+        exception
+            when others then 
+            t := null;
+        end;
+        if t is null or t = '&nbsp;' or t = 'Preference does not exist' then
+           sys.htp.p('<p>Track and Manage Customers</p>');
+        else
+           sys.htp.p('<p>'||apex_escape.html(t)||'</p>');
+        end if;
+      end;
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Hero # 14857731647209769848
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  image: 
+    file-url: '#APP_FILES#icons/app-icon-192.png'
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+- # ====== Region: Search ======================================
+  id: 20224618257962551997
+  identification: 
+    title: Search
+    type: Static Content
+
+  layout: 
+    sequence: 170
+    parent-region: '&APPLICATION_TITLE.' # 20224617893726551994
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    - '#DEFAULT#'
+    css-classes: 
+    - t-Form--search
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Notifications ===============================
+  id: 20225342652255695697
+  identification: 
+    title: Notifications
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select
+          id,
+          decode(lower(NOTIFICATION_TYPE),'yellow','warning','red','danger',lower(NOTIFICATION_TYPE)) as ALERT_TYPE,
+          NOTIFICATION_NAME as ALERT_TITLE,
+          NOTIFICATION_DESCRIPTION as ALERT_DESC,
+          '' alert_action
+        from EBA_CUST_NOTIFICATIONS
+       where (DISPLAY_FROM is null or DISPLAY_FROM <= current_date) and
+             (DISPLAY_UNTIL is null or DISPLAY_UNTIL >= current_date)
+       order by nvl(DISPLAY_SEQUENCE,0),NOTIFICATION_NAME
+
+  layout: 
+    sequence: 1
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select null
+        from EBA_CUST_NOTIFICATIONS
+       where (DISPLAY_FROM is null or DISPLAY_FROM <= current_date) and
+             (DISPLAY_UNTIL is null or DISPLAY_UNTIL >= current_date)
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 100
+
+    appearance: 
+      template-type: Theme
+      template: Alerts # 14873492365285180933
+      template-options: 
+      - '#DEFAULT#'
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ID ==========================================
+    id: 20225342946411695702
+    identification: 
+      column-name: ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 1
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_TYPE ==================================
+    id: 20225343290279695704
+    identification: 
+      column-name: ALERT_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Alert type
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_TITLE =================================
+    id: 20225343710947695705
+    identification: 
+      column-name: ALERT_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Alert title
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_DESC ==================================
+    id: 20225344074394695706
+    identification: 
+      column-name: ALERT_DESC
+      type: Plain Text
+
+    heading: 
+      heading: Alert desc
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ALERT_ACTION ================================
+    id: 20225344533238695706
+    identification: 
+      column-name: ALERT_ACTION
+      type: Plain Text
+
+    heading: 
+      heading: Alert action
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: ACL Warning =================================
+  id: 20225346354909697170
+  identification: 
+    title: ACL Warning
+    type: ACL Warning
+
+  layout: 
+    sequence: 2
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 14857719916040769828
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--colorBG
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    - t-Alert--horizontal
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('ACCESS_CONTROL_ENABLED') = 'N'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      administration-page-link: 
+        url: 'f?p=&APP_ID.:SETTINGS:&SESSION.::&DEBUG.:RP::'
+        page: SETTINGS
+        clear-cache: RP
+
+- # ====== Region: Timezone ====================================
+  id: 20225379792459912276
+  identification: 
+    title: Timezone
+    type: Static Content
+
+  source: 
+    html-code: |
+      "TIMEZONE" 
+       
+
+  layout: 
+    sequence: 180
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    custom-attributes: 
+    - 'style="clear:'
+    - both;"
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: true
+
+- # ====== Region: Welcome to Customers ========================
+  id: 20225381367797913524
+  identification: 
+    title: Welcome to Customers
+    type: List
+
+  source: 
+    list: Welome Actions # 17977990295374060763
+
+  layout: 
+    sequence: 3
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 14857719916040769828
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--wizard
+    - t-Alert--noIcon
+    - t-Alert--info
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: No Rows returned
+    sql-query: select 1 from eba_cust_customers
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Media List # 14857748441790769882
+      template-options: 
+      - '#DEFAULT#'
+      - t-MediaList--cols t-MediaList--2cols
+
+page-items: 
+- # ====== Page Item: P59_DISPLAY_AS ===========================
+  id: 1096156792722229861
+  identification: 
+    name: P59_DISPLAY_AS
+    type: Radio Group
+
+  label: 
+    label: Display as
+    alignment: Left
+
+  settings: 
+    number-of-columns: 4
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 10
+    region: Search # 20224618257962551997
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Hidden # 14857752070773769895
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    - t-Form-fieldContainer--radioButtonGroup
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: HOMEPAGE_DISPLAY_AS # 1148683017725765131
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: CARDS
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_REFERENCE_TYPES ======================
+  id: 11998105894757920129
+  identification: 
+    name: P59_REFERENCE_TYPES
+    type: Checkbox Group
+
+  label: 
+    label: Reference Types (any)
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+
+  layout: 
+    sequence: 70
+    region: Filters # 14863255565584037860
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    css-classes: 
+    - reference_types_checkbox
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: REFERENCE_TYPES # 15640351289809627339
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: <button class="t-Button t-Button--small" id="reference_check_box" type="button">Check All</button>
+    help-text: Check all the boxes you would like to see.  If any customers have any of the reference types selected you will see the customer.
+
+- # ====== Page Item: P59_GEO ==================================
+  id: 14863256931370049384
+  identification: 
+    name: P59_GEO
+    type: Select List
+
+  label: 
+    label: Geography
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 50
+    region: Filters # 14863255565584037860
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: GEOGRAPHY # 14863255921778046444
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All - '
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 0
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_SEARCH ===============================
+  id: 14863258148852054924
+  identification: 
+    name: P59_SEARCH
+    type: Text Field
+
+  label: 
+    label: Search
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Filters # 14863255565584037860
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Hidden # 14857752070773769895
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    icon: fa-search
+    width: 64
+    value-placeholder: Search Customers
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_INDUSTRY =============================
+  id: 14863258831300059525
+  identification: 
+    name: P59_INDUSTRY
+    type: Select List
+
+  label: 
+    label: Industry
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 90
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: P2_INDUSTRY_ID LOOKUP # 14822340496428168521
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All - '
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 0
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_CATEGORY =============================
+  id: 14863259384001069710
+  identification: 
+    name: P59_CATEGORY
+    type: Select List
+
+  label: 
+    label: Category
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 100
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: CAT # 14863259161685067135
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All - '
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 0
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_MAX_ROWS =============================
+  id: 14863287099426127403
+  identification: 
+    name: P59_MAX_ROWS
+    type: Select List
+
+  label: 
+    label: Rows
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 110
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: MAX ROWS # 14863299479813211371
+    display-extra-values: true
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 20
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Never
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_STATUS ===============================
+  id: 14863303730488311606
+  identification: 
+    name: P59_STATUS
+    type: Select List
+
+  label: 
+    label: Status
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 80
+    region: Filters # 14863255565584037860
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: 'STATUS ' # 14863305098959315969
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Customer Status # 17138001262823690072
+
+- # ====== Page Item: P59_LOGO_SIZE ============================
+  id: 15030517736033525902
+  identification: 
+    name: P59_LOGO_SIZE
+    type: Select List
+
+  label: 
+    label: Logo Sizes
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 100
+    region: Filters # 14863255565584037860
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: LOGO SIZES # 15042620477601246251
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: S
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_MARQUEE_CUST =========================
+  id: 15030520044709525925
+  identification: 
+    name: P59_MARQUEE_CUST
+    type: Select List
+
+  label: 
+    label: Marquee Customer
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 30
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: MARQUEE # 14757305802502183145
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_SCP_CUST =============================
+  id: 15030520104094525926
+  identification: 
+    name: P59_SCP_CUST
+    type: Select List
+
+  label: 
+    label: SCP Customer
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 60
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: Y_OR_N # 17800927397335229149
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Strategic Customer Program # 16886892968439277617
+
+- # ====== Page Item: P59_PRODUCT ==============================
+  id: 16887364701199421828
+  identification: 
+    name: P59_PRODUCT
+    type: Select List
+
+  label: 
+    label: Product
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 40
+    region: Filters # 14863255565584037860
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: PRODUCTS # 16929502933782355794
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 0
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_TYPE =================================
+  id: 17000537833543322484
+  identification: 
+    name: P59_TYPE
+    type: Select List
+
+  label: 
+    label: Type
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 10
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: TYPE # 17039734630296662665
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_USE_CASE =============================
+  id: 17000538757812322493
+  identification: 
+    name: P59_USE_CASE
+    type: Select List
+
+  label: 
+    label: Use Case
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 20
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: USE_CASE # 17125994141500024761
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Customer Use Case # 17116199856807611850
+
+- # ====== Page Item: P59_REFERENCEABLE ========================
+  id: 17000539643257322502
+  identification: 
+    name: P59_REFERENCEABLE
+    type: Select List
+
+  label: 
+    label: Publicly Referenceable
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 60
+    region: Filters # 14863255565584037860
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: REFERENCABLE # 14757303586572178523
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_COUNTRY ==============================
+  id: 17140197427129326610
+  identification: 
+    name: P59_COUNTRY
+    type: Select List
+
+  label: 
+    label: Country
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 80
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: COUNTRIES_P59 # 17392196523892063100
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+    null-return-value: 0
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P59_GEO
+    parent-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Countries # 16926257625523939711
+
+- # ====== Page Item: P59_IMP_PARTNER ==========================
+  id: 17747208778359700203
+  identification: 
+    name: P59_IMP_PARTNER
+    type: Select List
+
+  label: 
+    label: Partner
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 40
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select name d, id r
+      from eba_cust_impl_partners
+      order by lower(name)
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_COMPETITOR ===========================
+  id: 17747209452722700209
+  identification: 
+    name: P59_COMPETITOR
+    type: Select List
+
+  label: 
+    label: Competitor
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 50
+    region: More Filters # 17934072878440363496
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select name d, id r
+      from eba_cust_competitors
+      order by lower(name)
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P59_SORT =================================
+  id: 17747210394115700219
+  identification: 
+    name: P59_SORT
+    type: Select List
+
+  label: 
+    label: Sort By
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 90
+    region: Filters # 14863255565584037860
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC:Name;NAME,Last Updated;UPDATED,Oldest to Newest;OLDFIRST,Newest to Oldest;NEWFIRST'
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Static Value
+    static-value: UPDATED
+    used: Only when current value in session state is null
+    maintain-session-state: Per User (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: RESET_REPORT ================================
+  id: 14872832780198083943
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 50
+    region: Filters # 14863255565584037860
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  advanced: 
+    static-id: reset_button
+
+- # ====== Button: ADD_CUSTOMER ================================
+  id: 15770473977694608374
+  identification: 
+    button-name: ADD_CUSTOMER
+    label: Add Customer
+
+  layout: 
+    sequence: 10
+    region: '&APPLICATION_TITLE.' # 20224617893726551994
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:2:&SESSION.::&DEBUG.:2::'
+      page: 2 # Customer Details
+      clear-cache: 2
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: RESET =======================================
+  id: 17140194866820326585
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Customers Report # 15752376011403957707
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&APP_PAGE_ID.:&SESSION.::&DEBUG.:RP,RIR::'
+      page: '&APP_PAGE_ID.'
+      clear-cache: RP,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: CONFIG_ACL ==================================
+  id: 20225346626513697173
+  identification: 
+    button-name: CONFIG_ACL
+    label: Configure ACL
+
+  layout: 
+    sequence: 10
+    region: ACL Warning # 20225346354909697170
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:35:&SESSION.::&DEBUG.:RP,35::'
+      page: 35 # Access Control Configuration
+      clear-cache: RP,35
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Set Logo Sizes on Region Refresh ====
+  id: 1096156965780229862
+  identification: 
+    name: Set Logo Sizes on Region Refresh
+
+  execution-options: 
+    sequence: 264
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERREFRESH
+    selection-type: Region
+    region: Customer Logos # 14276348520250669529
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 1096156975431229863
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var logo_cards$ = $("#logo_region_cards");
+        var logo_select_val = $v('P59_LOGO_SIZE');
+        
+        if (logo_select_val === 'S') {
+          logo_cards$.addClass("small-logos");
+          logo_cards$.removeClass("medium-logos large-logos"); 
+        } else if (logo_select_val === 'M') {
+          logo_cards$.addClass("medium-logos");
+          logo_cards$.removeClass("small-logos large-logos");
+        } else {
+          logo_cards$.addClass("large-logos");
+          logo_cards$.removeClass("small-logos medium-logos");
+        }
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_LOGO_SIZE
+
+    execution-options: 
+      sequence: 10
+      event: Set Logo Sizes on Region Refresh # 1096156965780229862
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Reset Search Filters ================
+  id: 14998856011239637994
+  identification: 
+    name: Reset Search Filters
+
+  execution-options: 
+    sequence: 234
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: RESET_REPORT # 14872832780198083943
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_CLEAR ================================
+    id: 14998856144580637995
+    identification: 
+      action: Clear
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_SEARCH
+      - P59_GEO
+      - P59_INDUSTRY
+      - P59_CATEGORY
+      - P59_STATUS
+      - P59_MAX_ROWS
+      - P59_REFERENCE_TYPES
+      - P59_LOGO_SIZE
+      - P59_PRODUCT
+      - P59_MARQUEE_CUST
+      - P59_SCP_CUST
+      - P59_TYPE
+      - P59_USE_CASE
+      - P59_REFERENCEABLE
+      - P59_COUNTRY
+      - P59_IMP_PARTNER
+      - P59_COMPETITOR
+
+    execution-options: 
+      sequence: 10
+      event: Reset Search Filters # 14998856011239637994
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Set Logo Sizes ======================
+  id: 14998856905812638003
+  identification: 
+    name: Set Logo Sizes
+
+  execution-options: 
+    sequence: 254
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P59_LOGO_SIZE
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 14998856976451638004
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var logo_cards$ = $("#logo_region_cards");
+        var logo_select_val = $v('P59_LOGO_SIZE');
+        
+        if (logo_select_val === 'S') {
+          logo_cards$.addClass("small-logos");
+          logo_cards$.removeClass("medium-logos large-logos"); 
+        } else if (logo_select_val === 'M') {
+          logo_cards$.addClass("medium-logos");
+          logo_cards$.removeClass("small-logos large-logos");
+        } else {
+          logo_cards$.addClass("large-logos");
+          logo_cards$.removeClass("small-logos medium-logos");
+        }
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P59_LOGO_SIZE
+
+    execution-options: 
+      sequence: 10
+      event: Set Logo Sizes # 14998856905812638003
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Toggle Reference Type Checkboxes ====
+  id: 15030516387078525889
+  identification: 
+    name: Toggle Reference Type Checkboxes
+
+  execution-options: 
+    sequence: 224
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: jQuery Selector
+    jquery-selector: '#reference_check_box'
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: $(this.triggeringElement).text() === "Check All"
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 15030516502491525890
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        $(".reference_types_checkbox input[type=checkbox]").prop('checked',true);
+        $(this.triggeringElement).text('Uncheck All');
+
+    execution-options: 
+      sequence: 10
+      event: Toggle Reference Type Checkboxes # 15030516387078525889
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 15030516733698525892
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        $(".reference_types_checkbox input[type=checkbox]").prop('checked',false);
+        $(this.triggeringElement).text('Check All');
+
+    execution-options: 
+      sequence: 10
+      event: Toggle Reference Type Checkboxes # 15030516387078525889
+      fire-when-event-result-is: False
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 15030517125485525896
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#CARDS, #LOGOS, #CUSTOMERS'
+
+    execution-options: 
+      sequence: 20
+      event: Toggle Reference Type Checkboxes # 15030516387078525889
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 15030517395189525899
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#CARDS, #LOGOS, #CUSTOMERS'
+
+    execution-options: 
+      sequence: 30
+      event: Toggle Reference Type Checkboxes # 15030516387078525889
+      fire-when-event-result-is: False
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Perform Search on Enter =============
+  id: 15675920222947732952
+  identification: 
+    name: Perform Search on Enter
+
+  execution-options: 
+    sequence: 60
+
+  when: 
+    event: EVENT.EVENT.BROWSER.KEYDOWN
+    selection-type: Item(s)
+    item(s): 
+    - P59_SEARCH
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: this.browserEvent.which === 13
+
+  advanced: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Never
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 14995200509844442589
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Logos # 14276348520250669529
+
+    execution-options: 
+      sequence: 40
+      event: Perform Search on Enter # 15675920222947732952
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 15675920330307732953
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Cards # 14863240054048967870
+
+    execution-options: 
+      sequence: 20
+      event: Perform Search on Enter # 15675920222947732952
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_CANCEL_EVENT =========================
+    id: 15675920351082732954
+    identification: 
+      action: Cancel Event
+
+    execution-options: 
+      sequence: 50
+      event: Perform Search on Enter # 15675920222947732952
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: LAST_VIEW ==============================
+  id: 14863297953678204890
+  identification: 
+    item-name: LAST_VIEW
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: '&APP_PAGE_ID.'
+
+branches: 
+- # ====== Branch: Go to Getting Started Page ==================
+  id: 1158032004403551946
+  identification: 
+    name: Go to Getting Started Page
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:1000:&SESSION.::&DEBUG.:RP::&success_msg=#SUCCESS_MSG#'
+      page: 1000 # Getting Started
+      clear-cache: RP
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('FIRST_RUN') = 'YES'
+

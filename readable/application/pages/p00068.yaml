@@ -1,0 +1,1548 @@
+---
+# ====== Page: Customer Product(s) ===========================
+id: 68
+identification: 
+  name: Customer Product(s)
+  alias: CUSTOMER-PRODUCT-S
+  title: Customer Product(s)
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+javascript: 
+  function-and-global-variable-declaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Buttons =====================================
+  id: 13525275046568760528
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Select Products =============================
+  id: 13844133228354607708
+  identification: 
+    title: Select Products
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select
+          apex_item.checkbox2(
+          p_idx        => 1,
+          p_value      => id,
+          p_item_id    => 'P68_PRODUCT_IDS',    
+          p_item_label => 'Select/Unselect' || product_name) as product_id,
+          product_name,
+          product_family_id
+      from
+          eba_cust_products
+      order by product_name
+
+  layout: 
+    sequence: 20
+    parent-region: Product # 16592482904272535310
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--noBorders
+    render-components: Above Content
+
+  advanced: 
+    static-id: productsIRR
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: <label for="P68_PRODUCT_IDS">Select applicable products from the report below. Use the search field to find products quickly.</label>
+    footer-text: <br>
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P68_ID
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 13844133293680607709
+    link: 
+      link-column: Exclude Link Column
+
+    appearance: 
+      show-null-values-as: '-'
+
+    pagination: 
+      type: None
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 14242263049167133147
+      identification: 
+        name: Primary Report
+        alias: 131867281
+
+    columns: 
+    - # ====== Column: PRODUCT_ID ==================================
+      id: 13844133746530607713
+      identification: 
+        column-name: PRODUCT_ID
+        type: Plain Text
+
+      heading: 
+        heading: <input type="checkbox" id="selectUnselectAll" title="Select/Unselect All">
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+        escape-special-characters: false
+
+      comments: 
+        comments: '<span style="max-width:25px;">#PRODUCT_ID#</span>'
+
+    - # ====== Column: PRODUCT_NAME ================================
+      id: 13844133852701607714
+      identification: 
+        column-name: PRODUCT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Product
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: true
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PRODUCT_FAMILY_ID ===========================
+      id: 17747208695370700202
+      identification: 
+        column-name: PRODUCT_FAMILY_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: PRODUCT FAMILIES # 17761218176166108387
+
+      heading: 
+        heading: Product Family
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Rows returned
+        sql-query: |
+          select null
+          from eba_cust_product_families
+
+    printing: 
+      output: 
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 8.5
+        height: 11
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#9bafde'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#efefef'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: Product Use Form Elements ===================
+  id: 13844133873160607715
+  identification: 
+    title: Product Use Form Elements
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Product # 16592482904272535310
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Product =====================================
+  id: 16592482904272535310
+  identification: 
+    title: Product
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 16592488907647535351
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P68_INTERNAL_CONTACT =====================
+  id: 13844134033512607716
+  identification: 
+    name: P68_INTERNAL_CONTACT
+    type: Text Field
+
+  label: 
+    label: Internal Contact
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 60
+    region: Product Use Form Elements # 13844133873160607715
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 50
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: INTERNAL_CONTACT
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    help-text: Provide the name or email address of the internal person responsible for the product assignment(s).
+
+- # ====== Page Item: P68_CUSTOMER_ID ==========================
+  id: 13844134098803607717
+  identification: 
+    name: P68_CUSTOMER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Product # 16592482904272535310
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CUSTOMER_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P68_CUSTOMER_CONTACT_ID ==================
+  id: 13844134223334607718
+  identification: 
+    name: P68_CUSTOMER_CONTACT_ID
+    type: Select List
+
+  label: 
+    label: Customer Contact
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 70
+    region: Product Use Form Elements # 13844133873160607715
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: P68_PROD_USE_EXTERNAL_CONTACT # 14245139312044615148
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    css-classes: 
+    - mnw310
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CUSTOMER_CONTACT_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Select the customer contact best-suited to speak to the selected product(s) uses.
+
+  configuration: 
+    build-option: Product Referencability # 14286883625103355158
+
+- # ====== Page Item: P68_VALID_FROM ===========================
+  id: 13844134719088607723
+  identification: 
+    name: P68_VALID_FROM
+    type: Date Picker (jQuery) [Deprecated]
+
+  label: 
+    label: Valid From
+    alignment: Left
+
+  settings: 
+    show: On icon click
+    show-other-months: false
+    navigation-list-for: None
+
+  layout: 
+    sequence: 90
+    region: Product Use Form Elements # 13844133873160607715
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: DD-MON-YYYY
+    width: 44
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: VALID_FROM
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Provide the date that this product use and reference information can be considered valid.
+
+  configuration: 
+    build-option: Product Referencability # 14286883625103355158
+
+- # ====== Page Item: P68_VALID_TO =============================
+  id: 13844134782665607724
+  identification: 
+    name: P68_VALID_TO
+    type: Date Picker (jQuery) [Deprecated]
+
+  label: 
+    label: Valid Until
+    alignment: Left
+
+  settings: 
+    show: On icon click
+    show-other-months: false
+    navigation-list-for: None
+
+  layout: 
+    sequence: 100
+    region: Product Use Form Elements # 13844133873160607715
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: DD-MON-YYYY
+    width: 44
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: VALID_TO
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Provide the date that this product use and reference information is no longer valid.
+
+  configuration: 
+    build-option: Product Referencability # 14286883625103355158
+
+- # ====== Page Item: P68_COMMENTS =============================
+  id: 13844134899488607725
+  identification: 
+    name: P68_COMMENTS
+    type: Textarea
+
+  label: 
+    label: Comments
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 110
+    region: Product Use Form Elements # 13844133873160607715
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 41
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: COMMENTS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter any comments you feel are appropriate for your product assignment(s).
+
+- # ====== Page Item: P68_PRODUCT_ID ===========================
+  id: 13844135398954607730
+  identification: 
+    name: P68_PRODUCT_ID
+    type: Display Only
+
+  label: 
+    label: Product
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Display Value of List of Values
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 30
+    region: Product # 16592482904272535310
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: P68_PRODUCT # 16593967885260269129
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: PRODUCT_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P68_ID
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P68_REFERENCE_TYPES ======================
+  id: 14242949200837382599
+  identification: 
+    name: P68_REFERENCE_TYPES
+    type: Checkbox Group
+
+  label: 
+    label: Reference Assets
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+
+  layout: 
+    sequence: 50
+    region: Product Use Form Elements # 13844133873160607715
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: 8
+    new-column: true
+    column-span: 4
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: REFERENCE_TYPES # 15640351289809627339
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: REFERENCE_TYPE_IDS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: In what ways would this customer be willing to reference the product(s) selected above? Select all that apply.
+
+  configuration: 
+    build-option: Product Referencability # 14286883625103355158
+
+- # ====== Page Item: P68_PRODUCT_STATUS_ID ====================
+  id: 14242952157507428140
+  identification: 
+    name: P68_PRODUCT_STATUS_ID
+    type: Select List
+
+  label: 
+    label: Reference Status
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 40
+    region: Product Use Form Elements # 13844133873160607715
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: 2
+    new-column: true
+    column-span: 6
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: PRODUCT STATUSES # 14279675779419505523
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: REFERENCE_STATUS_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Would this customer give the product(s) selected above a good reference?
+
+  configuration: 
+    build-option: Product Referencability # 14286883625103355158
+
+- # ====== Page Item: P68_NEW_CONTACT ==========================
+  id: 14276344651620669490
+  identification: 
+    name: P68_NEW_CONTACT
+    type: Text Field
+
+  label: 
+    label: New Contact
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 80
+    region: Product Use Form Elements # 13844133873160607715
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 50
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    help-text: Provide the full name of the new customer contact you're adding.
+
+  configuration: 
+    build-option: Product Referencability # 14286883625103355158
+
+- # ====== Page Item: P68_ID ===================================
+  id: 16592484300154535322
+  identification: 
+    name: P68_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Product # 16592482904272535310
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: UPDATE_PRODUCT ==============================
+  id: 13844135234117607728
+  identification: 
+    button-name: UPDATE_PRODUCT
+    label: Update Product
+
+  layout: 
+    sequence: 30
+    region: Buttons # 13525275046568760528
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P68_ID
+
+- # ====== Button: DELETE_PRODUCT ==============================
+  id: 14276343669580669481
+  identification: 
+    button-name: DELETE_PRODUCT
+    label: Delete Product
+
+  layout: 
+    sequence: 20
+    region: Buttons # 13525275046568760528
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE_PRODUCT');"
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P68_ID
+
+- # ====== Button: ADD_PRODUCT =================================
+  id: 16592483100864535315
+  identification: 
+    button-name: ADD_PRODUCT
+    label: Add Product(s)
+
+  layout: 
+    sequence: 40
+    region: Buttons # 13525275046568760528
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P68_ID
+
+- # ====== Button: CANCEL ======================================
+  id: 16592483488359535316
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 13525275046568760528
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: Select/Unselect All Products ========
+  id: 11998104524631920115
+  identification: 
+    name: Select/Unselect All Products
+
+  execution-options: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: jQuery Selector
+    jquery-selector: '#selectUnselectAll'
+
+  advanced: 
+    event-scope: Dynamic
+    static-container-(jquery-selector): '#productsIRR'
+
+  actions: 
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 11998104660788920116
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        if ( $( '#selectUnselectAll' ).is(':checked') ) {
+          $('input[type=checkbox][name=f01]').attr('checked',true);
+        }
+        else {
+          $('input[type=checkbox][name=f01]').attr('checked',false);
+        }
+
+    execution-options: 
+      sequence: 10
+      event: Select/Unselect All Products # 11998104524631920115
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: cancel dialog =======================
+  id: 13844121119664607687
+  identification: 
+    name: cancel dialog
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 16592483488359535316
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CANCEL ========================
+    id: 13844121243940607688
+    identification: 
+      action: Cancel Dialog
+
+    execution-options: 
+      sequence: 10
+      event: cancel dialog # 13844121119664607687
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Show/Hide New Contact ===============
+  id: 14276344718226669491
+  identification: 
+    name: Show/Hide New Contact
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P68_CUSTOMER_CONTACT_ID
+
+  client-side-condition: 
+    type: Item = Value
+    item: P68_CUSTOMER_CONTACT_ID
+    value: '-1'
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_SHOW =================================
+    id: 14276344854855669492
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P68_NEW_CONTACT
+
+    execution-options: 
+      sequence: 10
+      event: Show/Hide New Contact # 14276344718226669491
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: NATIVE_HIDE =================================
+    id: 14276344881211669493
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P68_NEW_CONTACT
+
+    execution-options: 
+      sequence: 10
+      event: Show/Hide New Contact # 14276344718226669491
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+validations: 
+- # ====== Validation: Product Must Be Selected ================
+  id: 13844135067683607727
+  identification: 
+    name: Product Must Be Selected
+
+  execution-options: 
+    sequence: 10
+
+  validation: 
+    type: Function Body (returning Boolean)
+    language: PL/SQL
+    pl/sql-function-body: |
+      declare
+          l_product_id number;
+      begin
+          for i in 1..apex_application.g_f01.count
+          loop
+              l_product_id := to_number(APEX_APPLICATION.G_F01(i));
+              if l_product_id > 0 then
+                  return true;
+              end if;
+          end loop;
+          return false;
+      end;
+    always-execute: false
+
+  error: 
+    error-message: At least one product must be selected.
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ADD_PRODUCT # 16592483100864535315
+
+- # ====== Validation: New Contact is not null =================
+  id: 14276345144132669495
+  identification: 
+    name: New Contact is not null
+
+  execution-options: 
+    sequence: 20
+
+  validation: 
+    type: Item is NOT NULL
+    item: P68_NEW_CONTACT
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# must have some value.'
+    display-location: Inline with Field and in Notification
+    associated-item: P68_NEW_CONTACT # 14276344651620669490
+
+  server-side-condition: 
+    type: Item = Value
+    item: P68_CUSTOMER_CONTACT_ID
+    value: '-1'
+
+processes: 
+- # ====== Process: Close Dialog ===============================
+  id: 13844120529470607681
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Fetch Row EBA_CUST_PRODUCT_USES ============
+  id: 13844135267957607729
+  identification: 
+    name: Fetch Row EBA_CUST_PRODUCT_USES
+    type: Automatic Row Fetch [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_PRODUCT_USES
+    primary-key-column-: ID
+    primary-key-item: P68_ID
+    secondary-key-column: PRODUCT_ID
+    secondary-key-item: P68_PRODUCT_ID
+
+  execution-options: 
+    sequence: 40
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P68_ID
+
+- # ====== Process: Process Rows for EBA_CUST_PRODUCT_USES =====
+  id: 14276343846679669482
+  identification: 
+    name: Process Rows for EBA_CUST_PRODUCT_USES
+    type: Automatic Row Processing (DML) [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_PRODUCT_USES
+    primary-key-column-: ID
+    primary-key-item: P68_ID
+    secondary-key-column: PRODUCT_ID
+    secondary-key-item: P68_PRODUCT_ID
+    lock-row: true
+    supported-operations: 'U:D'
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: DELETE_PRODUCT, UPDATE_PRODUCT
+
+- # ====== Process: Create New Customer Contact ================
+  id: 14276344994849669494
+  identification: 
+    name: Create New Customer Contact
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      insert into EBA_CUST_CONTACTS
+      (name, customer_id) values (:P68_NEW_CONTACT, :P68_CUSTOMER_ID) returning id into :P68_CUSTOMER_CONTACT_ID;
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P68_CUSTOMER_CONTACT_ID = -1 and :P68_NEW_CONTACT is not null'
+
+- # ====== Process: add products ===============================
+  id: 16592507486631831657
+  identification: 
+    name: add products
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      declare
+        l_ref_types     eba_cust_product_uses.reference_type_ids%type;
+        l_ref_status_id eba_cust_product_uses.reference_status_id%type;
+      begin
+          if APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Product Referencability') = 'INCLUDE' then
+              l_ref_types     := :P68_REFERENCE_TYPES;
+              l_ref_status_id := :P68_PRODUCT_STATUS_ID;
+          else
+              l_ref_types     := null;
+              l_ref_status_id := null;
+          end if;
+          
+          for i in 1..apex_application.g_f01.count
+          loop
+              insert into eba_cust_product_uses
+              (customer_id, product_id, reference_type_ids, reference_status_id, internal_contact,
+               customer_contact_id, valid_from, valid_to, comments)
+              values
+              (:P68_CUSTOMER_ID, to_number(APEX_APPLICATION.G_F01(i)), l_ref_types, l_ref_status_id, :P68_INTERNAL_CONTACT, 
+               :P68_CUSTOMER_CONTACT_ID, to_timestamp(:P68_VALID_FROM, 'DD-MON-YYYY HH:MI.SS AM'), to_timestamp(:P68_VALID_TO, 'DD-MON-YYYY HH:MI.SS AM'), :P68_COMMENTS);
+          end loop;
+      end;
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ADD_PRODUCT # 16592483100864535315
+

@@ -1,0 +1,1134 @@
+---
+# ====== Page: Activity Details ==============================
+id: 56
+identification: 
+  name: Activity Details
+  alias: ACTIVITY-DETAILS
+  title: Activity Details
+  page-group: Activities # 20110470510240044582
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+javascript: 
+  function-and-global-variable-declaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Activity Details ============================
+  id: 18144181283857876998
+  identification: 
+    title: Activity Details
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Buttons =====================================
+  id: 18144222018594876999
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+page-items: 
+- # ====== Page Item: P56_SET_DATE =============================
+  id: 17959700782777746506
+  identification: 
+    name: P56_SET_DATE
+    type: Switch
+
+  label: 
+    label: Set Date
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 50
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 3
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case
+          when :P56_ACTIVITY_DATE is null then 'N' else 'Y'
+      end
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: <p>If this activity happens on a single, specific date (such as for a conference), select "Yes". If the activity can happen on different dates for each customer, select "No".</p>
+
+- # ====== Page Item: P56_SET_OWNER ============================
+  id: 17959700895970746507
+  identification: 
+    name: P56_SET_OWNER
+    type: Switch
+
+  label: 
+    label: Set Owner
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 70
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 3
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case
+          when :P56_OWNER is null then 'N' else 'Y'
+      end
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: <p>If this activity has a single owner, select "Yes". If the activity can have a different owner for each customer, select "No".</p>
+
+- # ====== Page Item: P56_SET_LOCATION =========================
+  id: 17959700991243746508
+  identification: 
+    name: P56_SET_LOCATION
+    type: Switch
+
+  label: 
+    label: Set Location
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 90
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 3
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      case
+          when :P56_LOCATION is null then 'N' else 'Y'
+      end
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: <p>If this activity has a single location, select "Yes". If the activity can have a different location for each customer, select "No".</p>
+
+- # ====== Page Item: P56_REFERENCES ===========================
+  id: 17959702024333746518
+  identification: 
+    name: P56_REFERENCES
+    type: Display Only
+
+  label: 
+    label: References
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 30
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: 3
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(*)
+      from eba_cust_activity_ref
+      where activity_id = :P56_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_ID ===================================
+  id: 18144224784280877014
+  identification: 
+    name: P56_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Activity Details # 18144181283857876998
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_TYPE_ID ==============================
+  id: 18144225170512877041
+  identification: 
+    name: P56_TYPE_ID
+    type: Select List
+
+  label: 
+    label: Type
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 20
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Above # 15019745550617106695
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    height: 1
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACTIVITY TYPES # 18144412855379977785
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TYPE_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_NAME =================================
+  id: 18144225592097877044
+  identification: 
+    name: P56_NAME
+    type: Text Field
+
+  label: 
+    label: Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 40
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Above # 15019745550617106695
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    width: 32
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: NAME
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_DESCRIPTION ==========================
+  id: 18144226007611877044
+  identification: 
+    name: P56_DESCRIPTION
+    type: Textarea
+
+  label: 
+    label: Description
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 110
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: DESCRIPTION
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_ACTIVITY_DATE ========================
+  id: 18144226370007877045
+  identification: 
+    name: P56_ACTIVITY_DATE
+    type: Date Picker (jQuery) [Deprecated]
+
+  label: 
+    label: Activity Date
+    alignment: Left
+
+  settings: 
+    show: On icon click
+    show-other-months: false
+    navigation-list-for: None
+
+  layout: 
+    sequence: 60
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ACTIVITY_DATE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_OWNER ================================
+  id: 18144226772940877047
+  identification: 
+    name: P56_OWNER
+    type: Text Field
+
+  label: 
+    label: Owner
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 80
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: OWNER
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P56_LOCATION =============================
+  id: 18144227237996877047
+  identification: 
+    name: P56_LOCATION
+    type: Text Field
+
+  label: 
+    label: Location
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 100
+    region: Activity Details # 18144181283857876998
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: LOCATION
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CREATE ======================================
+  id: 18144181707099876999
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 40
+    region: Buttons # 18144222018594876999
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P56_ID
+
+- # ====== Button: SAVE ========================================
+  id: 18144181840997876999
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Buttons # 18144222018594876999
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P56_ID
+
+- # ====== Button: DELETE ======================================
+  id: 18144221959101876999
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Buttons # 18144222018594876999
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE');"
+    execute-validations: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P56_ID is not null and :P56_REFERENCES = 0'
+
+- # ====== Button: CANCEL ======================================
+  id: 18144222381594877000
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 18144222018594876999
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: Show Date ===========================
+  id: 17959701084505746509
+  identification: 
+    name: Show Date
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P56_SET_DATE
+
+  client-side-condition: 
+    type: Item = Value
+    item: P56_SET_DATE
+    value: Y
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_SHOW =================================
+    id: 17959701194192746510
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P56_ACTIVITY_DATE
+
+    execution-options: 
+      sequence: 10
+      event: Show Date # 17959701084505746509
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: NATIVE_HIDE =================================
+    id: 17959701313787746511
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P56_ACTIVITY_DATE
+
+    execution-options: 
+      sequence: 10
+      event: Show Date # 17959701084505746509
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Show Owner ==========================
+  id: 17959701410581746512
+  identification: 
+    name: Show Owner
+
+  execution-options: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P56_SET_OWNER
+
+  client-side-condition: 
+    type: Item = Value
+    item: P56_SET_OWNER
+    value: Y
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_SHOW =================================
+    id: 17959701476605746513
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P56_OWNER
+
+    execution-options: 
+      sequence: 10
+      event: Show Owner # 17959701410581746512
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: NATIVE_HIDE =================================
+    id: 17959701598854746514
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P56_OWNER
+
+    execution-options: 
+      sequence: 10
+      event: Show Owner # 17959701410581746512
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Show Location =======================
+  id: 17959701752666746515
+  identification: 
+    name: Show Location
+
+  execution-options: 
+    sequence: 40
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P56_SET_LOCATION
+
+  client-side-condition: 
+    type: Item = Value
+    item: P56_SET_LOCATION
+    value: Y
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_SHOW =================================
+    id: 17959701865708746516
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P56_LOCATION
+
+    execution-options: 
+      sequence: 10
+      event: Show Location # 17959701752666746515
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: NATIVE_HIDE =================================
+    id: 17959701867802746517
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P56_LOCATION
+
+    execution-options: 
+      sequence: 10
+      event: Show Location # 17959701752666746515
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 18144222467140877000
+  identification: 
+    name: Cancel Dialog
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 18144222381594877000
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CANCEL ========================
+    id: 18144223327106877003
+    identification: 
+      action: Cancel Dialog
+
+    execution-options: 
+      sequence: 10
+      event: Cancel Dialog # 18144222467140877000
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Fetch Row from EBA_CUST_ACTIVITIES =========
+  id: 18144229797953877050
+  identification: 
+    name: Fetch Row from EBA_CUST_ACTIVITIES
+    type: Automatic Row Fetch [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_ACTIVITIES
+    primary-key-column-: ID
+    primary-key-item: P56_ID
+
+  execution-options: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process Row of EBA_CUST_ACTIVITIES =========
+  id: 18144230198061877052
+  identification: 
+    name: Process Row of EBA_CUST_ACTIVITIES
+    type: Automatic Row Processing (DML) [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_ACTIVITIES
+    primary-key-column-: ID
+    primary-key-item: P56_ID
+    lock-row: true
+    supported-operations: 'I:U:D'
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Action Processed.
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: reset page =================================
+  id: 18144230653141877053
+  identification: 
+    name: reset page
+    type: Clear Session State
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 18144221959101876999
+
+- # ====== Process: Close Dialog ===============================
+  id: 18144231040525877053
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+
+- # ====== Process: Clear Unused ===============================
+  id: 18167452646860751987
+  identification: 
+    name: Clear Unused
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if :P56_SET_DATE = 'N' then :P56_ACTIVITY_DATE := null; end if;
+      if :P56_SET_OWNER = 'N' then :P56_OWNER := null; end if;
+      if :P56_SET_LOCATION = 'N' then :P56_LOCATION := null; end if;
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+

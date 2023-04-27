@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="4e8a95b7452b02d9991a18865b31332ced71fa6b" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleProcedure objectName="EBA_CUST_TZ_INIT" objectType="PROCEDURE" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "SAMPLE_CUSTOMERS"."EBA_CUST_TZ_INIT" 
+as
+  c integer := 0;
+  l_app_user varchar2(255);
+begin
+l_app_user := nvl(v('APP_USER'),user);
+for c1 in (
+   select TIMEZONE_PREFERENCE
+   from   eba_cust_tz_pref
+   where  USERID = l_app_user) loop
+   --
+   if c1.TIMEZONE_PREFERENCE is not null then
+       c := c + 1;
+       APEX_UTIL.SET_SESSION_TIME_ZONE (P_TIME_ZONE => c1.TIMEZONE_PREFERENCE ); 
+   end if;
+   exit;
+end loop;
+if c = 0 then
+    if apex_util.get_session_time_zone is null then
+        APEX_UTIL.SET_SESSION_TIME_ZONE (P_TIME_ZONE => 'US/Pacific'); 
+    end if;
+end if;
+end;
+]]></n0:source>
+		</n0:createOracleProcedure>
+	</changeSet>
+</databaseChangeLog>

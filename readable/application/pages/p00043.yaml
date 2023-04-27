@@ -1,0 +1,773 @@
+---
+# ====== Page: Product =======================================
+id: 43
+identification: 
+  name: Product
+  alias: PRODUCT
+  title: Product
+  page-group: Administration # 14718649902724368096
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: false
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+javascript: 
+  function-and-global-variable-declaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Product =====================================
+  id: 17803082504330302466
+  identification: 
+    title: Product
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: PRODUCTS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 17803086899456302528
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P43_PRODUCT_FAMILY_ID ====================
+  id: 17747208470139700200
+  identification: 
+    name: P43_PRODUCT_FAMILY_ID
+    type: Select List
+
+  label: 
+    label: Product Family
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 10
+    region: Product # 17803082504330302466
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: PRODUCT FAMILIES # 17761218176166108387
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- No Product Family -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: PRODUCT_FAMILY_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select null
+      from eba_cust_product_families
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_ID ===================================
+  id: 17803083914511302477
+  identification: 
+    name: P43_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Product # 17803082504330302466
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P43_PRODUCT_NAME =========================
+  id: 17803084104974302495
+  identification: 
+    name: P43_PRODUCT_NAME
+    type: Text Field
+
+  label: 
+    label: Product Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 40
+    region: Product # 17803082504330302466
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 10
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 265257292236847853
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: PRODUCT_NAME
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The product name
+
+- # ====== Page Item: P43_DESCRIPTION ==========================
+  id: 17803084319473302496
+  identification: 
+    name: P43_DESCRIPTION
+    type: Textarea
+
+  label: 
+    label: Description
+    alignment: Left
+
+  settings: 
+    resizable: false
+    auto-height: false
+    character-counter: false
+    trim-spaces: None
+
+  layout: 
+    sequence: 60
+    region: Product # 17803082504330302466
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 265257658145847858
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: DESCRIPTION
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Detailed description for this product
+
+- # ====== Page Item: P43_IS_ACTIVE ============================
+  id: 17803084511339302498
+  identification: 
+    name: P43_IS_ACTIVE
+    type: Checkbox Group
+
+  label: 
+    label: Is Active
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+
+  layout: 
+    sequence: 50
+    region: Product # 17803082504330302466
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 265257658145847858
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: IS ACTIVE # 14286546680128212782
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: IS_ACTIVE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: Y
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The current status of this product
+
+- # ====== Page Item: P43_TAGS =================================
+  id: 17807429694859505103
+  identification: 
+    name: P43_TAGS
+    type: Popup LOV
+
+  label: 
+    label: Tags
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: true
+    separator: ','
+    manual-entry: true
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 70
+    region: Product # 17803082504330302466
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    width: 96
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select tag
+        from eba_cust_tags_type_sum
+       where content_type = 'PRODUCT'
+       order by 1
+      
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TAGS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The list of tags for this product
+
+buttons: 
+- # ====== Button: CREATE ======================================
+  id: 17803082702340302468
+  identification: 
+    button-name: CREATE
+    label: Add Product
+
+  layout: 
+    sequence: 40
+    region: Buttons # 17803086899456302528
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P43_ID
+
+- # ====== Button: SAVE ========================================
+  id: 17803082820275302468
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Buttons # 17803086899456302528
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P43_ID
+
+- # ====== Button: DELETE ======================================
+  id: 17803082919741302468
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Buttons # 17803086899456302528
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE');"
+    execute-validations: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P43_ID
+
+- # ====== Button: CANCEL ======================================
+  id: 17803083024361302468
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 17803086899456302528
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: CNX =================================
+  id: 336881290368043945
+  identification: 
+    name: CNX
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 17803083024361302468
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CANCEL ========================
+    id: 336881401441043946
+    identification: 
+      action: Cancel Dialog
+
+    execution-options: 
+      sequence: 10
+      event: CNX # 336881290368043945
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+validations: 
+- # ====== Validation: Valid Characters in Tags ================
+  id: 273846154821519075
+  identification: 
+    name: Valid Characters in Tags
+
+  execution-options: 
+    sequence: 20
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "not regexp_like( :P43_TAGS, '[:;#\\/\\\\\\?\\&]' )"
+    always-execute: false
+
+  error: 
+    error-message: 'Tags may not contain the following characters: : ; \ / ? &'
+    display-location: Inline with Field and in Notification
+    associated-item: P43_TAGS # 17807429694859505103
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE
+
+- # ====== Validation: P43_PRODUCT_NAME unique =================
+  id: 15061333591457427784
+  identification: 
+    name: P43_PRODUCT_NAME unique
+
+  execution-options: 
+    sequence: 10
+
+  validation: 
+    type: No Rows returned
+    sql-query: |
+      select null
+      from eba_cust_products
+      where upper(product_name) = upper(:P43_PRODUCT_NAME)
+          and (:P43_ID is null or id <> :P43_ID )
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# already exists.'
+    display-location: Inline with Field and in Notification
+    associated-item: P43_PRODUCT_NAME # 17803084104974302495
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE
+
+computations: 
+- # ====== Computation: P43_IS_ACTIVE ==========================
+  id: 11998103792171920108
+  identification: 
+    item-name: P43_IS_ACTIVE
+
+  execution-options: 
+    sequence: 10
+    point: After Submit
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "nvl(:P43_IS_ACTIVE,'N')"
+
+processes: 
+- # ====== Process: Close Dialog ===============================
+  id: 336881918627043951
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Fetch Row from EBA_CUST_PRODUCTS ===========
+  id: 17803084709300302501
+  identification: 
+    name: Fetch Row from EBA_CUST_PRODUCTS
+    type: Automatic Row Fetch [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_PRODUCTS
+    primary-key-column-: ID
+    primary-key-item: P43_ID
+
+  execution-options: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Unable to load product data
+
+- # ====== Process: Process Row of EBA_CUST_PRODUCTS ===========
+  id: 17803084918357302504
+  identification: 
+    name: Process Row of EBA_CUST_PRODUCTS
+    type: Automatic Row Processing (DML) [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_PRODUCTS
+    primary-key-column-: ID
+    primary-key-item: P43_ID
+    lock-row: true
+    supported-operations: 'I:U:D'
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Action Processed.
+
+  error: 
+    error-message: Unable to process row of table EBA_CUST_PRODUCTS.
+    display-location: On Error Page
+
+- # ====== Process: reset page =================================
+  id: 17803085115820302505
+  identification: 
+    name: reset page
+    type: Clear Session State
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: On Error Page
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 17803082919741302468
+

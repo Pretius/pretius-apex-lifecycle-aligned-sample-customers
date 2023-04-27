@@ -1,0 +1,805 @@
+---
+# ====== Page: Add Multiple Users ============================
+id: 74
+identification: 
+  name: Add Multiple Users
+  alias: ADD-MULTIPLE-USERS2
+  title: Add Multiple Users
+  page-group: ACL # 14718650004109368475
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+css: 
+  inline: |
+    .uReportList {
+        margin: 0;
+        list-style: none;
+    }
+    .uReportList li {
+        margin: 0 0 4px 0;
+    }
+    .check_icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        background: #69B86B;
+        color: #FFF;
+        text-align: center;
+        border-radius: 12px;
+        font-size: 15px;
+        border: 1px solid green;
+        text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+        vertical-align: top;
+        margin-right: 4px;
+    }
+    .valid_user {
+        display: inline-block;
+        padding: 4px 8px 4px 4px;
+        border: 1px solid #D0D0D0;
+        border-radius: 3px;
+        line-height: 20px;
+        background-color: #F8F8F8;
+        color: #404040;
+    }
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Buttons =====================================
+  id: 1654643880150839263
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Bulk Load Users - Step 2 ====================
+  id: 14813865193278773912
+  identification: 
+    title: Bulk Load Users - Step 2
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Exceptions ==================================
+  id: 14813865375561773915
+  identification: 
+    title: Exceptions
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select c001 username, c002 reason
+        from apex_collections
+       where collection_name = 'EBA_CUST_BULK_USER_INVALID'
+      order by 1
+
+  layout: 
+    sequence: 60
+    parent-region: Bulk Load Users - Step 2 # 14813865193278773912
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - is-expanded
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 10000
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 14857742002178769869
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      - t-Report--inline
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: No invalid new users found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: REASON ======================================
+    id: 14813865600966773915
+    identification: 
+      column-name: REASON
+      type: Plain Text
+
+    heading: 
+      heading: Why Invalid
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USERNAME ====================================
+    id: 14813865679724773915
+    identification: 
+      column-name: USERNAME
+      type: Plain Text
+
+    heading: 
+      heading: Username
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Users to be added ===========================
+  id: 14813865775738773915
+  identification: 
+    title: Users to be added
+    type: List View
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select lower(c001) username
+        from apex_collections
+       where collection_name = 'EBA_CUST_BULK_USER_VALID'
+      order by 1
+
+  layout: 
+    sequence: 50
+    parent-region: Bulk Load Users - Step 2 # 14813865193278773912
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - is-expanded
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      features: Advanced Formatting
+      text-formatting: '<span class="fa fa-check-circle u-success-text" aria-hidden="true"></span> <span style="line-height:36px;">&USERNAME.</span>'
+
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+- # ====== Region: Valid Users Exist - Page Info ===============
+  id: 14813866104142773915
+  identification: 
+    title: Valid Users Exist - Page Info
+    type: PL/SQL Dynamic Content
+
+  source: 
+    pl/sql-code: |
+      sys.htp.p('<p>');
+      sys.htp.p(apex_lang.message('ABOUT_TO_CREATE', :P74_VALID_COUNT, :P74_ROLE));
+      if :P74_INVALID_COUNT > 0 then
+          sys.htp.p(apex_lang.message('INVALID_USERS_NOT_CREATED', :P74_INVALID_COUNT));
+      end if;
+      sys.htp.p('</p>');
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    css-classes: 
+    - infoTextRegion
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1
+        from apex_collections
+       where collection_name = 'EBA_CUST_BULK_USER_VALID'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+- # ====== Region: Hidden Items ================================
+  id: 14813866279511773916
+  identification: 
+    title: Hidden Items
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    render-components: Above Content
+
+  advanced: 
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: No Valid Users Exist - Page Info ============
+  id: 14813867085336773916
+  identification: 
+    title: No Valid Users Exist - Page Info
+    type: Static Content
+
+  source: 
+    html-code: <p>The username list on the previous page found no valid usernames and &P74_INVALID_COUNT.. Please go back and verify the username list you provided.</p>
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    css-classes: 
+    - infoTextRegion
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: No Rows returned
+    sql-query: |
+      select 1
+        from apex_collections
+       where collection_name = 'EBA_CUST_BULK_USER_VALID'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P74_ROLE =================================
+  id: 14813866502937773916
+  identification: 
+    name: P74_ROLE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Hidden Items # 14813866279511773916
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      if :P73_ROLE = 3 then
+          return 'Administrator';
+      elsif :P73_ROLE = 2 then
+          return 'Contributor';
+      elsif :P73_ROLE = 1 then
+          return 'Reader';
+      end if;
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P74_VALID_COUNT ==========================
+  id: 14813866695419773916
+  identification: 
+    name: P74_VALID_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Hidden Items # 14813866279511773916
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(*)
+        from apex_collections
+       where collection_name = 'EBA_CUST_BULK_USER_VALID'
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P74_INVALID_COUNT ========================
+  id: 14813866885323773916
+  identification: 
+    name: P74_INVALID_COUNT
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Hidden Items # 14813866279511773916
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(*)
+        from apex_collections
+       where collection_name = 'EBA_CUST_BULK_USER_INVALID'
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 14813867483562773917
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 30
+    region: Buttons # 1654643880150839263
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+
+- # ====== Button: PREVIOUS ====================================
+  id: 14813867676167773919
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 10
+    region: Buttons # 1654643880150839263
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Redirect to URL
+    target: 'javascript:history.back();'
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: FINISH ======================================
+  id: 14813867886156773919
+  identification: 
+    button-name: FINISH
+    label: Add Users
+
+  layout: 
+    sequence: 20
+    region: Buttons # 1654643880150839263
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select 1
+        from apex_collections
+       where collection_name = 'EBA_CUST_BULK_USER_VALID'
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 1654644057660839264
+  identification: 
+    name: Cancel Dialog
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 14813867483562773917
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CANCEL ========================
+    id: 1654644105982839265
+    identification: 
+      action: Cancel Dialog
+
+    execution-options: 
+      sequence: 10
+      event: Cancel Dialog # 1654644057660839264
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Close Dialog ===============================
+  id: 1654644202330839266
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Add Users to ACL ===========================
+  id: 14813868797405773922
+  identification: 
+    name: Add Users to ACL
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      for c in
+      (
+          select
+              c001      as username,
+              :P73_ROLE as access_level_id
+          from
+              apex_collections
+          where
+              collection_name = 'EBA_CUST_BULK_USER_VALID'
+      )
+      loop
+          insert into eba_cust_users
+          (username, access_level_id)
+          values
+          (c.username, c.access_level_id);
+      end loop;
+      
+      ---------------------
+      -- delete collections
+      --
+      wwv_flow_collection.DELETE_COLLECTION('EBA_CUST_BULK_USER_INVALID');
+      wwv_flow_collection.DELETE_COLLECTION('EBA_CUST_BULK_USER_VALID');
+      wwv_flow_collection.DELETE_COLLECTION('EBA_CUST_BULK_USER_CREATE');
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: User(s) added.
+
+  error: 
+    error-message: '#SQLERRM#'
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: FINISH # 14813867886156773919
+
+branches: 
+- # ====== Branch: Go To Page 57 ===============================
+  id: 14813869086258773923
+  identification: 
+    name: Go To Page 57
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:57:&SESSION.::&DEBUG.:73,&APP_PAGE_ID.::&success_msg=#SUCCESS_MSG#'
+      page: 57 # Access Control List
+      clear-cache: 73,&APP_PAGE_ID.
+
+  server-side-condition: 
+    when-button-pressed: FINISH # 14813867886156773919
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+

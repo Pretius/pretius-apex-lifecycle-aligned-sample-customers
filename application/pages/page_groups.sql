@@ -1,0 +1,64 @@
+prompt --application/pages/page_groups
+begin
+--   Manifest
+--     PAGE GROUPS: 102
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2022.04.12'
+,p_release=>'22.1.0'
+,p_default_workspace_id=>10901989977582412
+,p_default_application_id=>102
+,p_default_id_offset=>10903513818591509
+,p_default_owner=>'SAMPLE_CUSTOMERS'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650004109368475)
+,p_group_name=>'ACL'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(20110470510240044582)
+,p_group_name=>'Activities'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718649902724368096)
+,p_group_name=>'Administration'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650583115371840)
+,p_group_name=>'Contacts'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650480691371224)
+,p_group_name=>'Customers'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14719988103900339641)
+,p_group_name=>'Deprecated'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650206533369148)
+,p_group_name=>'Help'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650105148368830)
+,p_group_name=>'Home'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650275150369584)
+,p_group_name=>'Login'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650991427374285)
+,p_group_name=>'Mobile'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650684154372230)
+,p_group_name=>'Products'
+);
+wwv_flow_imp_page.create_page_group(
+ p_id=>wwv_flow_imp.id(14718650376536369951)
+,p_group_name=>'Reports'
+);
+wwv_flow_imp.component_end;
+end;
+/

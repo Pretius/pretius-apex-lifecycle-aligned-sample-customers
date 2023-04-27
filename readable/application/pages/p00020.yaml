@@ -1,0 +1,1875 @@
+---
+# ====== Page: Contact Details ===============================
+id: 20
+identification: 
+  name: Contact Details
+  alias: CONTACT-DETAILS
+  title: Contact Details
+  page-group: Contacts # 14718650583115371840
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+html-header: 
+  html-header: |
+    <script language="JavaScript" type="text/javascript">
+    <!--
+    
+     htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+    
+    //-->
+    </script>
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+configuration: 
+  build-option: Contacts # 14954672877910757979
+
+regions: 
+- # ====== Region: Social ======================================
+  id: 14848111703169667631
+  identification: 
+    title: Social
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Contact Details # 17804304549216366562
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Address / Country ===========================
+  id: 14848114889494701522
+  identification: 
+    title: Address / Country
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Contact Details # 17804304549216366562
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Contact Details =============================
+  id: 17804304549216366562
+  identification: 
+    title: Contact Details
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    - t-Region--hideHeader
+    render-components: Above Content
+
+  advanced: 
+    static-id: CONTACTS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Contact Details =============================
+  id: 17804305148626366565
+  identification: 
+    title: Contact Details
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P20_FACEBOOK =============================
+  id: 14848110885514661248
+  identification: 
+    name: P20_FACEBOOK
+    type: Text Field
+
+  label: 
+    label: Facebook
+    alignment: Left
+
+  settings: 
+    subtype: URL
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 310
+    region: Social # 14848111703169667631
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 250
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: FACEBOOK
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Email Address.
+
+- # ====== Page Item: P20_LINKEDIN =============================
+  id: 14848112689167674679
+  identification: 
+    name: P20_LINKEDIN
+    type: Text Field
+
+  label: 
+    label: LinkedIn
+    alignment: Left
+
+  settings: 
+    subtype: URL
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 320
+    region: Social # 14848111703169667631
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 250
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: LINKEDIN
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Email Address.
+
+- # ====== Page Item: P20_TWITTER ==============================
+  id: 14848113182698677728
+  identification: 
+    name: P20_TWITTER
+    type: Text Field
+
+  label: 
+    label: Twitter
+    alignment: Left
+
+  settings: 
+    subtype: URL
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 330
+    region: Social # 14848111703169667631
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 250
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TWITTER
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Email Address.
+
+- # ====== Page Item: P20_CUSTOMER_ID ==========================
+  id: 17803523211330944615
+  identification: 
+    name: P20_CUSTOMER_ID
+    type: Popup LOV
+
+  label: 
+    label: Customer
+    alignment: Left
+
+  settings: 
+    display-as: Modal Dialog
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: false
+
+  layout: 
+    sequence: 20
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required # 14857752276675769898
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: true
+    maximum-length: 4000
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select customer_name d, id r
+      from   eba_cust_customers
+      order by 1
+    display-extra-values: true
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CUSTOMER_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The customer name
+
+- # ====== Page Item: P20_CONTACT_ID ===========================
+  id: 17804306645456366567
+  identification: 
+    name: P20_CONTACT_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 5
+    region: Contact Details # 17804304549216366562
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P20_ID ===================================
+  id: 17804308852507366570
+  identification: 
+    name: P20_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Contact Details # 17804304549216366562
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P20_NAME =================================
+  id: 17804309057257366570
+  identification: 
+    name: P20_NAME
+    type: Text Field
+
+  label: 
+    label: Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 40
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required # 14857752276675769898
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: NAME
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Contact Name.
+
+- # ====== Page Item: P20_TITLE ================================
+  id: 17804309557264366571
+  identification: 
+    name: P20_TITLE
+    type: Text Field
+
+  label: 
+    label: Title
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 60
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TITLE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Title of Contact.
+
+- # ====== Page Item: P20_COMPANY ==============================
+  id: 17804310058295366571
+  identification: 
+    name: P20_COMPANY
+    type: Text Field
+
+  label: 
+    label: Company
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 70
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: COMPANY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Company name.
+
+- # ====== Page Item: P20_ADDRESS_LINE1 ========================
+  id: 17804310558122366572
+  identification: 
+    name: P20_ADDRESS_LINE1
+    type: Text Field
+
+  label: 
+    label: 'Address '
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 80
+    region: Address / Country # 14848114889494701522
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ADDRESS_LINE1
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Address.
+
+- # ====== Page Item: P20_ADDRESS_LINE2 ========================
+  id: 17804311037282366572
+  identification: 
+    name: P20_ADDRESS_LINE2
+    type: Text Field
+
+  label: 
+    label: Address Line 2
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 90
+    region: Address / Country # 14848114889494701522
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Hidden # 14857752070773769895
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ADDRESS_LINE2
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Address.
+
+- # ====== Page Item: P20_CITY =================================
+  id: 17804311559291366573
+  identification: 
+    name: P20_CITY
+    type: Text Field
+
+  label: 
+    label: City
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 100
+    region: Address / Country # 14848114889494701522
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CITY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter City.
+
+- # ====== Page Item: P20_STATE ================================
+  id: 17804312055928366573
+  identification: 
+    name: P20_STATE
+    type: Text Field
+
+  label: 
+    label: State
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 110
+    region: Address / Country # 14848114889494701522
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: STATE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter State.
+
+- # ====== Page Item: P20_COUNTRY ==============================
+  id: 17804312544288366574
+  identification: 
+    name: P20_COUNTRY
+    type: Text Field
+
+  label: 
+    label: Country
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 120
+    region: Address / Country # 14848114889494701522
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: COUNTRY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Country.
+
+- # ====== Page Item: P20_ZIP ==================================
+  id: 17804313064463366574
+  identification: 
+    name: P20_ZIP
+    type: Text Field
+
+  label: 
+    label: Zip
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 130
+    region: Address / Country # 14848114889494701522
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 10
+
+  validation: 
+    value-required: false
+    maximum-length: 10
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ZIP
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Zip Code.
+
+- # ====== Page Item: P20_EMAIL ================================
+  id: 17804313541972366575
+  identification: 
+    name: P20_EMAIL
+    type: Text Field
+
+  label: 
+    label: Email
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 140
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 250
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: EMAIL
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Email Address.
+
+- # ====== Page Item: P20_PHONE ================================
+  id: 17804314040506366575
+  identification: 
+    name: P20_PHONE
+    type: Text Field
+
+  label: 
+    label: Phone
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 150
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: PHONE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Phone Number.
+
+- # ====== Page Item: P20_CELL_PHONE ===========================
+  id: 17804314548357366576
+  identification: 
+    name: P20_CELL_PHONE
+    type: Text Field
+
+  label: 
+    label: Cell Phone
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 160
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CELL_PHONE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Mobile Phone Number.
+
+- # ====== Page Item: P20_FAX ==================================
+  id: 17804315045836366576
+  identification: 
+    name: P20_FAX
+    type: Text Field
+
+  label: 
+    label: Fax
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 170
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: FAX
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Fax Number.
+
+- # ====== Page Item: P20_CONTACT_TYPE_ID ======================
+  id: 17804315548088366577
+  identification: 
+    name: P20_CONTACT_TYPE_ID
+    type: Select List
+
+  label: 
+    label: '&nbsp;&nbsp;&nbsp;Contact Type'
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 50
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACTIVE_CONTACT_TYPES_P20 # 17826482621491066631
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CONTACT_TYPE_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Select Contact Type.
+
+- # ====== Page Item: P20_NOTES ================================
+  id: 17804316060752366577
+  identification: 
+    name: P20_NOTES
+    type: Textarea
+
+  label: 
+    label: Notes
+    alignment: Left
+
+  settings: 
+    resizable: false
+    auto-height: false
+    character-counter: false
+    trim-spaces: None
+
+  layout: 
+    sequence: 190
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: NOTES
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter short note about the Contact.
+
+- # ====== Page Item: P20_TAGS =================================
+  id: 17807429412258491179
+  identification: 
+    name: P20_TAGS
+    type: Popup LOV
+
+  label: 
+    label: Tags
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: true
+    separator: ','
+    manual-entry: true
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 192
+    region: Contact Details # 17804304549216366562
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 9
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select tag
+        from eba_cust_tags_type_sum
+       where content_type = 'CONTACT'
+       order by 1
+      
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TAGS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: List of tags
+
+- # ====== Page Item: P20_REQUEST ==============================
+  id: 17826972162423589820
+  identification: 
+    name: P20_REQUEST
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 300
+    region: Contact Details # 17804305148626366565
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Item
+    item: P20_REQUEST
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 17804305850102366566
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Contact Details # 17804305148626366565
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:18:&SESSION.::&DEBUG.:::'
+      page: 18 # Contacts
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 17804306041339366567
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Contact Details # 17804305148626366565
+    position: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE');"
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P20_ID
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: SAVE ========================================
+  id: 17804306239614366567
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Contact Details # 17804305148626366565
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P20_ID
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: CREATE ======================================
+  id: 17804306438757366567
+  identification: 
+    button-name: CREATE
+    label: Add Customer Contact
+
+  layout: 
+    sequence: 40
+    region: Contact Details # 17804305148626366565
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P20_ID
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+validations: 
+- # ====== Validation: Valid Characters in Tags ================
+  id: 273845836546518208
+  identification: 
+    name: Valid Characters in Tags
+
+  execution-options: 
+    sequence: 20
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "not regexp_like( :P20_TAGS, '[:;#\\/\\\\\\?\\&]' )"
+    always-execute: false
+
+  error: 
+    error-message: 'Tags may not contain the following characters: : ; \ / ? &'
+    display-location: Inline with Field and in Notification
+    associated-item: P20_TAGS # 17807429412258491179
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE
+
+- # ====== Validation: FB URL must start with http =============
+  id: 465064257352632228
+  identification: 
+    name: FB URL must start with http
+
+  execution-options: 
+    sequence: 30
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "substr(:P20_FACEBOOK, 1, 4) = 'http'"
+    always-execute: false
+
+  error: 
+    error-message: Please provide a URL that begins with, "http".
+    display-location: Inline with Field and in Notification
+    associated-item: P20_FACEBOOK # 14848110885514661248
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P20_FACEBOOK
+
+- # ====== Validation: LINKEDIN URL must start with http =======
+  id: 465064359854632229
+  identification: 
+    name: LINKEDIN URL must start with http
+
+  execution-options: 
+    sequence: 40
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "substr(:P20_LINKEDIN, 1, 4) = 'http'"
+    always-execute: false
+
+  error: 
+    error-message: Please provide a URL that begins with, "http".
+    display-location: Inline with Field and in Notification
+    associated-item: P20_LINKEDIN # 14848112689167674679
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P20_LINKEDIN
+
+- # ====== Validation: Twitter URL must start with http ========
+  id: 465064454588632230
+  identification: 
+    name: Twitter URL must start with http
+
+  execution-options: 
+    sequence: 50
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "substr(:P20_TWITTER, 1, 4) = 'http'"
+    always-execute: false
+
+  error: 
+    error-message: Please provide a URL that begins with, "http".
+    display-location: Inline with Field and in Notification
+    associated-item: P20_TWITTER # 14848113182698677728
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P20_TWITTER
+
+- # ====== Validation: P20_NAME Not Null =======================
+  id: 14923735582512057268
+  identification: 
+    name: P20_NAME Not Null
+
+  execution-options: 
+    sequence: 10
+
+  validation: 
+    type: Function Body (returning Boolean)
+    language: PL/SQL
+    pl/sql-function-body: 'return trim(:P20_NAME) is not null'
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# must have some value.'
+    display-location: Inline with Field and in Notification
+    associated-item: P20_NAME # 17804309057257366570
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE
+
+processes: 
+- # ====== Process: Fetch Row from EBA_CUST_CONTACTS ===========
+  id: 17804317739846366580
+  identification: 
+    name: Fetch Row from EBA_CUST_CONTACTS
+    type: Automatic Row Fetch [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_CONTACTS
+    primary-key-column-: ID
+    primary-key-item: P20_ID
+
+  execution-options: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Unable to fetch row.
+
+- # ====== Process: Process Row of EBA_CUST_CONTACTS ===========
+  id: 17804317953685366580
+  identification: 
+    name: Process Row of EBA_CUST_CONTACTS
+    type: Automatic Row Processing (DML) [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_CONTACTS
+    primary-key-column-: ID
+    primary-key-item: P20_ID
+    lock-row: true
+    supported-operations: 'I:U:D'
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Action Processed.
+
+  error: 
+    error-message: Unable to process row of table EBA_CUST_CONTACTS.
+    display-location: On Error Page
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Process: reset page =================================
+  id: 17804318152872366580
+  identification: 
+    name: reset page
+    type: Clear Session State
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: On Error Page
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 17804306041339366567
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Process: Load Data ==================================
+  id: 17825911953681978723
+  identification: 
+    name: Load Data
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if :REQUEST = 'CONTACTS' then
+         eba_cust.eba_cust_add_views_log('CON',:P20_ID);
+      end if ;
+
+  execution-options: 
+    sequence: 40
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+branches: 
+- # ====== Branch: Go To Page 18 ===============================
+  id: 17804318660617366584
+  identification: 
+    name: Go To Page 18
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:18:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 18 # Contacts
+
+    save-state-before-branching: true
+

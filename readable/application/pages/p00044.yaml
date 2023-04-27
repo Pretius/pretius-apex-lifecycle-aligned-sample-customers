@@ -1,0 +1,682 @@
+---
+# ====== Page: Products ======================================
+id: 44
+identification: 
+  name: Products
+  alias: PRODUCTS3
+  title: Products
+  page-group: Products # 14718650684154372230
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: <p>This page summarizes product use by customer.  Each customer can use zero or more products.  Click the <strong>product name</strong> column to drill-down to a report of customer products.  Products can be managed for each customer from the customer details page.</p>
+
+configuration: 
+  build-option: Products and Services # 14954665590037691528
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 17803500022819450620
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Customer Product Usage ======================
+  id: 17803500623334565780
+  identification: 
+    title: Customer Product Usage
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select product_name, 
+          description, 
+          id, 
+          created created,
+          lower(created_by) created_by, 
+          updated updated, 
+          lower(updated_by) updated_by ,
+          (select name from eba_cust_product_families f where f.id = p.product_family_id) family,
+          (   select count(*)
+              from eba_cust_product_uses u
+              where u.product_id = p.id ) customer_uses,
+          tags
+      from eba_cust_products p
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    - js-showMaximizeButton
+    render-components: Above Content
+
+  advanced: 
+    static-id: PRODUCTS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 17803500714467565780
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 10000
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 17803501710937566046
+      identification: 
+        name: Primary Report
+        alias: 9117208
+
+    columns: 
+    - # ====== Column: FAMILY ======================================
+      id: 17784527080026834949
+      identification: 
+        column-name: FAMILY
+        type: Plain Text
+
+      heading: 
+        heading: Family
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 31
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Rows returned
+        sql-query: |
+          select null
+          from eba_cust_product_families
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PRODUCT_NAME ================================
+      id: 17803500898011565784
+      identification: 
+        column-name: PRODUCT_NAME
+        type: Link
+
+      heading: 
+        heading: Product / Service Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 1
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:19:&SESSION.::&DEBUG.:RP,19,RIR,CIR:IR_PRODUCT_NAME:#PRODUCT_NAME#'
+          page: 19 # Customer Product Use
+          clear-cache: RP,19,RIR,CIR
+          values: 
+            ir_product_name: '#PRODUCT_NAME#'
+
+        link-text: '#PRODUCT_NAME#'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: DESCRIPTION =================================
+      id: 17803500997805565784
+      identification: 
+        column-name: DESCRIPTION
+        type: Plain Text
+
+      heading: 
+        heading: Description
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 2
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ID ==========================================
+      id: 17803501124207565785
+      identification: 
+        column-name: ID
+        type: Plain Text
+
+      heading: 
+        heading: Id
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 3
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED =====================================
+      id: 17803501199824565785
+      identification: 
+        column-name: CREATED
+        type: Plain Text
+
+      heading: 
+        heading: Created
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 4
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 17803501320416565785
+      identification: 
+        column-name: CREATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Created By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 5
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED =====================================
+      id: 17803501414861565786
+      identification: 
+        column-name: UPDATED
+        type: Plain Text
+
+      heading: 
+        heading: Updated
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 6
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 17803501516110565786
+      identification: 
+        column-name: UPDATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Updated By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 7
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMER_USES ===============================
+      id: 17803501612177565787
+      identification: 
+        column-name: CUSTOMER_USES
+        type: Plain Text
+
+      heading: 
+        heading: Customer Uses
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 8
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TAGS ========================================
+      id: 17807981302877778759
+      identification: 
+        column-name: TAGS
+        type: Plain Text
+
+      heading: 
+        heading: Tags
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 9
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Defined List of Values to Filter Word Contains
+        sql-query: |
+          select tag
+            from eba_cust_tags_type_sum
+           where content_type = 'PRODUCT'
+             and tag_count > 0
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 2013619357406979774
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 17803500022819450620
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:RP::'
+      page: '&LAST_VIEW.'
+      clear-cache: RP
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RESET_REPORT ================================
+  id: 16593366677710628395
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Customer Product Usage # 17803500623334565780
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:RP,RIR::'
+      page: 44 # Products
+      clear-cache: RP,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+

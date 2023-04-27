@@ -1,0 +1,4976 @@
+---
+# ====== Page: Dashboard =====================================
+id: 1
+identification: 
+  name: Dashboard
+  alias: DASHBOARD
+  title: Dashboard
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Left Side Column # 14857694771998769797
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Enabled
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Customers by Category =======================
+  id: 1055383668550501288
+  identification: 
+    title: Customers by Category
+    type: Chart
+
+  source: 
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 56
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - js-showMaximizeButton
+    - i-h320
+    - t-Region--scrollBody
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_BY_CATS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Customizable and Shown By Default
+
+  attributes: 
+    id: 1055383839311501290
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: false
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: None
+      on-data-change: None
+
+    tooltip: 
+      show: true
+      show-series-name: false
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Category ====================================
+      id: 1055383926149501291
+      identification: 
+        name: Category
+
+      execution-options: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select  
+              b.id,
+              b.category,
+              count(*) cnt
+          from   
+              eba_cust_customers a, 
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f
+          where a.category_id = b.id
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and a.category_id is not null
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+          group by b.id, b.category
+          order by 2
+
+      column-mapping: 
+        label: CATEGORY
+        value: CNT
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:RP,59,RIR:IR_CATEGORY,P59_CATEGORY,P59_COMPETITOR,P59_COUNTRY,P59_GEO,P59_IMP_PARTNER,P59_INDUSTRY,P59_MARQUEE_CUST,P59_MAX_ROWS,P59_PRODUCT,P59_REFERENCE_TYPES,P59_REFERENCEABLE,P59_SCP_CUST,P59_STATUS,P59_TYPE,P59_USE_CASE,P59_SEARCH:&CATEGORY.,&ID.,&P1_COMPETITOR.,&P1_COUNTRY.,&P1_GEO.,&P1_IMP_PARTNER.,&P1_INDUSTRY.,&P1_MARQUEE_CUST.,&P1_MAX_ROWS.,&P1_PRODUCT.,\&P1_REFERENCE_TYPES.\,&P1_REFERENCEABLE.,&P1_SCP_CUST.,&P1_STATUS.,&P1_TYPE.,&P1_USE_CASE.,&P1_SEARCH.'
+          page: 59 # Customers
+          clear-cache: RP,59,RIR
+          values: 
+            ir_category: '&CATEGORY.'
+            p59_category: '&ID.'
+            p59_competitor: '&P1_COMPETITOR.'
+            p59_country: '&P1_COUNTRY.'
+            p59_geo: '&P1_GEO.'
+            p59_imp_partner: '&P1_IMP_PARTNER.'
+            p59_industry: '&P1_INDUSTRY.'
+            p59_marquee_cust: '&P1_MARQUEE_CUST.'
+            p59_max_rows: '&P1_MAX_ROWS.'
+            p59_product: '&P1_PRODUCT.'
+            p59_reference_types: '&P1_REFERENCE_TYPES.'
+            p59_referenceable: '&P1_REFERENCEABLE.'
+            p59_scp_cust: '&P1_SCP_CUST.'
+            p59_status: '&P1_STATUS.'
+            p59_type: '&P1_TYPE.'
+            p59_use_case: '&P1_USE_CASE.'
+            p59_search: '&P1_SEARCH.'
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 1104456400142313242
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Automatic
+
+      minor-ticks: 
+        show: true
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 1104456494201313243
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: Customers by Geography ======================
+  id: 1104456587883313244
+  identification: 
+    title: Customers by Geography
+    type: Chart
+
+  source: 
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 86
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - js-showMaximizeButton
+    - i-h320
+    - t-Region--scrollBody
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_BY_GEO
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Geography # 14954642305559426091
+
+  attributes: 
+    id: 1104456848607313246
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: false
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: None
+      on-data-change: None
+
+    tooltip: 
+      show: true
+      show-series-name: false
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Geography ===================================
+      id: 1104456882934313247
+      identification: 
+        name: Geography
+
+      execution-options: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select
+             d.id as geo_id,
+             nvl(d.geography_name, 'Not Defined') group_name,
+             count(*) cnt
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+          group by d.id, nvl(d.geography_name, 'Not Defined')
+          order by 2 desc
+
+      column-mapping: 
+        label: GROUP_NAME
+        value: CNT
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:RP,RIR,59:IR_GEOGRAPHY_NAME,P59_GEO,P59_CATEGORY,P59_COMPETITOR,P59_COUNTRY,P59_IMP_PARTNER,P59_INDUSTRY,P59_MARQUEE_CUST,P59_MAX_ROWS,P59_PRODUCT,P59_REFERENCE_TYPES,P59_REFERENCEABLE,P59_SCP_CUST,P59_SEARCH,P59_STATUS,P59_TYPE,P59_USE_CASE:&GROUP_NAME.,&GEO_ID.,&P1_CATEGORY.,&P1_COMPETITOR.,&P1_COUNTRY.,&P1_IMP_PARTNER.,&P1_INDUSTRY.,&P1_MARQUEE_CUST.,&P1_MAX_ROWS.,&P1_PRODUCT.,\&P1_REFERENCE_TYPES.\,&P1_REFERENCEABLE.,&P1_SCP_CUST.,&P1_SEARCH.,&P1_STATUS.,&P1_TYPE.,&P1_USE_CASE.'
+          page: 59 # Customers
+          clear-cache: RP,RIR,59
+          values: 
+            ir_geography_name: '&GROUP_NAME.'
+            p59_geo: '&GEO_ID.'
+            p59_category: '&P1_CATEGORY.'
+            p59_competitor: '&P1_COMPETITOR.'
+            p59_country: '&P1_COUNTRY.'
+            p59_imp_partner: '&P1_IMP_PARTNER.'
+            p59_industry: '&P1_INDUSTRY.'
+            p59_marquee_cust: '&P1_MARQUEE_CUST.'
+            p59_max_rows: '&P1_MAX_ROWS.'
+            p59_product: '&P1_PRODUCT.'
+            p59_reference_types: '&P1_REFERENCE_TYPES.'
+            p59_referenceable: '&P1_REFERENCEABLE.'
+            p59_scp_cust: '&P1_SCP_CUST.'
+            p59_search: '&P1_SEARCH.'
+            p59_status: '&P1_STATUS.'
+            p59_type: '&P1_TYPE.'
+            p59_use_case: '&P1_USE_CASE.'
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 1104457007478313248
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: No
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 1104457070735313249
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: Customers by Industry =======================
+  id: 1104457229513313250
+  identification: 
+    title: Customers by Industry
+    type: Chart
+
+  source: 
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 76
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - js-showMaximizeButton
+    - i-h320
+    - t-Region--hiddenOverflow
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_BY_IND
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 1104457337642313251
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Horizontal
+      stack: false
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: false
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: None
+      on-data-change: None
+
+    tooltip: 
+      show: true
+      show-series-name: false
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Industry ====================================
+      id: 1104457460043313252
+      identification: 
+        name: Industry
+
+      execution-options: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select  
+             i.id industry_id,
+             nvl(i.industry_name, 'Not Defined') industry,
+             count(*) cnt
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f,
+              eba_cust_industries i
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and a.industry_id = i.id (+)
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+          group by i.id, nvl(i.industry_name, 'Not Defined')
+          order by 2 desc
+
+      column-mapping: 
+        label: INDUSTRY
+        value: CNT
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:RP,RIR,59:IR_INDUSTRY_ID,P59_INDUSTRY,P59_CATEGORY,P59_COMPETITOR,P59_COUNTRY,P59_GEO,P59_IMP_PARTNER,P59_INDUSTRY,P59_MARQUEE_CUST,P59_MAX_ROWS,P59_PRODUCT,P59_REFERENCE_TYPES,P59_REFERENCEABLE,P59_SCP_CUST,P59_SEARCH,P59_STATUS,P59_TYPE,P59_USE_CASE:&INDUSTRY_ID.,&INDUSTRY_ID.,&P1_CATEGORY.,&P1_COMPETITOR.,&P1_COUNTRY.,&P1_GEO.,&P1_IMP_PARTNER.,&P1_INDUSTRY.,&P1_MARQUEE_CUST.,&P1_MAX_ROWS.,&P1_PRODUCT.,\&P1_REFERENCE_TYPES.\,&P1_REFERENCEABLE.,&P1_SCP_CUST.,&P1_SEARCH.,&P1_STATUS.,&P1_TYPE.,&P1_USE_CASE.'
+          page: 59 # Customers
+          clear-cache: RP,RIR,59
+          values: 
+            ir_industry_id: '&INDUSTRY_ID.'
+            p59_industry: '&INDUSTRY_ID.'
+            p59_category: '&P1_CATEGORY.'
+            p59_competitor: '&P1_COMPETITOR.'
+            p59_country: '&P1_COUNTRY.'
+            p59_geo: '&P1_GEO.'
+            p59_imp_partner: '&P1_IMP_PARTNER.'
+            p59_industry: '&P1_INDUSTRY.'
+            p59_marquee_cust: '&P1_MARQUEE_CUST.'
+            p59_max_rows: '&P1_MAX_ROWS.'
+            p59_product: '&P1_PRODUCT.'
+            p59_reference_types: '&P1_REFERENCE_TYPES.'
+            p59_referenceable: '&P1_REFERENCEABLE.'
+            p59_scp_cust: '&P1_SCP_CUST.'
+            p59_search: '&P1_SEARCH.'
+            p59_status: '&P1_STATUS.'
+            p59_type: '&P1_TYPE.'
+            p59_use_case: '&P1_USE_CASE.'
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 1104457504164313253
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: No
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 1104457617529313254
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: Customer Summary (with References & No Produc
+  id: 2013619449486979775
+  identification: 
+    title: Customer Summary (with References & No Products)
+    type: Badge List
+
+  source: 
+    sql-query: |
+      select label, to_number(nvl(value,0),'999G999G990') value, url from (
+      with data as (
+          select count(*) total,
+              sum(decode(marquee_customer_yn,'Y',1,0)) marquee,
+              sum(decode(referencable,'Yes',1,0)) ref
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      ), rws as (
+          select level r from dual connect by level < 4
+      )
+      select rws.r display_order,
+          decode(rws.r, 1, 'Total',    2, 'Marquee',   3, 'Referenceable')  label,
+          decode(rws.r, 1, data.total, 2, data.marquee, 3, data.ref) value,
+          decode(rws.r, 1, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:P59_MARQUEE_CUST,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:'||:P1_MARQUEE_CUST||','||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||','||:P1_REFERENCEABLE||','||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR) || ',\' || :P1_REFERENCE_TYPES || '\:',
+                        2, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:IR_MARQUEE_CUSTOMER,P59_MARQUEE_CUST,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:Yes,Y,'||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||','||:P1_REFERENCEABLE||','||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR) || ',\' || :P1_REFERENCE_TYPES || '\:',
+                        3, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:IR_REFERENCABLE,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:Yes,'||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||',Yes,'||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR) || ',\' || :P1_REFERENCE_TYPES || '\:' ) url
+      from data, rws
+      )
+      order by display_order
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 36
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - t-Region--hideHeader
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_SUM_W_REFS_NO_PRODS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      apex_util.get_build_option_status(
+                            p_application_id    => :APP_ID,
+                            p_build_option_name => 'Products and Services'
+                        ) = 'EXCLUDE'
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Customer Referencability # 14286825208374281006
+
+  attributes: 
+    settings: 
+      badge-style: Default
+      value: VALUE
+      bottom-label: LABEL
+      link-target: '&URL.'
+      layout: 3 columns
+      color: No
+
+- # ====== Region: Customer Summary (with References, Products, 
+  id: 2564647358649468165
+  identification: 
+    title: Customer Summary (with References, Products, But No Issues)
+    type: Badge List
+
+  source: 
+    sql-query: |
+      select label, to_number(nvl(value,0),'999G999G990') value, url from (
+      with data as (
+          select count(*) total,
+              sum(decode(marquee_customer_yn,'Y',1,0)) marquee,
+              sum(decode(referencable,'Yes',1,0)) ref
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      ), rws as (
+          select level r from dual connect by level < 4
+      )
+      select rws.r display_order,
+          decode(rws.r, 1, 'Total',    2, 'Marquee',   3, 'Referenceable')  label,
+          decode(rws.r, 1, data.total, 2, data.marquee, 3, data.ref) value,
+          decode(rws.r, 1, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:P59_MARQUEE_CUST,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:'||:P1_MARQUEE_CUST||','||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||','||:P1_REFERENCEABLE||','||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR) || ',\' || :P1_REFERENCE_TYPES || '\:',
+                        2, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:IR_MARQUEE_CUSTOMER,P59_MARQUEE_CUST,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:Yes,Y,'||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||','||:P1_REFERENCEABLE||','||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR) || ',\' || :P1_REFERENCE_TYPES || '\:',
+                        3, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:IR_REFERENCABLE,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:Yes,'||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||',Yes,'||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR) || ',\' || :P1_REFERENCE_TYPES || '\:' ) url
+      from data, rws
+      union all
+      select 4 as display_order,
+          'Products Referenced' label,
+          count(*) value,
+          apex_util.prepare_url('f?p='||:APP_ID||':44:'||:APP_SESSION||':::44,RIR:') url
+      from eba_cust_products p
+      where exists (   select 1
+          from eba_cust_product_uses u
+          where u.product_id = p.id
+      )
+      )
+      order by display_order
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 26
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - t-Region--hideHeader
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_SUM_W_REFS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      apex_util.get_build_option_status(
+                            p_application_id    => :APP_ID,
+                            p_build_option_name => 'Products and Services'
+                        ) = 'INCLUDE'
+      and
+      apex_util.get_build_option_status(
+                            p_application_id    => :APP_ID,
+                            p_build_option_name => 'Issues'
+                        ) = 'EXCLUDE'
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Customer Referencability # 14286825208374281006
+
+  attributes: 
+    settings: 
+      badge-style: Default
+      value: VALUE
+      bottom-label: LABEL
+      link-target: '&URL.'
+      layout: 4 columns
+      color: No
+
+- # ====== Region: Customer Summary (without References) =======
+  id: 13541319774544271808
+  identification: 
+    title: Customer Summary (without References)
+    type: Badge List
+
+  source: 
+    sql-query: |
+      select label, to_number(nvl(value,0),'999G999G990') value, url from (
+      with data as (
+          select count(*) total,
+              sum(decode(marquee_customer_yn,'Y',1,0)) marquee
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      ), rws as (
+          select level r from dual connect by level < 3
+      )
+      select rws.r display_order,
+          decode(rws.r, 1, 'Total',    2, 'Marquee')  label,
+          decode(rws.r, 1, data.total, 2, data.marquee) value,
+          decode(rws.r, 1, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:P59_MARQUEE_CUST,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:'||:P1_MARQUEE_CUST||','||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||','||:P1_REFERENCEABLE||','||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR) || ',\' || :P1_REFERENCE_TYPES || '\:',
+                        2, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:IR_MARQUEE_CUSTOMER,P59_MARQUEE_CUST,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:Yes,Y,'||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||','||:P1_REFERENCEABLE||','||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR) || ',\' || :P1_REFERENCE_TYPES || '\:' ) url
+      from data, rws
+      union all
+      select 4 display_order,
+          'Products Referenced' label,
+          count(*) value,
+          apex_util.prepare_url('f?p='||:APP_ID||':44:'||:APP_SESSION||':::44,RIR:') url
+      from eba_cust_products p
+      where exists (   select 1
+          from eba_cust_product_uses u
+          where u.product_id = p.id ) 
+      )
+      order by display_order
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 6
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - t-Region--hideHeader
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_SUM_NO_REFS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: MODEL.LOV.NOT_W_ARGUMENT # 14286825208374281006
+
+  attributes: 
+    settings: 
+      badge-style: Default
+      value: VALUE
+      bottom-label: LABEL
+      link-target: '&URL.'
+      layout: 3 columns
+      color: No
+
+- # ====== Region: Customers by Product ========================
+  id: 13541332414863279510
+  identification: 
+    title: Customers by Product
+    type: HTML 5 Bar Chart
+
+  source: 
+    sql-query: |
+      select
+          distinct p.product_name,
+          p.id,
+          p.description,
+          x.customer_users
+      from
+          eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case f,
+          eba_cust_product_uses u,
+          eba_cust_products p,
+          (
+              select id,
+                     (
+                         select
+                             count(*) as customer_users
+                         from
+                             eba_cust_customers a1,
+                             eba_cust_categories b1,
+                             eba_cust_status c1,
+                             eba_cust_geographies d1,
+                             eba_cust_type e1,
+                             eba_cust_use_case f1,
+                             eba_cust_product_uses u1
+                       where u1.product_id = p1.id
+                         and u1.customer_id = a1.id
+                         and a1.category_id = b1.id(+)
+                         and a1.status_id = c1.id(+)
+                         and a1.geography_id = d1.id(+)
+                         and a1.type_id = e1.id(+)
+                         and a1.use_case_id = f1.id(+)
+                         and u1.customer_id = a1.id
+                         and (:P1_SEARCH is null or
+                                 instr(upper(a1.customer_name),upper(:P1_SEARCH)) > 0 or
+                                            instr(upper(a1.summary),upper(:P1_SEARCH)) > 0 )
+                         and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a1.geography_id)
+                         and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a1.country_id)
+                         and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a1.industry_id)
+                         and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a1.category_id)
+                         and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a1.status_id)
+                         and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a1.type_id)
+                         and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a1.use_case_id)
+                         and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a1.marquee_customer_yn)
+                         and (:P1_IMP_PARTNER is null
+                             or exists ( select null
+                                         from eba_cust_cust_partner_ref rf
+                                         where rf.customer_id = a1.id
+                                             and rf.partner_id = :P1_IMP_PARTNER ))
+                         and (:P1_COMPETITOR is null
+                             or exists ( select null
+                                         from eba_cust_cust_competitor_ref rf
+                                         where rf.customer_id = a1.id
+                                             and rf.competitor_id = :P1_COMPETITOR ))
+                         and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a1.referencable)
+                         and (:P1_SCP_CUST is null or :P1_SCP_CUST = a1.strategic_customer_program_yn)
+                         and (
+                             exists (select 1 from eba_cust_customer_reftype_ref r
+                             where r.customer_id = a1.id and
+                                   instr(':'||:P1_REFERENCE_TYPES||':',':'||r.reference_type_id||':') > 0)
+                             or 
+                             :P1_REFERENCE_TYPES is null
+                             )
+                         and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.customer_id = a1.id and u1.product_id = :P1_PRODUCT))
+                     ) customer_users
+                from eba_cust_products p1
+          ) x
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = f.id(+)
+          and u.customer_id = a.id
+          and u.product_id = p.id
+          and x.id = p.id
+          and x.customer_users > 0
+          and (:P1_SEARCH is null or
+                  instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                             instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+          and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+          and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+          and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+          and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+          and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+          and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+          and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+          and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+          and (:P1_IMP_PARTNER is null
+              or exists ( select null
+                          from eba_cust_cust_partner_ref rf
+                          where rf.customer_id = a.id
+                              and rf.partner_id = :P1_IMP_PARTNER ))
+          and (:P1_COMPETITOR is null
+              or exists ( select null
+                          from eba_cust_cust_competitor_ref rf
+                          where rf.customer_id = a.id
+                              and rf.competitor_id = :P1_COMPETITOR ))
+          and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+          and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+          and (
+              exists (select 1 from eba_cust_customer_reftype_ref r
+              where r.customer_id = a.id and
+                    instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+              or 
+              :P1_REFERENCE_TYPES is null
+              )
+          and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      order by x.customer_users desc
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 46
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - i-h320
+    - t-Region--hiddenOverflow
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_BY_PRODS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Customizable and Shown By Default
+
+  configuration: 
+    build-option: Products and Services # 14954665590037691528
+
+  attributes: 
+    settings: 
+      label-column: PRODUCT_NAME
+      value-column: CUSTOMER_USERS
+      label-link-target: 
+        url: 'f?p=&APP_ID.:19:&SESSION.::&DEBUG.:RP,19,RIR:IR_PRODUCT_NAME:&PRODUCT_NAME.'
+        page: 19 # Customer Product Use
+        clear-cache: RP,19,RIR
+        values: 
+          ir_product_name: '&PRODUCT_NAME.'
+
+      value-link-target: 
+        url: 'f?p=&APP_ID.:19:&SESSION.::&DEBUG.:RP,19,RIR:IR_PRODUCT_NAME:&PRODUCT_NAME.'
+        page: 19 # Customer Product Use
+        clear-cache: RP,19,RIR
+        values: 
+          ir_product_name: '&PRODUCT_NAME.'
+
+      value-display: Value
+      bar-width-calculation: Absolute
+      display-type: Text Chart
+      text-position: Above
+      color-scheme: Theme Colors
+      maximum-rows: 15
+      message-when-no-data-found: No data found.
+
+- # ====== Region: Recently Updated Customers ==================
+  id: 13541333096324281246
+  identification: 
+    title: Recently Updated Customers
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select 
+          "CUSTOMER_NAME",
+          nvl(a.updated,a.created) updated_on,
+          a.id
+      from eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case f
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = f.id(+)
+          and (:P1_SEARCH is null or
+                  instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                             instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+          and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+          and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+          and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+          and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+          and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+          and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+          and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+          and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+          and (:P1_IMP_PARTNER is null
+              or exists ( select null
+                          from eba_cust_cust_partner_ref rf
+                          where rf.customer_id = a.id
+                              and rf.partner_id = :P1_IMP_PARTNER ))
+          and (:P1_COMPETITOR is null
+              or exists ( select null
+                          from eba_cust_cust_competitor_ref rf
+                          where rf.customer_id = a.id
+                              and rf.competitor_id = :P1_COMPETITOR ))
+          and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+          and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+          and (
+              exists (select 1 from eba_cust_customer_reftype_ref r
+              where r.customer_id = a.id and
+                    instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+              or 
+              :P1_REFERENCE_TYPES is null
+              )
+          and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      order by nvl(a.updated,a.created) desc
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 66
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - i-h320
+    - t-Region--hiddenOverflow
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_RCNT_UPD
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 50
+
+    appearance: 
+      template-type: Theme
+      template: Value Attribute Pairs - Row # 14857743717745769873
+      template-options: 
+      - '#DEFAULT#'
+      - t-AVPList--rightAligned
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 50
+
+    messages: 
+      when-no-data-found: No customers found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: CUSTOMER_NAME ===============================
+    id: 13541333406648281247
+    identification: 
+      column-name: CUSTOMER_NAME
+      type: Link
+
+    heading: 
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:50:P50_ID:#ID#'
+        page: 50 # Customer
+        clear-cache: 50
+        values: 
+          p50_id: '#ID#'
+
+      link-text: '#CUSTOMER_NAME#'
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED_ON ==================================
+    id: 13541333844201281248
+    identification: 
+      column-name: UPDATED_ON
+      type: Plain Text
+
+    heading: 
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ID ==========================================
+    id: 13541334245683281249
+    identification: 
+      column-name: ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 3
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Summary =====================================
+  id: 13541336391335287666
+  identification: 
+    title: Summary
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select 
+         x.number_of_customers,
+         x.added_1w,
+         x.REFERENCABLE,
+         x.Potentially_REFERENCABLE,
+         x.Not_REFERENCABLE,
+         x.referencability_unknown,
+         x.with_tags,
+         y.customer_products,
+         z.contacts,
+         z.customers_with_contacts,
+         x.marquee_customers
+      from
+      (
+          select
+              trim(to_char(count(*),'999G999G999G990'))                                                  number_of_customers,
+              trim(to_char(sum(decode(greatest(a.CREATED,sysdate-7), a.CREATED,1,0)),'999G999G999G990')) added_1w,
+              trim(to_char(sum(decode(a.REFERENCABLE , 'Yes',1,0)),'999G999G999G990'))                   REFERENCABLE,
+              trim(to_char(sum(decode(a.REFERENCABLE , 'Potentially',1,0)),'999G999G999G990'))           Potentially_REFERENCABLE,
+              trim(to_char(sum(decode(a.REFERENCABLE , 'No',1,0)),'999G999G999G990'))                    Not_REFERENCABLE,
+              trim(to_char(sum(decode(a.REFERENCABLE , null,1,0)),'999G999G999G990'))                    referencability_unknown,
+              trim(to_char(sum(decode(a.tags , null,0,1)),'999G999G999G990'))                            with_tags,
+              trim(to_char(sum(decode(nvl(a.MARQUEE_CUSTOMER_YN,'N') , 'Y',1,0)),'999G999G999G990'))     marquee_customers
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      ) x,
+      (
+          select
+              trim(to_char(count(distinct u.product_id),'999G999G999G990')) customer_products
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f,
+              eba_cust_product_uses u
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and a.id = u.customer_id
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      ) y,
+      (
+          select
+              trim(to_char(count(*),'999G999G999G990'))                    contacts,
+              trim(to_char(count(distinct customer_id),'999G999G999G990')) customers_with_contacts
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f,
+              eba_cust_contacts x
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and a.id = x.customer_id
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      ) z
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 96
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - i-h320
+    - t-Region--hiddenOverflow
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_SUMMARY
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Customizable and Shown By Default
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Value Attribute Pairs - Column # 14857743897467769875
+      template-options: 
+      - '#DEFAULT#'
+      - t-AVPList--rightAligned
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: NUMBER_OF_CUSTOMERS =========================
+    id: 13541336690043287667
+    identification: 
+      column-name: NUMBER_OF_CUSTOMERS
+      type: Plain Text
+
+    heading: 
+      heading: Number of Customers
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Descending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ADDED_1W ====================================
+    id: 13541337141567287668
+    identification: 
+      column-name: ADDED_1W
+      type: Plain Text
+
+    heading: 
+      heading: New last 7 days
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: REFERENCABLE ================================
+    id: 13541337558987287668
+    identification: 
+      column-name: REFERENCABLE
+      type: Plain Text
+
+    heading: 
+      heading: Publicly Referenceable
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: |
+        APEX_UTIL.GET_BUILD_OPTION_STATUS(
+            P_APPLICATION_ID => :APP_ID,
+            P_BUILD_OPTION_NAME => 'Customer Referencability') = 'INCLUDE'
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: POTENTIALLY_REFERENCABLE ====================
+    id: 13541337869972287668
+    identification: 
+      column-name: POTENTIALLY_REFERENCABLE
+      type: Plain Text
+
+    heading: 
+      heading: Potentially Referenceable
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: |
+        APEX_UTIL.GET_BUILD_OPTION_STATUS(
+            P_APPLICATION_ID => :APP_ID,
+            P_BUILD_OPTION_NAME => 'Customer Referencability') = 'INCLUDE'
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: NOT_REFERENCABLE ============================
+    id: 13541338267456287669
+    identification: 
+      column-name: NOT_REFERENCABLE
+      type: Plain Text
+
+    heading: 
+      heading: Not Referenceable
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: |
+        APEX_UTIL.GET_BUILD_OPTION_STATUS(
+            P_APPLICATION_ID => :APP_ID,
+            P_BUILD_OPTION_NAME => 'Customer Referencability') = 'INCLUDE'
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: REFERENCABILITY_UNKNOWN =====================
+    id: 13541338764532287669
+    identification: 
+      column-name: REFERENCABILITY_UNKNOWN
+      type: Plain Text
+
+    heading: 
+      heading: Referenceability Unknown
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: |
+        APEX_UTIL.GET_BUILD_OPTION_STATUS(
+            P_APPLICATION_ID => :APP_ID,
+            P_BUILD_OPTION_NAME => 'Customer Referencability') = 'INCLUDE'
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: WITH_TAGS ===================================
+    id: 13541339150093287670
+    identification: 
+      column-name: WITH_TAGS
+      type: Plain Text
+
+    heading: 
+      heading: With Tags
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CUSTOMER_PRODUCTS ===========================
+    id: 13541339519179287670
+    identification: 
+      column-name: CUSTOMER_PRODUCTS
+      type: Plain Text
+
+    heading: 
+      heading: Customer Products
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CONTACTS ====================================
+    id: 13541339906571287670
+    identification: 
+      column-name: CONTACTS
+      type: Plain Text
+
+    heading: 
+      heading: Contacts
+      alignment: start
+
+    layout: 
+      sequence: 9
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CUSTOMERS_WITH_CONTACTS =====================
+    id: 13541340278852287671
+    identification: 
+      column-name: CUSTOMERS_WITH_CONTACTS
+      type: Plain Text
+
+    heading: 
+      heading: Customers With Contacts
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MARQUEE_CUSTOMERS ===========================
+    id: 13541340749724287671
+    identification: 
+      column-name: MARQUEE_CUSTOMERS
+      type: Plain Text
+
+    heading: 
+      heading: Marquee Customers
+      alignment: start
+
+    layout: 
+      sequence: 11
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Customer Updates ============================
+  id: 13541341474554289108
+  identification: 
+    title: Customer Updates
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select 
+         'Note ' || dbms_lob.substr(n.note,100,1) || decode(greatest(length(n.note),100),100,null,'...') || ' Added - ' || a.customer_name detail,
+         n.created updated,
+         a.id customer_id
+      from eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case f,
+          eba_cust_notes n
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = f.id(+)
+          and a.id = n.customer_id
+          and (:P1_SEARCH is null or
+                  instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                             instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+          and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+          and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+          and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+          and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+          and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+          and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+          and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+          and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+          and (:P1_IMP_PARTNER is null
+              or exists ( select null
+                          from eba_cust_cust_partner_ref rf
+                          where rf.customer_id = a.id
+                              and rf.partner_id = :P1_IMP_PARTNER ))
+          and (:P1_COMPETITOR is null
+              or exists ( select null
+                          from eba_cust_cust_competitor_ref rf
+                          where rf.customer_id = a.id
+                              and rf.competitor_id = :P1_COMPETITOR ))
+          and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+          and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+          and (
+              exists (select 1 from eba_cust_customer_reftype_ref r
+              where r.customer_id = a.id and
+                    instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+              or 
+              :P1_REFERENCE_TYPES is null
+              )
+          and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      union all
+      select 
+         'Contact ' || t.name || ' Added - ' || a.customer_name detail,
+         t.created updated,
+         a.id customer_id
+      from eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case f,
+          eba_cust_contacts t
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = f.id(+)
+          and a.id = t.customer_id
+          and (:P1_SEARCH is null or
+                  instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                             instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+          and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+          and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+          and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+          and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+          and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+          and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+          and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+          and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+          and (:P1_IMP_PARTNER is null
+              or exists ( select null
+                          from eba_cust_cust_partner_ref rf
+                          where rf.customer_id = a.id
+                              and rf.partner_id = :P1_IMP_PARTNER ))
+          and (:P1_COMPETITOR is null
+              or exists ( select null
+                          from eba_cust_cust_competitor_ref rf
+                          where rf.customer_id = a.id
+                              and rf.competitor_id = :P1_COMPETITOR ))
+          and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+          and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+          and (
+              exists (select 1 from eba_cust_customer_reftype_ref r
+              where r.customer_id = a.id and
+                    instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+              or 
+              :P1_REFERENCE_TYPES is null
+              )
+          and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      union all
+      select 
+         'Attachment ' || f.file_name || ' Added - ' || a.customer_name detail,
+         f.created updated,
+         a.id customer_id
+      from eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case u,
+          eba_cust_files f
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = u.id(+)
+          and a.id = f.customer_id
+          and (:P1_SEARCH is null or
+                  instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                             instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+          and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+          and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+          and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+          and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+          and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+          and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+          and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+          and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+          and (:P1_IMP_PARTNER is null
+              or exists ( select null
+                          from eba_cust_cust_partner_ref rf
+                          where rf.customer_id = a.id
+                              and rf.partner_id = :P1_IMP_PARTNER ))
+          and (:P1_COMPETITOR is null
+              or exists ( select null
+                          from eba_cust_cust_competitor_ref rf
+                          where rf.customer_id = a.id
+                              and rf.competitor_id = :P1_COMPETITOR ))
+          and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+          and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+          and (
+              exists (select 1 from eba_cust_customer_reftype_ref r
+              where r.customer_id = a.id and
+                    instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+              or 
+              :P1_REFERENCE_TYPES is null
+              )
+          and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      union all
+      select 
+         'Link to "' || nvl(l.link_desc, l.link) || '" Added - '|| a.customer_name detail,
+         l.created updated,
+         a.id customer_id
+      from eba_cust_customers a,
+          eba_cust_categories b,
+          eba_cust_status c,
+          eba_cust_geographies d,
+          eba_cust_type e,
+          eba_cust_use_case f,
+          eba_cust_links l
+      where a.category_id = b.id(+)
+          and a.status_id = c.id(+)
+          and a.geography_id = d.id(+)
+          and a.type_id = e.id(+)
+          and a.use_case_id = f.id(+)
+          and a.id = l.customer_id
+          and (:P1_SEARCH is null or
+                  instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                             instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+          and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+          and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+          and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+          and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+          and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+          and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+          and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+          and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+          and (:P1_IMP_PARTNER is null
+              or exists ( select null
+                          from eba_cust_cust_partner_ref rf
+                          where rf.customer_id = a.id
+                              and rf.partner_id = :P1_IMP_PARTNER ))
+          and (:P1_COMPETITOR is null
+              or exists ( select null
+                          from eba_cust_cust_competitor_ref rf
+                          where rf.customer_id = a.id
+                              and rf.competitor_id = :P1_COMPETITOR ))
+          and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+          and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+          and (
+              exists (select 1 from eba_cust_customer_reftype_ref r
+              where r.customer_id = a.id and
+                    instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+              or 
+              :P1_REFERENCE_TYPES is null
+              )
+          and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      union all
+      select x.detail || ' - ' || x.customer_name detail,
+             x.updated,
+             x.customer_id
+      from (
+          select h.component_id customer_id,
+                 a.customer_name,
+                 initcap(replace(replace(h.COLUMN_NAME,'_ID',null),'_',' '))||' changed from "'||h.OLD_VALUE||'" to "'||h.new_value||'"' detail,
+                 lower(h.CHANGED_BY) updated_by,
+                 h.CHANGE_DATE updated
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f,
+              eba_cust_history h
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and h.component_id = c.id
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      ) x
+      order by 2 desc
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 106
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - i-h320
+    - t-Region--hiddenOverflow
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_UPDATES
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Customizable and Shown By Default
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 20
+
+    appearance: 
+      template-type: Theme
+      template: Value Attribute Pairs - Row # 14857743717745769873
+      template-options: 
+      - '#DEFAULT#'
+      - t-AVPList--rightAligned
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 20
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: None
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: DETAIL ======================================
+    id: 13541341788797289109
+    identification: 
+      column-name: DETAIL
+      type: Link
+
+    heading: 
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:50:P50_ID:#CUSTOMER_ID#'
+        page: 50 # Customer
+        clear-cache: 50
+        values: 
+          p50_id: '#CUSTOMER_ID#'
+
+      link-text: '#DETAIL#'
+      link-attributes: title="#DETAIL#"
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED =====================================
+    id: 13541342196872289110
+    identification: 
+      column-name: UPDATED
+      type: Plain Text
+
+    heading: 
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CUSTOMER_ID =================================
+    id: 13541342625335289110
+    identification: 
+      column-name: CUSTOMER_ID
+      type: Plain Text
+
+    heading: 
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Tags ========================================
+  id: 13541343699149290737
+  identification: 
+    title: Tags
+    type: Tag Cloud
+
+  source: 
+    sql-query: |
+      select t.tag, t.tag_count
+        from eba_cust_tags_type_sum t
+       where t.content_type = 'CUSTOMER'
+         and t.tag_count > 0
+         and exists (
+                         select null
+                           from eba_cust_customers a,
+                                eba_cust_categories b,
+                                eba_cust_status c,
+                                eba_cust_geographies d,
+                                eba_cust_type e,
+                                eba_cust_use_case f
+                          where a.category_id = b.id(+)
+                            and a.status_id = c.id(+)
+                            and a.geography_id = d.id(+)
+                            and a.type_id = e.id(+)
+                            and a.use_case_id = f.id(+)
+                            and instr(a.tags, t.tag) > 0
+                            and (:P1_SEARCH is null or
+                                    instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                               instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+                            and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+                            and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+                            and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+                            and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+                            and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+                            and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+                            and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+                            and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+                            and (:P1_IMP_PARTNER is null
+                                or exists ( select null
+                                            from eba_cust_cust_partner_ref rf
+                                            where rf.customer_id = a.id
+                                                and rf.partner_id = :P1_IMP_PARTNER ))
+                            and (:P1_COMPETITOR is null
+                                or exists ( select null
+                                            from eba_cust_cust_competitor_ref rf
+                                            where rf.customer_id = a.id
+                                                and rf.competitor_id = :P1_COMPETITOR ))
+                            and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+                            and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+                            and (
+                                exists (select 1 from eba_cust_customer_reftype_ref r
+                                where r.customer_id = a.id and
+                                      instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                                or 
+                                :P1_REFERENCE_TYPES is null
+                                )
+                            and (NVL(:P1_PRODUCT,0) = 0 or exists (select null
+                                                                     from eba_cust_product_uses u
+                                                                    where u.CUSTOMER_ID = a.id
+                                                                      and u.PRODUCT_ID = :P1_PRODUCT)
+                                )
+                    )
+      order by t.tag_count desc
+
+  layout: 
+    sequence: 116
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - js-showMaximizeButton
+    - t-Region--hiddenOverflow
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_TAGS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select null
+        from eba_cust_tags_type_sum
+       where content_type = 'CUSTOMER'
+         and tag_count > 0
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      link-target: 
+        url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:59,RIR:IRC_TAGS,P59_DISPLAY_AS:#TAG#,REPORT'
+        page: 59 # Customers
+        clear-cache: 59,RIR
+        values: 
+          irc_tags: '#TAG#'
+          p59_display_as: REPORT
+
+      maximum-tags: 35
+      show-count: true
+
+    messages: 
+      when-no-data-found: No tags found.
+
+- # ====== Region: Customer Summary (with References, Products, 
+  id: 14276346978382669514
+  identification: 
+    title: Customer Summary (with References, Products, & Issues)
+    type: Badge List
+
+  source: 
+    sql-query: |
+      select label, to_number(nvl(value,0),'999G999G990') value, url from (
+      with data as (
+          select count(*) total,
+              sum(decode(marquee_customer_yn,'Y',1,0)) marquee,
+              sum(decode(referencable,'Yes',1,0)) ref
+          from eba_cust_customers a,
+              eba_cust_categories b,
+              eba_cust_status c,
+              eba_cust_geographies d,
+              eba_cust_type e,
+              eba_cust_use_case f
+          where a.category_id = b.id(+)
+              and a.status_id = c.id(+)
+              and a.geography_id = d.id(+)
+              and a.type_id = e.id(+)
+              and a.use_case_id = f.id(+)
+              and (:P1_SEARCH is null or
+                      instr(upper(a.customer_name),upper(:P1_SEARCH)) > 0 or
+                                 instr(upper(a.summary),upper(:P1_SEARCH)) > 0 )
+              and (NVL(:P1_GEO,0) = 0 or :P1_GEO = a.geography_id)
+              and (NVL(:P1_COUNTRY,0) = 0 or :P1_COUNTRY = a.country_id)
+              and (NVL(:P1_INDUSTRY,0) = 0 or  :P1_INDUSTRY = a.industry_id)
+              and (NVL(:P1_CATEGORY,0) = 0 or :P1_CATEGORY = a.category_id)
+              and (NVL(:P1_STATUS,0) = 0 or :P1_STATUS = a.status_id)
+              and (NVL(:P1_TYPE,0) = 0 or :P1_TYPE = a.type_id)
+              and (NVL(:P1_USE_CASE,0) = 0 or :P1_USE_CASE = a.use_case_id)
+              and (:P1_MARQUEE_CUST is null or :P1_MARQUEE_CUST = a.marquee_customer_yn)
+              and (:P1_IMP_PARTNER is null
+                  or exists ( select null
+                              from eba_cust_cust_partner_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.partner_id = :P1_IMP_PARTNER ))
+              and (:P1_COMPETITOR is null
+                  or exists ( select null
+                              from eba_cust_cust_competitor_ref rf
+                              where rf.customer_id = a.id
+                                  and rf.competitor_id = :P1_COMPETITOR ))
+              and (:P1_REFERENCEABLE is null or :P1_REFERENCEABLE = a.referencable)
+              and (:P1_SCP_CUST is null or :P1_SCP_CUST = a.strategic_customer_program_yn)
+              and (
+                  exists (select 1 from eba_cust_customer_reftype_ref r
+                  where r.customer_id = a.id and
+                        instr(':'||:P1_REFERENCE_TYPES||':',':'||reference_type_id||':') > 0)
+                  or 
+                  :P1_REFERENCE_TYPES is null
+                  )
+              and (NVL(:P1_PRODUCT,0) = 0 or exists (select 1 from eba_cust_product_uses u where u.CUSTOMER_ID = a.id and u.PRODUCT_ID = :P1_PRODUCT))
+      ), rws as (
+          select level r from dual connect by level < 4
+      )
+      select rws.r display_order,
+          decode(rws.r, 1, 'Total',    2, 'Marquee',   3, 'Referenceable')  label,
+          decode(rws.r, 1, data.total, 2, data.marquee, 3, data.ref) value,
+          decode(rws.r, 1, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:P59_MARQUEE_CUST,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:'||:P1_MARQUEE_CUST||','||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||','||:P1_REFERENCEABLE||','||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR || ',\' || :P1_REFERENCE_TYPES || '\:'),
+                        2, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:IR_MARQUEE_CUSTOMER,P59_MARQUEE_CUST,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:Yes,Y,'||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||','||:P1_REFERENCEABLE||','||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR || ',\' || :P1_REFERENCE_TYPES || '\:'),
+                        3, apex_util.prepare_url('f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:IR_REFERENCABLE,P59_INDUSTRY,P59_PRODUCT,P59_GEO,P59_REFERENCEABLE,P59_STATUS,P59_CATEGORY,P59_TYPE,P59_IMP_PARTNER,P59_COMPETITOR,P59_REFERENCE_TYPES:Yes,'||:P1_INDUSTRY||','||:P1_PRODUCT||','||:P1_GEO||',Yes,'||:P1_STATUS||','||:P1_CATEGORY||','||:P1_TYPE||','||:P1_IMP_PARTNER||','||:P1_COMPETITOR || ',\' || :P1_REFERENCE_TYPES || '\:' )) url
+      from data, rws
+      union all
+      select 4 as display_order,
+          'Products Referenced' label,
+          count(*) value,
+          apex_util.prepare_url('f?p='||:APP_ID||':44:'||:APP_SESSION||':::44,RIR:') url
+      from eba_cust_products p
+      where exists (   select 1
+          from eba_cust_product_uses u
+          where u.product_id = p.id
+      )
+      union all
+      select 5 as display_order,
+          'Open Issues' label,
+          count(*) value,
+          apex_util.prepare_url('f?p='||:APP_ID||':134:'||:APP_SESSION||':::134,RIR:IR_STATUS_ID:Open') url
+      from eba_cust_issues i
+      where exists (   select null
+          from eba_cust_issue_statuses u
+          where u.id = i.status_id
+            and u.open_yn = 'Y')
+      )
+      order by display_order
+    page-items-to-submit: 
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+    - P1_CATEGORY
+
+  layout: 
+    sequence: 16
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - t-Region--hideHeader
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUST_SUM_W_REFS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: |
+      apex_util.get_build_option_status(
+                            p_application_id    => :APP_ID,
+                            p_build_option_name => 'Products and Services'
+                        ) = 'INCLUDE'
+      and
+      apex_util.get_build_option_status(
+                            p_application_id    => :APP_ID,
+                            p_build_option_name => 'Issues'
+                        ) = 'INCLUDE'
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Customer Referencability # 14286825208374281006
+
+  attributes: 
+    settings: 
+      badge-style: Default
+      value: VALUE
+      bottom-label: LABEL
+      link-target: '&URL.'
+      layout: 5 columns
+      color: No
+
+- # ====== Region: timezone ====================================
+  id: 16609875085421266107
+  identification: 
+    title: timezone
+    type: Static Content
+
+  source: 
+    html-code: |
+      "TIMEZONE" 
+       
+
+  layout: 
+    sequence: 126
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: true
+
+- # ====== Region: Filters =====================================
+  id: 16904720977086217258
+  identification: 
+    title: Filters
+    type: Static Content
+
+  layout: 
+    sequence: 116
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumbs =================================
+  id: 17798794964632218189
+  identification: 
+    title: Breadcrumbs
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: More Filters ================================
+  id: 19975542747659545620
+  identification: 
+    title: More Filters
+    type: Static Content
+
+  layout: 
+    sequence: 126
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P1_SEARCH ================================
+  id: 2043977007638858759
+  identification: 
+    name: P1_SEARCH
+    type: Text Field
+
+  label: 
+    label: Search
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Filters # 16904720977086217258
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Hidden # 14857752070773769895
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    icon: fa-search
+    width: 64
+    value-placeholder: Search Customers
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_PRODUCT ===============================
+  id: 2043977358683858763
+  identification: 
+    name: P1_PRODUCT
+    type: Select List
+
+  label: 
+    label: Product
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 40
+    region: Filters # 16904720977086217258
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: PRODUCTS # 16929502933782355794
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_GEO ===================================
+  id: 2043977722563858764
+  identification: 
+    name: P1_GEO
+    type: Select List
+
+  label: 
+    label: Geography
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 50
+    region: Filters # 16904720977086217258
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: GEOGRAPHY # 14863255921778046444
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All - '
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 0
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_REFERENCEABLE =========================
+  id: 2043978139594858764
+  identification: 
+    name: P1_REFERENCEABLE
+    type: Select List
+
+  label: 
+    label: Publicly Referenceable
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 60
+    region: Filters # 16904720977086217258
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: REFERENCABLE # 14757303586572178523
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_REFERENCE_TYPES =======================
+  id: 2043978560598858764
+  identification: 
+    name: P1_REFERENCE_TYPES
+    type: Checkbox Group
+
+  label: 
+    label: Reference Types (any)
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+
+  layout: 
+    sequence: 70
+    region: Filters # 16904720977086217258
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    css-classes: 
+    - reference_types_checkbox
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: REFERENCE_TYPES # 15640351289809627339
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: <button class="t-Button t-Button--small" id="reference_check_box" type="button">Check All</button>
+    help-text: Check all the boxes you would like to see.  If any customers have any of the reference types selected you will see the customer.
+
+- # ====== Page Item: P1_STATUS ================================
+  id: 2043979389756858768
+  identification: 
+    name: P1_STATUS
+    type: Select List
+
+  label: 
+    label: Status
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 80
+    region: Filters # 16904720977086217258
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: 'STATUS ' # 14863305098959315969
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Customer Status # 17138001262823690072
+
+- # ====== Page Item: P1_TYPE ==================================
+  id: 2043981048216861466
+  identification: 
+    name: P1_TYPE
+    type: Select List
+
+  label: 
+    label: Type
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 10
+    region: More Filters # 19975542747659545620
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: TYPE # 17039734630296662665
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_USE_CASE ==============================
+  id: 2043981437776861466
+  identification: 
+    name: P1_USE_CASE
+    type: Select List
+
+  label: 
+    label: Use Case
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 20
+    region: More Filters # 19975542747659545620
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: USE_CASE # 17125994141500024761
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Customer Use Case # 17116199856807611850
+
+- # ====== Page Item: P1_MARQUEE_CUST ==========================
+  id: 2043981848703861466
+  identification: 
+    name: P1_MARQUEE_CUST
+    type: Select List
+
+  label: 
+    label: Marquee Customer
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 30
+    region: More Filters # 19975542747659545620
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: MARQUEE # 14757305802502183145
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_IMP_PARTNER ===========================
+  id: 2043982172047861467
+  identification: 
+    name: P1_IMP_PARTNER
+    type: Select List
+
+  label: 
+    label: Partner
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 40
+    region: More Filters # 19975542747659545620
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select name d, id r
+      from eba_cust_impl_partners
+      order by lower(name)
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_COMPETITOR ============================
+  id: 2043982634100861467
+  identification: 
+    name: P1_COMPETITOR
+    type: Select List
+
+  label: 
+    label: Competitor
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 50
+    region: More Filters # 19975542747659545620
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select name d, id r
+      from eba_cust_competitors
+      order by lower(name)
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_SCP_CUST ==============================
+  id: 2043983067491861471
+  identification: 
+    name: P1_SCP_CUST
+    type: Select List
+
+  label: 
+    label: SCP Customer
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 60
+    region: More Filters # 19975542747659545620
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: Y_OR_N # 17800927397335229149
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Strategic Customer Program # 16886892968439277617
+
+- # ====== Page Item: P1_COUNTRY ===============================
+  id: 2043983382557861471
+  identification: 
+    name: P1_COUNTRY
+    type: Select List
+
+  label: 
+    label: Country
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 70
+    region: More Filters # 19975542747659545620
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: COUNTRIES_P59 # 17392196523892063100
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+    null-return-value: 0
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P1_GEO
+    parent-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Countries # 16926257625523939711
+
+- # ====== Page Item: P1_INDUSTRY ==============================
+  id: 2043983769707861472
+  identification: 
+    name: P1_INDUSTRY
+    type: Select List
+
+  label: 
+    label: Industry
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 90
+    region: Filters # 16904720977086217258
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: P2_INDUSTRY_ID LOOKUP # 14822340496428168521
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All - '
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 0
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_CATEGORY ==============================
+  id: 2043984247341861472
+  identification: 
+    name: P1_CATEGORY
+    type: Select List
+
+  label: 
+    label: Category
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 100
+    region: Filters # 16904720977086217258
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: CAT # 14863259161685067135
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All - '
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 0
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: RESET_REPORT ================================
+  id: 2043976622723858749
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 50
+    region: Filters # 16904720977086217258
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&APP_PAGE_ID.:&SESSION.::&DEBUG.:RP,&APP_PAGE_ID.::'
+      page: '&APP_PAGE_ID.'
+      clear-cache: RP,&APP_PAGE_ID.
+
+    warn-on-unsaved-changes: Do Not Check
+
+  advanced: 
+    static-id: reset_button
+
+- # ====== Button: VIEW_CATS ===================================
+  id: 13541321558114275262
+  identification: 
+    button-name: VIEW_CATS
+    label: View Categories
+
+  layout: 
+    sequence: 10
+    region: Customers by Category # 1055383668550501288
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: VIEW_CUSTOMERS ==============================
+  id: 13541332737383279510
+  identification: 
+    button-name: VIEW_CUSTOMERS
+    label: View Customers
+
+  layout: 
+    sequence: 20
+    region: Customers by Product # 13541332414863279510
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:RP,44,RIR::'
+      page: 44 # Products
+      clear-cache: RP,44,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: CREATE_CUSTOMER =============================
+  id: 13541334621854281250
+  identification: 
+    button-name: CREATE_CUSTOMER
+    label: Create Customer
+
+  layout: 
+    sequence: 30
+    region: Recently Updated Customers # 13541333096324281246
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-plus
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:2:&SESSION.::&DEBUG.:2::'
+      page: 2 # Customer Details
+      clear-cache: 2
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: VIEW_CUSTOMER ===============================
+  id: 13541334968421281250
+  identification: 
+    button-name: VIEW_CUSTOMER
+    label: View Customer
+
+  layout: 
+    sequence: 40
+    region: Recently Updated Customers # 13541333096324281246
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:59:&SESSION.:IR_20424235:&DEBUG.:RP,59,RIR:P59_SORT:NEWFIRST'
+      page: 59 # Customers
+      request: IR_20424235
+      clear-cache: RP,59,RIR
+      values: 
+        p59_sort: NEWFIRST
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: VIEW_GEO ====================================
+  id: 13541336033069285243
+  identification: 
+    button-name: VIEW_GEO
+    label: View Geographies
+
+  layout: 
+    sequence: 10
+    region: Customers by Geography # 1104456587883313244
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: VIEW_UPDATES ================================
+  id: 13541343057789289110
+  identification: 
+    button-name: VIEW_UPDATES
+    label: View Updates
+
+  layout: 
+    sequence: 60
+    region: Customer Updates # 13541341474554289108
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:124:&SESSION.::&DEBUG.:RP,RIR::'
+      page: 124 # Timeline
+      clear-cache: RP,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: VIEW_TAGS ===================================
+  id: 13541344045455290739
+  identification: 
+    button-name: VIEW_TAGS
+    label: View All
+
+  layout: 
+    sequence: 70
+    region: Tags # 13541343699149290737
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:40:&SESSION.::&DEBUG.:RP,40,RIR::'
+      page: 40 # Tags
+      clear-cache: RP,40,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refresh Regions on Change ===========
+  id: 2013618120183979762
+  identification: 
+    name: Refresh Regions on Change
+
+  execution-options: 
+    sequence: 40
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P1_CATEGORY
+    - P1_TYPE
+    - P1_SEARCH
+    - P1_USE_CASE
+    - P1_MARQUEE_CUST
+    - P1_PRODUCT
+    - P1_IMP_PARTNER
+    - P1_GEO
+    - P1_COMPETITOR
+    - P1_REFERENCEABLE
+    - P1_SCP_CUST
+    - P1_REFERENCE_TYPES
+    - P1_COUNTRY
+    - P1_STATUS
+    - P1_INDUSTRY
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618253204979763
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Summary (with References, Products, & Issues) # 14276346978382669514
+
+    execution-options: 
+      sequence: 20
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618304753979764
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Summary (without References) # 13541319774544271808
+
+    execution-options: 
+      sequence: 30
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618457617979765
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Updates # 13541341474554289108
+
+    execution-options: 
+      sequence: 40
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618474742979766
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customers by Category # 1055383668550501288
+
+    execution-options: 
+      sequence: 50
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618644069979767
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customers by Geography # 1104456587883313244
+
+    execution-options: 
+      sequence: 60
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618725145979768
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customers by Industry # 1104457229513313250
+
+    execution-options: 
+      sequence: 70
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618809980979769
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customers by Product # 13541332414863279510
+
+    execution-options: 
+      sequence: 80
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618883772979770
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Recently Updated Customers # 13541333096324281246
+
+    execution-options: 
+      sequence: 90
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013619035615979771
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Summary # 13541336391335287666
+
+    execution-options: 
+      sequence: 100
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013619114633979772
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tags # 13541343699149290737
+
+    execution-options: 
+      sequence: 110
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013620012823979781
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Summary (with References & No Products) # 2013619449486979775
+
+    execution-options: 
+      sequence: 30
+      event: Refresh Regions on Change # 2013618120183979762
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Perform Search on Enter =============
+  id: 2044189431188117843
+  identification: 
+    name: Perform Search on Enter
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.KEYDOWN
+    selection-type: Item(s)
+    item(s): 
+    - P1_SEARCH
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: this.browserEvent.which === 13
+
+  advanced: 
+    event-scope: Static
+
+  server-side-condition: 
+    type: Never
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013617387390979755
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Updates # 13541341474554289108
+
+    execution-options: 
+      sequence: 40
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013617557250979756
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customers by Geography # 1104456587883313244
+
+    execution-options: 
+      sequence: 60
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013617597470979757
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Summary (without References) # 13541319774544271808
+
+    execution-options: 
+      sequence: 30
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013617684293979758
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customers by Category # 1055383668550501288
+
+    execution-options: 
+      sequence: 50
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013617859265979759
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customers by Industry # 1104457229513313250
+
+    execution-options: 
+      sequence: 70
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013617962703979760
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Recently Updated Customers # 13541333096324281246
+
+    execution-options: 
+      sequence: 90
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2013618006605979761
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Tags # 13541343699149290737
+
+    execution-options: 
+      sequence: 110
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2044189774054117850
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Summary (with References, Products, & Issues) # 14276346978382669514
+
+    execution-options: 
+      sequence: 20
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2044190359603117852
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customers by Product # 13541332414863279510
+
+    execution-options: 
+      sequence: 80
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2044190841638117852
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Summary # 13541336391335287666
+
+    execution-options: 
+      sequence: 100
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_CANCEL_EVENT =========================
+    id: 2044191357802117852
+    identification: 
+      action: Cancel Event
+
+    execution-options: 
+      sequence: 120
+      event: Perform Search on Enter # 2044189431188117843
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Toggle Reference Type Checkboxes ====
+  id: 2044192760595147361
+  identification: 
+    name: Toggle Reference Type Checkboxes
+
+  execution-options: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: jQuery Selector
+    jquery-selector: '#reference_check_box'
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: $(this.triggeringElement).text() === "Check All"
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 2044193131945147361
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        $(".reference_types_checkbox input[type=checkbox]").prop('checked',true);
+        $(this.triggeringElement).text('Uncheck All');
+
+    execution-options: 
+      sequence: 10
+      event: Toggle Reference Type Checkboxes # 2044192760595147361
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 2044193652910147362
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        $(".reference_types_checkbox input[type=checkbox]").prop('checked',false);
+        $(this.triggeringElement).text('Check All');
+
+    execution-options: 
+      sequence: 10
+      event: Toggle Reference Type Checkboxes # 2044192760595147361
+      fire-when-event-result-is: False
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2044194083317147362
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#CARDS, #LOGOS, #CUSTOMERS'
+
+    execution-options: 
+      sequence: 20
+      event: Toggle Reference Type Checkboxes # 2044192760595147361
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2044194668329147363
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: jQuery Selector
+      jquery-selector: '#CARDS, #LOGOS, #CUSTOMERS'
+
+    execution-options: 
+      sequence: 30
+      event: Toggle Reference Type Checkboxes # 2044192760595147361
+      fire-when-event-result-is: False
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: LAST_VIEW ==============================
+  id: 17810884323567091896
+  identification: 
+    item-name: LAST_VIEW
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: 1
+
+processes: 
+- # ====== Process: Set Filters for Redirect ===================
+  id: 2013620086982979782
+  identification: 
+    name: Set Filters for Redirect
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      :P1_CATEGORY := :P1_CATEGORY;
+      :P1_GEO := :P1_GEO;
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Reset Pagination ===========================
+  id: 17798794559773218133
+  identification: 
+    name: Reset Pagination
+    type: Reset Pagination
+
+  settings: 
+    target: This Page
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Unable to reset pagination.
+    display-location: On Error Page
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: Go,P1_REPORT_SEARCH,RESET
+
+- # ====== Process: Load Data ==================================
+  id: 17819283955657971321
+  identification: 
+    name: Load Data
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if :REQUEST = 'REPORTS' then 
+          :LAST_VIEW := 20;
+      else
+          :LAST_VIEW := 30 ;
+      end if;
+
+  execution-options: 
+    sequence: 20
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+  server-side-condition: 
+    type: Never
+
+branches: 
+- # ====== Branch: Go To Geographies ===========================
+  id: 2013620185009979783
+  identification: 
+    name: Go To Geographies
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:85:&SESSION.::&DEBUG.:RP:P85_CATEGORY:&P1_CATEGORY.&success_msg=#SUCCESS_MSG#'
+      page: 85 # Geographies
+      clear-cache: RP
+      values: 
+        p85_category: '&P1_CATEGORY.'
+
+  server-side-condition: 
+    when-button-pressed: VIEW_GEO # 13541336033069285243
+
+- # ====== Branch: Go to Categories ============================
+  id: 2013620307440979784
+  identification: 
+    name: Go to Categories
+
+  execution-options: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.:RP:P32_CATEGORY,P32_GEO:&P1_CATEGORY.,&P1_GEO.&success_msg=#SUCCESS_MSG#'
+      page: 32 # Customers by Category
+      clear-cache: RP
+      values: 
+        p32_category: '&P1_CATEGORY.'
+        p32_geo: '&P1_GEO.'
+
+  server-side-condition: 
+    when-button-pressed: VIEW_CATS # 13541321558114275262
+
+- # ====== Branch: Go To Page 1 ================================
+  id: 17798794777514218139
+  identification: 
+    name: Go To Page 1
+
+  execution-options: 
+    sequence: 30
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:1:&SESSION.'
+      page: 1 # Dashboard
+
+    save-state-before-branching: true
+

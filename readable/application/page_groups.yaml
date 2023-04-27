@@ -1,0 +1,61 @@
+---
+- # ====== Page Group: Administration ==========================
+  id: 14718649902724368096
+  identification: 
+    name: Administration
+
+- # ====== Page Group: ACL =====================================
+  id: 14718650004109368475
+  identification: 
+    name: ACL
+
+- # ====== Page Group: Home ====================================
+  id: 14718650105148368830
+  identification: 
+    name: Home
+
+- # ====== Page Group: Help ====================================
+  id: 14718650206533369148
+  identification: 
+    name: Help
+
+- # ====== Page Group: Login ===================================
+  id: 14718650275150369584
+  identification: 
+    name: Login
+
+- # ====== Page Group: Reports =================================
+  id: 14718650376536369951
+  identification: 
+    name: Reports
+
+- # ====== Page Group: Customers ===============================
+  id: 14718650480691371224
+  identification: 
+    name: Customers
+
+- # ====== Page Group: Contacts ================================
+  id: 14718650583115371840
+  identification: 
+    name: Contacts
+
+- # ====== Page Group: Products ================================
+  id: 14718650684154372230
+  identification: 
+    name: Products
+
+- # ====== Page Group: Mobile ==================================
+  id: 14718650991427374285
+  identification: 
+    name: Mobile
+
+- # ====== Page Group: Deprecated ==============================
+  id: 14719988103900339641
+  identification: 
+    name: Deprecated
+
+- # ====== Page Group: Activities ==============================
+  id: 20110470510240044582
+  identification: 
+    name: Activities
+

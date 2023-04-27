@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="33376b39465ad970b34b7de67eab8cbacb1dbe0b" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="AU_EBA_CUST_CUST_COMPETITOR_RE" objectType="TRIGGER" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SAMPLE_CUSTOMERS"."AU_EBA_CUST_CUST_COMPETITOR_RE" 
+    after insert or update or delete on eba_cust_cust_competitor_ref
+    for each row
+declare
+    pragma autonomous_transaction;
+    ov varchar2(4000) := null;
+    nv varchar2(4000) := null;
+begin
+    ov := null; nv := null;
+    for c1 in (select name val from eba_cust_competitors t where t.id = :old.competitor_id) loop
+        ov := c1.val;
+    end loop;
+    for c1 in (select name val from eba_cust_competitors t where t.id = :new.competitor_id) loop
+        nv := c1.val;
+    end loop;
+    insert into eba_cust_history (table_name, component_rowkey, component_id, column_name, old_value, new_value) values
+        ('CUSTOMERS', null, nvl(:new.customer_id,:old.customer_id), 'COMPETITOR_ID', ov, nv);
+    commit;
+end au_eba_cust_cust_competitor_re;
+
+ALTER TRIGGER "SAMPLE_CUSTOMERS"."AU_EBA_CUST_CUST_COMPETITOR_RE" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

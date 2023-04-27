@@ -1,0 +1,651 @@
+---
+# ====== Page: Competitor(s) =================================
+id: 111
+identification: 
+  name: Competitor(s)
+  alias: COMPETITOR-S
+  title: Competitor(s)
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+javascript: 
+  function-and-global-variable-declaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Competitors =================================
+  id: 17747470287871837102
+  identification: 
+    title: Competitors
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Select Competitors ==========================
+  id: 17747470972964837111
+  identification: 
+    title: Select Competitors
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select
+          apex_item.checkbox2(p_idx        => 1,
+                              p_value      => c.id,
+                              p_attributes => case
+                                                  when exists (   select null
+                                                                  from eba_cust_cust_competitor_ref rf
+                                                                  where rf.customer_id = :P111_CUSTOMER_ID
+                                                                      and rf.competitor_id = c.id
+                                                              ) then
+                                                  'CHECKED'
+                                              else
+                                                  null
+                                              end,
+                              p_checked_values => null,
+                              p_item_id    => 'P111_COMPETITOR_IDS',    
+                              p_item_label => 'Select/Unselect' || name ) as competitor_id,
+          c.name,
+          ( select count(*) from eba_cust_cust_competitor_ref rf where rf.competitor_id = c.id ) references
+      from eba_cust_competitors c
+      order by c.name
+    page-items-to-submit: 
+    - P111_CUSTOMER_ID
+
+  layout: 
+    sequence: 20
+    parent-region: Competitors # 17747470287871837102
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--noBorders
+    render-components: Above Content
+
+  advanced: 
+    static-id: competitorsIRR
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: <label for="P111_COMPETITORS_IDS">Select applicable competitors from the report below. Use the search field to find competitors quickly.</label>
+    footer-text: <br>
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 17747471385455837114
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: None
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: false
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 17747572668172837123
+      identification: 
+        name: Primary Report
+        alias: 166920378
+
+    columns: 
+    - # ====== Column: COMPETITOR_ID ===============================
+      id: 17747207027564700185
+      identification: 
+        column-name: COMPETITOR_ID
+        type: Plain Text
+
+      heading: 
+        heading: <input type="checkbox" id="selectUnselectAll" title="Select/Unselect All">
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: NAME ========================================
+      id: 17747571964258837121
+      identification: 
+        column-name: NAME
+        type: Plain Text
+
+      heading: 
+        heading: Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: REFERENCES ==================================
+      id: 17747572276061837122
+      identification: 
+        column-name: REFERENCES
+        type: Plain Text
+
+      heading: 
+        heading: References
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: 999G999G999G999G999G999G990
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: Buttons =====================================
+  id: 17747573215763837129
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P111_REFRESHED ===========================
+  id: 2027592969592060176
+  identification: 
+    name: P111_REFRESHED
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 30
+    region: Competitors # 17747470287871837102
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P111_CUSTOMER_ID =========================
+  id: 17747470699818837108
+  identification: 
+    name: P111_CUSTOMER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Competitors # 17747470287871837102
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 17747573614114837129
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 17747573215763837129
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: UPDATE_COMPETITORS ==========================
+  id: 17747574057801837133
+  identification: 
+    button-name: UPDATE_COMPETITORS
+    label: Update Competitor(s)
+
+  layout: 
+    sequence: 20
+    region: Buttons # 17747573215763837129
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refresh Region ======================
+  id: 2027592771665060174
+  identification: 
+    name: Refresh Region
+
+  execution-options: 
+    sequence: 40
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERREFRESH
+    selection-type: Region
+    region: Select Competitors # 17747470972964837111
+
+  client-side-condition: 
+    type: Item is null
+    item: P111_REFRESHED
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2027592889983060175
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Select Competitors # 17747470972964837111
+
+    execution-options: 
+      sequence: 10
+      event: Refresh Region # 2027592771665060174
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: NATIVE_SET_VALUE ============================
+    id: 2027593159962060177
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: Static Assignment
+      value: Y
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P111_REFRESHED
+
+    execution-options: 
+      sequence: 20
+      event: Refresh Region # 2027592771665060174
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+- # ====== Dynamic Action: cancel dialog =======================
+  id: 17747575244280837140
+  identification: 
+    name: cancel dialog
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 17747573614114837129
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CANCEL ========================
+    id: 17747575724129837142
+    identification: 
+      action: Cancel Dialog
+
+    execution-options: 
+      sequence: 10
+      event: cancel dialog # 17747575244280837140
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Select/Unselect All Products ========
+  id: 17747576117070837142
+  identification: 
+    name: Select/Unselect All Products
+
+  execution-options: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: jQuery Selector
+    jquery-selector: '#selectUnselectAll'
+
+  advanced: 
+    event-scope: Dynamic
+    static-container-(jquery-selector): '#competitorsIRR'
+
+  actions: 
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 17747576620552837143
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        if ( $( '#selectUnselectAll' ).is(':checked') ) {
+          $('input[type=checkbox][name=f01]').attr('checked',true);
+        }
+        else {
+          $('input[type=checkbox][name=f01]').attr('checked',false);
+        }
+
+    execution-options: 
+      sequence: 10
+      event: Select/Unselect All Products # 17747576117070837142
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+processes: 
+- # ====== Process: Close Dialog ===============================
+  id: 17747574374954837138
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Update Competitors =========================
+  id: 17747574831066837139
+  identification: 
+    name: Update Competitors
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      declare
+          l_collection varchar2(30) := 'EBA_COMPETITORS';
+      begin
+          apex_collection.create_or_truncate_collection( l_collection );
+      
+          for i in 1..apex_application.g_f01.count loop
+              apex_collection.add_member( p_collection_name => l_collection,
+                                          p_n001 => to_number( apex_application.g_f01(i) ) );
+          end loop;
+      
+          delete from eba_cust_cust_competitor_ref rf
+          where rf.customer_id = :P111_CUSTOMER_ID
+              and not exists (select null
+                              from apex_collections c
+                              where c.collection_name = l_collection
+                                  and c.n001 = rf.competitor_id
+                              );
+      
+      
+          merge into eba_cust_cust_competitor_ref rf using (
+              select :P111_CUSTOMER_ID customer_id,
+                  c.n001 competitor_id
+              from apex_collections c
+              where c.collection_name = l_collection
+          ) src
+              on ( rf.customer_id = src.customer_id and rf.competitor_id = src.competitor_id )
+          when not matched then
+              insert ( customer_id, competitor_id )
+              values ( src.customer_id, src.competitor_id );
+      
+          apex_collection.delete_collection( l_collection );
+      end;
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+

@@ -1,0 +1,856 @@
+---
+# ====== Page: Maintain Update ===============================
+id: 7
+identification: 
+  name: Maintain Update
+  alias: MAINTAIN-UPDATE
+  title: Maintain Update
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+html-header: 
+  html-header: |
+    <script language="JavaScript" type="text/javascript">
+    <!--
+    
+     htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+    
+    //-->
+    </script>
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Maintain Update =============================
+  id: 16632593175684603644
+  identification: 
+    title: Maintain Update
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Audit Information ===========================
+  id: 16632595783205603652
+  identification: 
+    title: Audit Information
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Maintain Update # 16632593175684603644
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 16632597985994603654
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P7_ID ====================================
+  id: 16632594182282603647
+  identification: 
+    name: P7_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Maintain Update # 16632593175684603644
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P7_NOTE ==================================
+  id: 16632594402776603650
+  identification: 
+    name: P7_NOTE
+    type: Textarea
+
+  label: 
+    label: Note
+    alignment: 'Above '
+
+  settings: 
+    resizable: false
+    auto-height: false
+    character-counter: false
+    trim-spaces: None
+
+  layout: 
+    sequence: 30
+    region: Maintain Update # 16632593175684603644
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required # 14857752276675769898
+    template-options: 
+    - '#DEFAULT#'
+    width: 80
+    height: 5
+
+  validation: 
+    value-required: true
+    maximum-length: 32767
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: NOTE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P7_CONTATCT_ID ===========================
+  id: 16632594884722603650
+  identification: 
+    name: P7_CONTATCT_ID
+    type: Popup LOV
+
+  label: 
+    label: Contact
+    alignment: Right
+
+  settings: 
+    display-as: Modal Dialog
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: false
+
+  layout: 
+    sequence: 50
+    region: Maintain Update # 16632593175684603644
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select name d, id r
+      from   eba_cust_contacts
+      where customer_id = :P7_CUSTOMER_ID
+      order by 1
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CONTACT_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter short description.
+
+- # ====== Page Item: P7_NOTE_DATE =============================
+  id: 16632595375583603650
+  identification: 
+    name: P7_NOTE_DATE
+    type: Date Picker (jQuery) [Deprecated]
+
+  label: 
+    label: Date
+    alignment: Right
+    table-cell-attributes: 
+    - nowrap
+
+  settings: 
+    show: On icon click
+    show-other-months: false
+    navigation-list-for: None
+
+  layout: 
+    sequence: 60
+    region: Maintain Update # 16632593175684603644
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: '&APP_DATE_FORMAT.'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 2000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: NOTE_DATE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "case when :P7_ID is null then 'Y' end;"
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P7_CREATED ===============================
+  id: 16632595984689603652
+  identification: 
+    name: P7_CREATED
+    type: Display Only
+
+  label: 
+    label: '<b>Created On:</b>'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: false
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 70
+    region: Audit Information # 16632595783205603652
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: '&APP_DATE_FORMAT.'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CREATED
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The date on which the Category was created.
+
+- # ====== Page Item: P7_CREATED_BY ============================
+  id: 16632596485277603652
+  identification: 
+    name: P7_CREATED_BY
+    type: Display Only
+
+  label: 
+    label: '<b>Created By:</b>'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: false
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 80
+    region: Audit Information # 16632595783205603652
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CREATED_BY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The User who created this Category.
+
+- # ====== Page Item: P7_UPDATED ===============================
+  id: 16632596998709603654
+  identification: 
+    name: P7_UPDATED
+    type: Display Only
+
+  label: 
+    label: '<b>Updated On:</b>'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: false
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 90
+    region: Audit Information # 16632595783205603652
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: '&APP_DATE_FORMAT.'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: UPDATED
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The date on which the Category details was last Updated.
+
+- # ====== Page Item: P7_UPDATED_BY ============================
+  id: 16632597487033603654
+  identification: 
+    name: P7_UPDATED_BY
+    type: Display Only
+
+  label: 
+    label: '<b>Updated By:</b>'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: false
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 100
+    region: Audit Information # 16632595783205603652
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: UPDATED_BY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The User who last updated the Category Details.
+
+- # ====== Page Item: P7_CUSTOMER_ID ===========================
+  id: 16632600595268644294
+  identification: 
+    name: P7_CUSTOMER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Maintain Update # 16632593175684603644
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CUSTOMER_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P7_SS ====================================
+  id: 16632605783698905894
+  identification: 
+    name: P7_SS
+    type: Stop and Start Grid Layout [Deprecated]
+
+  label: 
+    alignment: Left
+
+  layout: 
+    sequence: 40
+    region: Maintain Update # 16632593175684603644
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: SAVE ========================================
+  id: 16632593386586603646
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Breadcrumb # 16632597985994603654
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P7_ID
+
+- # ====== Button: CANCEL ======================================
+  id: 16632593576445603647
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 16632597985994603654
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:::'
+      page: '&LAST_VIEW.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 16632593991604603647
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Breadcrumb # 16632597985994603654
+    position: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE');"
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P7_ID
+
+processes: 
+- # ====== Process: Fetch Row from EBA_CUST_NOTES ==============
+  id: 16632598689364603663
+  identification: 
+    name: Fetch Row from EBA_CUST_NOTES
+    type: Automatic Row Fetch [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_NOTES
+    primary-key-column-: ID
+    primary-key-item: P7_ID
+
+  execution-options: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Unable to fetch row.
+
+- # ====== Process: Process Row of EBA_CUST_NOTES ==============
+  id: 16632598897318603664
+  identification: 
+    name: Process Row of EBA_CUST_NOTES
+    type: Automatic Row Processing (DML) [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_NOTES
+    primary-key-column-: ID
+    primary-key-item: P7_ID
+    lock-row: true
+    supported-operations: 'I:U:D'
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Action Processed.
+
+  error: 
+    error-message: Unable to process row of table EBA_CUST_CATEGORIES.
+    display-location: On Error Page
+
+- # ====== Process: reset page =================================
+  id: 16632599088268603664
+  identification: 
+    name: reset page
+    type: Clear Session State
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: On Error Page
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 16632593991604603647
+
+- # ====== Process: Load data ==================================
+  id: 16632599291009603665
+  identification: 
+    name: Load data
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if :REQUEST = 'HOME' then
+         :LAST_VIEW := 100 ;
+      elsif :REQUEST = 'CUSTOMER' then
+         :LAST_VIEW := 50 ;
+      else
+         :LAST_VIEW := 47 ;
+      end if;
+
+  execution-options: 
+    sequence: 40
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+branches: 
+- # ====== Branch: Go To Page &LAST_VIEW. ======================
+  id: 16632599604873603666
+  identification: 
+    name: Go To Page &LAST_VIEW.
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: '&LAST_VIEW.'
+
+    save-state-before-branching: true
+

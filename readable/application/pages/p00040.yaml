@@ -1,0 +1,247 @@
+---
+# ====== Page: Tags ==========================================
+id: 40
+identification: 
+  name: Tags
+  alias: TAGS
+  title: Tags
+  page-group: Reports # 14718650376536369951
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+configuration: 
+  build-option: Reports # 14954739582107816435
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 17810896717611595985
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Customers Tag Cloud =========================
+  id: 17810935206288106560
+  identification: 
+    title: Customers Tag Cloud
+    type: Tag Cloud
+
+  source: 
+    sql-query: |
+      select tag, tag_count
+        from eba_cust_tags_type_sum
+       where content_type = 'CUSTOMER'
+         and tag_count > 0
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      link-target: 
+        url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:59,RIR:IRC_TAGS,P59_DISPLAY_AS:#TAG#,REPORT'
+        page: 59 # Customers
+        clear-cache: 59,RIR
+        values: 
+          irc_tags: '#TAG#'
+          p59_display_as: REPORT
+
+      show-count: true
+
+    messages: 
+      when-no-data-found: No tags found.
+
+- # ====== Region: Contacts Tag Cloud ==========================
+  id: 17810935412868108442
+  identification: 
+    title: Contacts Tag Cloud
+    type: Tag Cloud
+
+  source: 
+    sql-query: |
+      select tag, tag_count
+        from eba_cust_tags_type_sum
+       where content_type = 'CONTACT'
+         and tag_count > 0
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      link-target: 
+        url: 'f?p=&APP_ID.:18:&APP_SESSION.::::IRC_TAGS:#TAG#'
+        page: 18 # Contacts
+        values: 
+          irc_tags: '#TAG#'
+
+      show-count: true
+
+    messages: 
+      when-no-data-found: No tags found.
+
+- # ====== Region: Products Tag Cloud ==========================
+  id: 17810935724989111984
+  identification: 
+    title: Products Tag Cloud
+    type: Tag Cloud
+
+  source: 
+    sql-query: |
+      select tag, tag_count
+        from eba_cust_tags_type_sum
+       where content_type = 'PRODUCT'
+         and tag_count > 0
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      link-target: 
+        url: 'f?p=&APP_ID.:44:&APP_SESSION.::::IRC_TAGS:#TAG#'
+        page: 44 # Products
+        values: 
+          irc_tags: '#TAG#'
+
+      show-count: true
+
+    messages: 
+      when-no-data-found: No tags found.
+

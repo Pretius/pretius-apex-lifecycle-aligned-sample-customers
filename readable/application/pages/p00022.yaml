@@ -1,0 +1,421 @@
+---
+# ====== Page: Updates =======================================
+id: 22
+identification: 
+  name: Updates
+  alias: UPDATES
+  title: Updates
+  page-group: Reports # 14718650376536369951
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: This calendar displays Changes to customers by day. Click the <strong><</strong> button to go to the previous month and the <strong>></strong> button to go forward a month. Switch between the calendar view to the list view by clicking the <strong>list</strong> button.
+
+configuration: 
+  build-option: Reports # 14954739582107816435
+
+regions: 
+- # ====== Region: Updates =====================================
+  id: 17793455820606449031
+  identification: 
+    title: Updates
+    type: Calendar
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select distinct a.customer_id
+      ,      a.updated
+      ,      a.customer_name
+      from (select n.customer_id
+            ,      trunc(n.created) updated
+            ,      c.CUSTOMER_NAME
+            from  eba_cust_notes n , eba_cust_customers c
+            where n.customer_id = c.id
+            union all
+            select c.id customer_id
+            ,      trunc(h.change_date) updated
+            ,      c.customer_name
+            from EBA_CUST_HISTORY h, eba_cust_customers c
+            where h.component_id = c.id
+           ) a
+      
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      version: FullCalendar 3 [Deprecated]
+      display-column: CUSTOMER_NAME
+      start-date-column: UPDATED
+      show-time: false
+      supplemental-information: '&DETAIL.'
+      multiple-line-events: true
+      show-tooltip: false
+      additional-calendar-views: 'month:list:navigation'
+      view-/-edit-link: 
+        url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:RP,50:P50_ID:&CUSTOMER_ID.'
+        page: 50 # Customer
+        clear-cache: RP,50
+        values: 
+          p50_id: '&CUSTOMER_ID.'
+
+      maximum-events-/-day: 16
+      show-weekend: true
+
+    performance: 
+      lazy-loading: true
+
+- # ====== Region: Activities ==================================
+  id: 17793456231143449035
+  identification: 
+    title: Activities
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P22_CALENDAR_DATE ========================
+  id: 17793461048246449047
+  identification: 
+    name: P22_CALENDAR_DATE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Updates # 17793455820606449031
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Item
+    item: P22_CALENDAR_DATE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: return to_char(sysdate,'YYYYMMDD');
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  comments: 
+    comments: Generated by Calendar wizard on 18-JUN-07
+
+- # ====== Page Item: P22_CALENDAR_TYPE ========================
+  id: 17793461245916449048
+  identification: 
+    name: P22_CALENDAR_TYPE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Updates # 17793455820606449031
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Item
+    item: P22_CALENDAR_TYPE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: M
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  comments: 
+    comments: Generated by Calendar wizard on 18-JUN-07
+
+processes: 
+- # ====== Process: Reset Pagination ===========================
+  id: 17793461438663449049
+  identification: 
+    name: Reset Pagination
+    type: Reset Pagination
+
+  settings: 
+    target: This Page
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Unable to reset pagination.
+    display-location: On Error Page
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: Go,P22_REPORT_SEARCH
+
+- # ====== Process: Adjust Calendar Date -Monthly ==============
+  id: 17793461624978449050
+  identification: 
+    name: Adjust Calendar Date -Monthly
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: " htmldb_util.month_calendar('P22_CALENDAR_TYPE');"
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Error changing calendar date.
+    display-location: On Error Page
+
+  comments: 
+    comments: Generated 18-JUN-07
+
+- # ====== Process: Adjust Calendar Date -Weekly ===============
+  id: 17793461822703449050
+  identification: 
+    name: Adjust Calendar Date -Weekly
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: " htmldb_util.weekly_calendar('P22_CALENDAR_TYPE');"
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Error changing calendar date.
+    display-location: On Error Page
+
+  comments: 
+    comments: Generated 18-JUN-07
+
+- # ====== Process: Adjust Calendar Date -Daily ================
+  id: 17793462047370449051
+  identification: 
+    name: Adjust Calendar Date -Daily
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: " htmldb_util.daily_calendar('P22_CALENDAR_TYPE');"
+
+  execution-options: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Error changing calendar date.
+    display-location: On Error Page
+
+  comments: 
+    comments: Generated 18-JUN-07
+
+- # ====== Process: Adjust Calendar Date -Previous =============
+  id: 17793462229535449051
+  identification: 
+    name: Adjust Calendar Date -Previous
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ' htmldb_util.decrement_calendar;'
+
+  execution-options: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Error changing calendar date.
+    display-location: On Error Page
+
+  comments: 
+    comments: Generated 18-JUN-07
+
+- # ====== Process: Adjust Calendar Date -Today ================
+  id: 17793462445868449051
+  identification: 
+    name: Adjust Calendar Date -Today
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ' htmldb_util.today_calendar;'
+
+  execution-options: 
+    sequence: 60
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Error changing calendar date.
+    display-location: On Error Page
+
+  comments: 
+    comments: Generated 18-JUN-07
+
+- # ====== Process: Adjust Calendar Date -Next =================
+  id: 17793462622750449051
+  identification: 
+    name: Adjust Calendar Date -Next
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ' htmldb_util.increment_calendar;'
+
+  execution-options: 
+    sequence: 70
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Error changing calendar date.
+    display-location: On Error Page
+
+  comments: 
+    comments: Generated 18-JUN-07
+
+branches: 
+- # ====== Branch: Go To Page 22 ===============================
+  id: 17793463334422449053
+  identification: 
+    name: Go To Page 22
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&FLOW_ID.:22:&SESSION.'
+      app: '&FLOW_ID.'
+      page: 22
+
+    save-state-before-branching: true
+

@@ -1,0 +1,1640 @@
+---
+# ====== Page: Getting Started ===============================
+id: 1000
+identification: 
+  name: Getting Started
+  alias: GETTING-STARTED
+  title: Getting Started
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Minimal (No Navigation) # 15019694662541106517
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |
+    .step-container { max-width: 768px; margin: 1.6rem auto }
+    .step-container .t-HeroRegion:not(.t-HeroRegion--featured) .t-HeroRegion-wrap { padding: 0 }
+    .t-Alert--info .t-Alert-icon { vertical-align: top }
+    .t-Alert--horizontal .t-Alert-title { line-height: 2.8rem }
+    .content-well { background: rgba(0, 0, 0, .05); border-radius: 2px; padding: 1.6rem }
+    .users-table .t-Report-report thead { display: none }
+    .users-table .t-Report-cell { padding: 0.8rem 0; font-size: 1.4rem; line-height: 1.5 }
+    .cta-button {padding: 16px 32px; font-size: 16px;}
+    .t-Card-info {
+      margin-top: 0;
+    }
+    
+    .t-Card-desc {
+      display: none;
+    }
+    
+    .t-Card-title {
+      font-weight: 400;
+    }
+    .apex-item-yes-no {white-space:pre;}
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: Use this items on this page to configure the app.
+
+regions: 
+- # ====== Region: Welcome to &APPLICATION_TITLE. ==============
+  id: 3134808960952028376
+  identification: 
+    title: Welcome to &APPLICATION_TITLE.
+    type: Static Content
+
+  source: 
+    html-code: Please take a moment to complete this first time setup.
+
+  layout: 
+    sequence: 10
+    parent-region: Introduction Wizard # 3134809090885028377
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Hero # 14857731647209769848
+    template-options: 
+    - t-HeroRegion--noPadding
+    render-components: Above Content
+
+  image: 
+    file-url: '#APP_FILES#icons/app-icon-192.png'
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Introduction Wizard =========================
+  id: 3134809090885028377
+  identification: 
+    title: Introduction Wizard
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    css-classes: 
+    - step-container
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('FIRST_RUN') = 'YES'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Access Control ==============================
+  id: 3134809137349028378
+  identification: 
+    title: Access Control
+    type: Static Content
+
+  source: 
+    html-code: <p>Access Control enables you to control the level of access users have to the application.  Your user account is automatically configured as an Administrator.</p>
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 14857719916040769828
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--customIcons
+    - t-Alert--info
+    css-classes: 
+    - step-container
+    icon: fa-number-1
+    render-components: Below Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('FIRST_RUN') = 'YES'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Sample Data =================================
+  id: 3134809281167028379
+  identification: 
+    title: Sample Data
+    type: Static Content
+
+  source: 
+    html-code: Loading Sample Data will enable you to explore the functionality of the app with pre-populated sample data.
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 14857719916040769828
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--customIcons
+    - t-Alert--info
+    css-classes: 
+    - step-container
+    icon: fa-number-3
+    render-components: Below Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('FIRST_RUN') = 'YES'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Application Options =========================
+  id: 3134809398286028380
+  identification: 
+    title: Application Options
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 14857719916040769828
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--customIcons
+    - t-Alert--info
+    css-classes: 
+    - step-container
+    icon: fa-number-4
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    footer-text: <p>Additional options are available, to view and set these navigate to the build option console under administration.</p>
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select null
+        from apex_application_build_options
+       where application_id = :APP_ID
+         and eba_cust_fw.get_preference_value('FIRST_RUN') = 'YES'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Users =======================================
+  id: 3134809937518028386
+  identification: 
+    title: Users
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select
+          apex_util.prepare_url( 'f?p=' || :APP_ID || ':192:' || :APP_SESSION
+                                || '::::P192_USERNAME,P192_ACCESS_LEVEL_ID,P192_SEQUENCE:'
+                                || lower(apex_escape.html(c001)) || ',' || n001 || ',' || seq_id ) as card_link,
+          lower(c001) as username,
+          case n001 
+              when 3 then 'Administrator' 
+              when 2 then 'Contributor' 
+              when 1 then 'Reader'
+              when 0 then 'Pending Approval'
+              when -99 then 'No Access'
+          end as card_subtext,
+          case n001 
+              when 3 then 'fa-user-wrench' 
+              when 2 then 'fa-user-edit' 
+              when 1 then 'fa-user'
+              when 0 then 'fa-user-clock'
+              when -99 then 'fa-user-ban'
+          end as card_icon,
+          case n001 
+              when 3 then 'u-color-15' 
+              when 2 then 'u-color-4' 
+              when 1 then 'u-color-1'
+              when 0 then 'u-color-7'
+              when -99 then 'u-color-9'
+          end as card_color,
+          rownum,
+          lower(c001) card_title,
+          null card_text
+      from
+          apex_collections
+      where
+          collection_name = 'NEW_USERS'
+      order by n001 desc, c001
+
+  layout: 
+    sequence: 10
+    parent-region: Users # 3134812685318028413
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 500
+
+    appearance: 
+      template-type: Theme
+      template: Cards # 15019743609388106675
+      template-options: 
+      - '#DEFAULT#'
+      - t-Cards--compact
+      - t-Cards--displayIcons
+      - t-Cards--4cols
+      - t-Cards--animColorFill
+      css-classes: 
+      - users-table
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: CARD_ICON ===================================
+    id: 1162443811394581218
+    identification: 
+      column-name: CARD_ICON
+      type: Plain Text
+
+    heading: 
+      heading: Card icon
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_TITLE ==================================
+    id: 1162444204542581218
+    identification: 
+      column-name: CARD_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Card title
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_TEXT ===================================
+    id: 1162444594370581219
+    identification: 
+      column-name: CARD_TEXT
+      type: Plain Text
+
+    heading: 
+      heading: Card text
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_SUBTEXT ================================
+    id: 1162445007629581219
+    identification: 
+      column-name: CARD_SUBTEXT
+      type: Plain Text
+
+    heading: 
+      heading: Card subtext
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USERNAME ====================================
+    id: 1162445431027581219
+    identification: 
+      column-name: USERNAME
+      type: Plain Text
+
+    heading: 
+      heading: Username
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    column-formatting: 
+      html-expression: '<a href="#CARD_LINK#" role="button" class="t-Button t-Button--icon t-Button--noUI t-Button--iconLeft"><span aria-hidden="true" class="t-Icon t-Icon--left fa #CARD_ICON#" title="#USERNAME# - #CARD_SUBTEXT#"></span>#USERNAME#</a>'
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ROWNUM ======================================
+    id: 1162445786001581220
+    identification: 
+      column-name: ROWNUM
+      type: Hidden Column
+
+    layout: 
+      sequence: 2
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_LINK ===================================
+    id: 1162446200676581220
+    identification: 
+      column-name: CARD_LINK
+      type: Plain Text
+
+    heading: 
+      heading: Card link
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CARD_COLOR ==================================
+    id: 1358714249586236559
+    identification: 
+      column-name: CARD_COLOR
+      type: Plain Text
+
+    heading: 
+      heading: Card color
+      alignment: center
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: ACL Level ===================================
+  id: 3134811312914028399
+  identification: 
+    title: ACL Level
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Access Control # 3134809137349028378
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Feature Configuration =======================
+  id: 3134811770759028404
+  identification: 
+    title: Feature Configuration
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select 
+          build_option_id ID, 
+          build_option_name build_option, 
+          build_option_status, 
+          apex_item.hidden(p_idx => 1, p_value => build_option_id) ||
+          apex_item.hidden(p_idx => 2, p_value => build_option_status) ||
+          apex_item.switch ( 
+             p_idx => 3,
+             p_value => build_option_status,
+             p_on_value => 'Include',
+             p_on_label => 'Yes',
+             p_off_value => 'Exclude',
+             p_off_label => 'No',
+             p_item_id => 'BO_OPT_' || rownum,
+             p_item_label => apex_escape.html(build_option_name) || ': Is Enabled',
+             p_attributes => 'style="white-space:pre;"') toggle_build_option,
+          component_comment,
+          last_updated_on updated,
+          lower(last_updated_by) updated_by
+      from
+          apex_application_build_options bo
+      where
+          application_id = :APP_ID
+      and
+          build_option_name in ('Competitors', 'Contacts', 'Feedback', 'Geography', 'Partners')
+      order by
+          2 asc
+
+  layout: 
+    sequence: 10
+    parent-region: Application Options # 3134809398286028380
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 500
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 14857742002178769869
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--staticRowColors
+      - t-Report--rowHighlightOff
+      - t-Report--horizontalBorders
+      show-null-values-as: '-'
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ID ==========================================
+    id: 1162449610148581224
+    identification: 
+      column-name: ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 1
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: BUILD_OPTION ================================
+    id: 1162449980013581224
+    identification: 
+      column-name: BUILD_OPTION
+      type: Plain Text
+
+    heading: 
+      heading: Feature
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    column-formatting: 
+      html-expression: |
+        <strong>#BUILD_OPTION#</strong><br>
+        #COMPONENT_COMMENT#
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: BUILD_OPTION_STATUS =========================
+    id: 1162450372089581225
+    identification: 
+      column-name: BUILD_OPTION_STATUS
+      type: Hidden Column
+
+    layout: 
+      sequence: 3
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TOGGLE_BUILD_OPTION =========================
+    id: 1162450804889581225
+    identification: 
+      column-name: TOGGLE_BUILD_OPTION
+      type: Plain Text
+
+    heading: 
+      heading: Enabled
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: false
+
+  - # ====== Column: COMPONENT_COMMENT ===========================
+    id: 1162451183626581225
+    identification: 
+      column-name: COMPONENT_COMMENT
+      type: Hidden Column
+
+    layout: 
+      sequence: 5
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED =====================================
+    id: 1162451635091581226
+    identification: 
+      column-name: UPDATED
+      type: Hidden Column
+
+    layout: 
+      sequence: 6
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED_BY ==================================
+    id: 1162452007469581226
+    identification: 
+      column-name: UPDATED_BY
+      type: Hidden Column
+
+    layout: 
+      sequence: 7
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Users =======================================
+  id: 3134812685318028413
+  identification: 
+    title: Users
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 14857719916040769828
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--customIcons
+    - t-Alert--info
+    css-classes: 
+    - step-container
+    icon: fa-number-2
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('FIRST_RUN') = 'YES'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 3134812765572028414
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noUI
+    css-classes: 
+    - step-container
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: First Time Setup Completed ==================
+  id: 3146140055115287974
+  identification: 
+    title: First Time Setup Completed
+    type: Static Content
+
+  source: 
+    html-code: The first time setup has already been completed for &APPLICATION_TITLE..
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 14857719916040769828
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--info
+    css-classes: 
+    - step-container
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('FIRST_RUN') = 'NO'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P1000_ACL_CONFIG =========================
+  id: 1162442420298581216
+  identification: 
+    name: P1000_ACL_CONFIG
+    type: Radio Group
+
+  label: 
+    label: Access Control Level
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 10
+    region: ACL Level # 3134811312914028399
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACCESS CONTROL SCOPE # 16584323906668020114
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: PUBLIC_READONLY
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1000_USERNAME_FORMAT ====================
+  id: 1162442775793581216
+  identification: 
+    name: P1000_USERNAME_FORMAT
+    type: Radio Group
+
+  label: 
+    label: Username Format
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 20
+    region: ACL Level # 3134811312914028399
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: USERNAME_FORMAT # 14813840982449713139
+    display-extra-values: true
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value ('USERNAME_FORMAT')
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "instr(:APP_USER,'@') > 0"
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1000_LOAD_SAMPLE_YN =====================
+  id: 1162448622133581223
+  identification: 
+    name: P1000_LOAD_SAMPLE_YN
+    type: Radio Group
+
+  label: 
+    label: Load Sample Data
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 10
+    region: Sample Data # 3134809281167028379
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 0
+
+  appearance: 
+    template: Hidden # 14857752070773769895
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:Yes - Load Sample Data;Y,No - Do Not Load Sample Data;N'
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: Y
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: ADD_USER ====================================
+  id: 1162446575830581220
+  identification: 
+    button-name: ADD_USER
+    label: Add User
+
+  layout: 
+    sequence: 10
+    region: Users # 3134809937518028386
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-user-plus
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:192:&SESSION.::&DEBUG.:RP,192::'
+      page: 192 # New User Details
+      clear-cache: RP,192
+
+    warn-on-unsaved-changes: Do Not Check
+
+  advanced: 
+    custom-attributes: 
+    - 'style="margin-top:10px;"'
+
+- # ====== Button: COMPLETE ====================================
+  id: 1162447347367581221
+  identification: 
+    button-name: COMPLETE
+    label: Complete Setup
+
+  layout: 
+    sequence: 10
+    region: Buttons # 3134812765572028414
+    position: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--iconRight
+    css-classes: 
+    - cta-button
+    icon: fa-check-circle
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('FIRST_RUN') = 'YES'
+
+- # ====== Button: OK ==========================================
+  id: 1162452725556581227
+  identification: 
+    button-name: OK
+    label: Continue
+
+  layout: 
+    sequence: 10
+    region: First Time Setup Completed # 3146140055115287974
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:CUSTOMERS:&SESSION.::&DEBUG.:RP::'
+      page: CUSTOMERS
+      clear-cache: RP
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('FIRST_RUN') = 'NO'
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refresh Users Region on Modal Close =
+  id: 1162455078364581229
+  identification: 
+    name: Refresh Users Region on Modal Close
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Button
+    button: 938156220278198978 # 938156220278198978
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 1162455623932581231
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Users # 3134809937518028386
+
+    execution-options: 
+      sequence: 10
+      event: Refresh Users Region on Modal Close # 1162455078364581229
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refresh on edit =====================
+  id: 1162455972756581231
+  identification: 
+    name: Refresh on edit
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Users # 3134809937518028386
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 1162456488724581231
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Users # 3134809937518028386
+
+    execution-options: 
+      sequence: 10
+      event: Refresh on edit # 1162455972756581231
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Create NEW_USERS Collection ================
+  id: 1162453079925581227
+  identification: 
+    name: Create NEW_USERS Collection
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: apex_collection.create_or_truncate_collection(p_collection_name => 'NEW_USERS');
+
+  execution-options: 
+    sequence: 20
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+  server-side-condition: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: return not apex_collection.collection_exists(p_collection_name => 'NEW_USERS');
+
+- # ====== Process: Add Current User to Collection =============
+  id: 1162453552983581228
+  identification: 
+    name: Add Current User to Collection
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      apex_collection.add_member(
+          p_collection_name => 'NEW_USERS',
+          p_c001            => lower(:APP_USER),
+          p_n001            => 3);
+
+  execution-options: 
+    sequence: 30
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: apex_collection.collection_member_count(p_collection_name => 'NEW_USERS') = 0
+
+- # ====== Process: Set Username Format based on current user's 
+  id: 1162453917442581228
+  identification: 
+    name: Set Username Format based on current user's username
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if instr(:APP_USER,'@') > 0 then
+          eba_cust_fw.set_preference_value ('USERNAME_FORMAT','EMAIL');
+      else
+          eba_cust_fw.set_preference_value ('USERNAME_FORMAT','STRING');
+      end if;
+
+  execution-options: 
+    sequence: 40
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Reset User Collection ======================
+  id: 1162454292308581228
+  identification: 
+    name: Reset User Collection
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: apex_collection.truncate_collection(p_collection_name => 'NEW_USERS');
+
+  execution-options: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ":REQUEST = 'CC' and apex_collection.collection_exists(p_collection_name => 'NEW_USERS')"
+
+- # ====== Process: Process Page Data ==========================
+  id: 1162454768937581229
+  identification: 
+    name: Process Page Data
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          -- Enable ACL
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'ACCESS_CONTROL_ENABLED',
+              p_preference_value => 'Y' );
+          
+          -- Set ACL Scope
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'ACCESS_CONTROL_SCOPE',
+              p_preference_value => :P1000_ACL_CONFIG );
+      
+          -- Define Username Preference
+          if instr(:APP_USER,'@') > 0 then
+              eba_cust_fw.set_preference_value (
+                  p_preference_name  => 'USERNAME_FORMAT',
+                  p_preference_value => :P1000_USERNAME_FORMAT );
+          end if;
+          
+          -- Add Users
+          begin
+              insert into eba_cust_users
+              (username, access_level_id, account_locked)
+              select
+                      c001 as username,
+                      n001 as access_level_id,
+                      'N'  as account_locked
+                  from
+                      apex_collections
+                  where
+                      collection_name = 'NEW_USERS'
+                  and
+                      lower(c001) not in (select distinct lower(username) from eba_cust_users);
+          exception
+            when others then
+              null;
+          end;
+      
+          -- Get rid of the collection
+          apex_collection.delete_collection(p_collection_name => 'NEW_USERS');
+      
+          -- Load Sample Data
+          if :P1000_LOAD_SAMPLE_YN = 'Y' then
+              eba_cust_sample_data.create_sample_data();
+          end if;
+      
+          -- Set Build Options
+          for i in 1..apex_application.g_f01.count
+          loop
+              for c1 in ( select application_id, build_option_name, build_option_status
+                          from apex_application_build_options
+                          where apex_application.g_f01(i) = build_option_id
+                             and application_Id = :APP_ID)
+              loop
+                  if c1.build_option_status != apex_application.g_f03(i) then
+                      apex_util.set_build_option_status(  p_application_id => :APP_ID,
+                                                          p_id => apex_application.g_f01(i),
+                                                          p_build_status => upper(apex_application.g_f03(i)) );
+                  end if;
+              end loop;
+          end loop;
+      
+          -- Set First Run to No
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'FIRST_RUN',
+              p_preference_value => 'NO' );
+      end;
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Access Control has been enabled, defined users have been added, and application settings have been successfully updated.
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: COMPLETE # 1162447347367581221
+
+branches: 
+- # ====== Branch: Go To Page HOME =============================
+  id: 1162457023591581232
+  identification: 
+    name: Go To Page HOME
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:CUSTOMERS:&SESSION.::&DEBUG.:RP::&success_msg=#SUCCESS_MSG#'
+      page: CUSTOMERS
+      clear-cache: RP
+
+  server-side-condition: 
+    when-button-pressed: COMPLETE # 1162447347367581221
+

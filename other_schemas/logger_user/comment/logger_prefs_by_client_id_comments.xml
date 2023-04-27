@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="cd1b56a9b8bcdc393cfdfc9c320b95a284c00206" author="(LOGGER_USER)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleComment objectName="LOGGER_PREFS_BY_CLIENT_ID_COMMENTS" objectType="COMMENT" ownerName="LOGGER_USER" sourceType="STRING" replaceIfExists="true" >
+			<n0:source><![CDATA[
+   COMMENT ON COLUMN "LOGGER_USER"."LOGGER_PREFS_BY_CLIENT_ID"."CLIENT_ID" IS 'Client identifier';
+   COMMENT ON COLUMN "LOGGER_USER"."LOGGER_PREFS_BY_CLIENT_ID"."LOGGER_LEVEL" IS 'Logger level. Must be OFF, PERMANENT, ERROR, WARNING, INFORMATION, DEBUG, TIMING';
+   COMMENT ON COLUMN "LOGGER_USER"."LOGGER_PREFS_BY_CLIENT_ID"."INCLUDE_CALL_STACK" IS 'Include call stack in logging';
+   COMMENT ON COLUMN "LOGGER_USER"."LOGGER_PREFS_BY_CLIENT_ID"."CREATED_DATE" IS 'Date that entry was created on';
+   COMMENT ON COLUMN "LOGGER_USER"."LOGGER_PREFS_BY_CLIENT_ID"."EXPIRY_DATE" IS 'After the given expiry date the logger_level will be disabled for the specific client_id. Unless sepcifically removed from this table a job will clean up old entries';
+   COMMENT ON TABLE "LOGGER_USER"."LOGGER_PREFS_BY_CLIENT_ID"  IS 'Client specific logger levels. Only active client_ids/logger_levels will be maintained in this table';]]></n0:source>
+		</n0:createOracleComment>
+	</changeSet>
+</databaseChangeLog>

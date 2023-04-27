@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="9940706324f4fa25ecb70b53302040fb47088b4f" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="EBA_CUST_USERS_BIU" objectType="TRIGGER" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SAMPLE_CUSTOMERS"."EBA_CUST_USERS_BIU" 
+    before insert or update on eba_cust_users
+    for each row
+begin
+    if inserting then
+        if :new.id is null then
+            :new.id := eba_cust.gen_id();
+        end if;
+        :new.created_by         := nvl(v('APP_USER'), USER);
+        :new.created            := current_timestamp;
+        :new.row_version        := 1;
+        if :new.account_locked is null then
+            :new.account_locked := 'N';    
+        end if;
+    end if;
+    if updating then
+            :new.updated_by         := nvl(v('APP_USER'), USER);
+            :new.updated            := current_timestamp;
+            :new.row_version        := nvl(:old.row_version,1) + 1;                                
+    end if;
+    -- Always store username as upper case
+    :new.username := upper(:new.username);
+end;
+
+ALTER TRIGGER "SAMPLE_CUSTOMERS"."EBA_CUST_USERS_BIU" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

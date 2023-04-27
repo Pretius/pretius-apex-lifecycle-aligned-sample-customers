@@ -1,0 +1,816 @@
+---
+# ====== Page: Customer Attachment ===========================
+id: 64
+identification: 
+  name: Customer Attachment
+  alias: CUSTOMER-ATTACHMENT
+  title: Customer Attachment
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+javascript: 
+  function-and-global-variable-declaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Buttons =====================================
+  id: 13525273269276760511
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Customer Attachment =========================
+  id: 16588575406756242220
+  identification: 
+    title: Customer Attachment
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 16588587285898303106
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 1
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P64_CUSTOMER_ID ==========================
+  id: 14720009681759519649
+  identification: 
+    name: P64_CUSTOMER_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Customer Attachment # 16588575406756242220
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CUSTOMER_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Id to uniquely represent the Customer.
+
+- # ====== Page Item: P64_CUSTOMER_COMPANY =====================
+  id: 14720010407626522850
+  identification: 
+    name: P64_CUSTOMER_COMPANY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 12
+    region: Customer Attachment # 16588575406756242220
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: 'select CUSTOMER_NAME from EBA_CUST_CUSTOMERS where id = :P64_CUSTOMER_ID;'
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P64_ID ===================================
+  id: 16588576807401242232
+  identification: 
+    name: P64_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Customer Attachment # 16588575406756242220
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P64_FILE_NAME ============================
+  id: 16588577207422242244
+  identification: 
+    name: P64_FILE_NAME
+    type: Display Only
+
+  label: 
+    label: 'Name:'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 30
+    region: Customer Attachment # 16588575406756242220
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required # 14857752276675769898
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: FILE_NAME
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P64_ID
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter File Name.
+
+- # ====== Page Item: P64_FILE_MIMETYPE ========================
+  id: 16588577375014242244
+  identification: 
+    name: P64_FILE_MIMETYPE
+    type: Display Only
+
+  label: 
+    label: 'Mimetype:'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 40
+    region: Customer Attachment # 16588575406756242220
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: FILE_MIMETYPE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P64_ID
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter MIME Type.
+
+- # ====== Page Item: P64_FILE_BLOB ============================
+  id: 16588577804759242246
+  identification: 
+    name: P64_FILE_BLOB
+    type: File Browse...
+
+  label: 
+    label: File
+    alignment: Left
+
+  settings: 
+    display-as: Inline File Browse
+    storage-type: BLOB column specified in Item Source attribute
+    mime-type-column: FILE_MIMETYPE
+    filename-column: FILE_NAME
+    character-set-column: FILE_CHARSET
+    blob-last-updated-column: FILE_LASTUPD
+    display-download-link: true
+    content-disposition: Attachment
+
+  layout: 
+    sequence: 60
+    region: Customer Attachment # 16588575406756242220
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Above # 15019745550617106695
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    post-text-: <em>Attachments must be under 15M in size.</em>
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: FILE_BLOB
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P64_FILE_COMMENTS ========================
+  id: 16588577984188242246
+  identification: 
+    name: P64_FILE_COMMENTS
+    type: Textarea
+
+  label: 
+    label: Description
+    alignment: Left
+
+  settings: 
+    resizable: false
+    auto-height: false
+    character-counter: false
+    trim-spaces: None
+
+  layout: 
+    sequence: 90
+    region: Customer Attachment # 16588575406756242220
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: FILE_COMMENTS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P64_TAGS =================================
+  id: 16588578205683242246
+  identification: 
+    name: P64_TAGS
+    type: Text Field
+
+  label: 
+    label: Tags
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 70
+    region: Customer Attachment # 16588575406756242220
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TAGS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Never
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Tags.
+
+buttons: 
+- # ====== Button: CREATE ======================================
+  id: 16588575600474242224
+  identification: 
+    button-name: CREATE
+    label: Add Attachment
+
+  layout: 
+    sequence: 10
+    region: Buttons # 13525273269276760511
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P64_ID
+
+- # ====== Button: SAVE ========================================
+  id: 16588575692076242224
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 20
+    region: Buttons # 13525273269276760511
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P64_ID
+
+- # ====== Button: DELETE ======================================
+  id: 16588575791438242224
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 30
+    region: Buttons # 13525273269276760511
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE');"
+    execute-validations: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P64_ID
+
+- # ====== Button: CANCEL ======================================
+  id: 16588575996638242224
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 40
+    region: Buttons # 13525273269276760511
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 13844120763998607683
+  identification: 
+    name: Cancel Dialog
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 16588575996638242224
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CANCEL ========================
+    id: 13844120792668607684
+    identification: 
+      action: Cancel Dialog
+
+    execution-options: 
+      sequence: 10
+      event: Cancel Dialog # 13844120763998607683
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+validations: 
+- # ====== Validation: File must be uploaded on add ============
+  id: 14276347239584669516
+  identification: 
+    name: File must be uploaded on add
+
+  execution-options: 
+    sequence: 10
+
+  validation: 
+    type: Item is NOT NULL
+    item: P64_FILE_BLOB
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# must have some value.'
+    display-location: Inline with Field and in Notification
+    associated-item: P64_FILE_BLOB # 16588577804759242246
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 16588575600474242224
+
+computations: 
+- # ====== Computation: P64_TAGS ===============================
+  id: 14934903096710068256
+  identification: 
+    item-name: P64_TAGS
+
+  execution-options: 
+    sequence: 10
+    point: After Submit
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: 'upper(:P64_TAGS)'
+
+processes: 
+- # ====== Process: Close Dialog ===============================
+  id: 13525273617774760514
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Fetch Row from EBA_CUST_FILES ==============
+  id: 16588579281971242248
+  identification: 
+    name: Fetch Row from EBA_CUST_FILES
+    type: Automatic Row Fetch [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_FILES
+    primary-key-column-: ID
+    primary-key-item: P64_ID
+
+  execution-options: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process Row of EBA_CUST_FILES ==============
+  id: 16588579476492242248
+  identification: 
+    name: Process Row of EBA_CUST_FILES
+    type: Automatic Row Processing (DML) [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_FILES
+    primary-key-column-: ID
+    primary-key-item: P64_ID
+    lock-row: true
+    supported-operations: 'I:U:D'
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Action Processed.
+
+  error: 
+    error-message: '#SQLERRM_TEXT#'
+    display-location: Inline in Notification
+
+- # ====== Process: reset page =================================
+  id: 16588579677474242248
+  identification: 
+    name: reset page
+    type: Clear Session State
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution-options: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 16588575791438242224
+

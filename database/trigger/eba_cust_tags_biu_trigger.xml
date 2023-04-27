@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="9ae80cbed0784794edec24aa0ca42d8d7ed63165" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="EBA_CUST_TAGS_BIU" objectType="TRIGGER" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SAMPLE_CUSTOMERS"."EBA_CUST_TAGS_BIU" 
+   before insert or update on eba_cust_tags
+   for each row
+begin
+    :new.tag := upper(:new.tag);
+    if inserting then
+       if :NEW.TAG_ID is null then
+          select to_number(sys_guid(),'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+            into :new.tag_id
+            from dual;
+       end if;
+       :NEW.CREATED := current_timestamp;
+       :NEW.CREATED_BY := nvl(v('APP_USER'),USER);
+       :NEW.UPDATED := current_timestamp;
+       :NEW.UPDATED_BY := nvl(v('APP_USER'),USER);
+    end if;
+  
+    if updating then
+       :NEW.UPDATED := current_timestamp;
+       :NEW.UPDATED_BY := nvl(v('APP_USER'),USER);
+    end if;
+end;
+
+ALTER TRIGGER "SAMPLE_CUSTOMERS"."EBA_CUST_TAGS_BIU" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

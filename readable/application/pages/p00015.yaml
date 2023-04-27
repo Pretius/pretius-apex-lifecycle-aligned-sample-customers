@@ -1,0 +1,732 @@
+---
+# ====== Page: Search Results ================================
+id: 15
+identification: 
+  name: Search Results
+  alias: SEARCH-RESULTS
+  title: Search Results
+  page-group: Home # 14718650105148368830
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Left Side Column # 14857694771998769797
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+html-header: 
+  html-header: |
+    <style>
+    ul.sSearchResultsReport span.title span.highlight {
+      background-color: #FFEA87;
+      text-decoration: underline
+      }
+    ul.sSearchResultsReport span.highlight {
+      background-color: #FFEA87;
+      }
+    </style>
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Search ======================================
+  id: 16307717682519137048
+  identification: 
+    title: Search
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--hiddenOverflow
+    - t-Form--labelsAbove
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Search ======================================
+  id: 16307719087360137053
+  identification: 
+    title: Search
+    type: PL/SQL Dynamic Content
+
+  source: 
+    pl/sql-code: |
+      declare
+         c pls_integer := 0;
+         l_detail varchar2(4000);
+         i pls_integer;
+         l pls_integer;
+         l_max_rows    integer;
+      begin
+      l_max_rows := nvl(:P15_ROWS,10);
+      if :P15_SEARCH is null
+      and :P15_STATUS is null then
+         sys.htp.p('<p>'||
+             apex_escape.html('Please enter at least one search condition.')||
+             '</p>');
+      else
+        --
+        -- PUT YOUR QUERY HERE
+        --
+        for c1 in (
+      select
+          ROW_KEY,
+          ID,
+          CUSTOMER_NAME,
+          STATUS,
+          CATEGORY,
+          GEOGRAPHY_NAME,
+          REFERENCABLE,
+          NUMBER_OF_USERS,
+          SUMMARY,
+          WEB_SITE,
+          PRODUCT_USES,
+          industry,
+          TAGS,
+          CREATED,
+          CREATED_BY,
+          UPDATED,
+          UPDATED_BY
+      from EBA_CUST_CUSTOMERS_V
+      where  (nvl(:P15_STATUS,0) = 0 or status_id = :P15_STATUS)
+        and (   instr(upper(CUSTOMER_NAME),upper(:P15_SEARCH)) > 0 
+             or instr(upper(CATEGORY),upper(:P15_SEARCH)) > 0 
+             or instr(upper(GEOGRAPHY_NAME),upper(:P15_SEARCH)) > 0 
+             or instr(upper(industry),upper(:P15_SEARCH)) > 0 
+             or instr(upper(SUMMARY),upper(:P15_SEARCH)) > 0
+             or instr(upper(PRODUCT_USES),upper(:P15_SEARCH)) > 0
+             or instr(upper(WEB_SITE),upper(:P15_SEARCH)) > 0
+             or instr(upper(tags),upper(:P15_SEARCH)) > 0
+             or instr(upper(status),upper(:P15_SEARCH)) > 0
+             or :P15_SEARCH is null
+            )
+        ) 
+        loop
+          c := c + 1;
+          if c = 1 then
+             sys.htp.p('<ul class="sSearchResultsReport">');
+          end if;
+          sys.htp.p('<li>');
+          sys.htp.prn('<span class="title">');
+          --
+          -- DEFINE DRILL DOWN LINK HERE
+          --
+          sys.htp.prn('<a href="'|| apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||c1.id)||'">' );
+      
+          --
+          -- ASSIGN PRIMAY ATTRIBUTE HERE, REFERENCE QUERY COLUMN
+          --
+          l_detail := c1.CUSTOMER_NAME;
+          --
+          i := instr(upper(l_detail),upper(:P15_SEARCH));
+          if  i > 0 then
+             l := length(:P15_SEARCH);
+             l_detail := apex_escape.html(substr(l_detail,1,i-1))||
+                '<span class="highlight">'||
+                apex_escape.html(substr(l_detail,i,l))||'</span>'||
+                apex_escape.html(substr(l_detail,i+l));
+          else
+              l_detail := apex_escape.html(l_detail);
+          end if;
+          sys.htp.prn(l_detail);                
+          sys.htp.prn('</a></span><br>');
+          --
+          --
+          sys.htp.prn('<span class="description">');
+          --
+          -- ASSIGN SECONDARY ATTRIBUTE HERE, REFERENCE QUERY COLUMN
+          -- 
+          l_detail := 'Category: ' || c1.CATEGORY;
+          --
+          i := instr(upper(l_detail),upper(:P15_SEARCH));
+          if  i > 0 then
+             l := length(:P15_SEARCH);
+             l_detail := apex_escape.html(substr(l_detail,1,i-1))||
+                '<span class="highlight">'||
+                apex_escape.html(substr(l_detail,i,l))||'</span>'||
+                apex_escape.html(substr(l_detail,i+l));
+          else
+              l_detail := apex_escape.html(l_detail);
+          end if;
+          sys.htp.prn(l_detail);
+          sys.htp.prn('</span>');
+          --
+          -- DEFINE ADDITIONAL QUERY COLUMNS FOR SEARCH BELOW
+          --
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Geography: ');
+          sys.htp.prn(apex_escape.html(c1.GEOGRAPHY_NAME));
+          sys.htp.prn('</span>');
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Industry: ');
+          sys.htp.prn(apex_escape.html(c1.industry));
+          sys.htp.prn('</span>');
+          --
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Status: ');
+          sys.htp.prn(apex_escape.html(c1.status));
+          sys.htp.prn('</span>');
+          --
+          if c1.SUMMARY is not null then
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Summary: ');
+          sys.htp.prn(apex_escape.html(substr(c1.SUMMARY,1,300)));
+          sys.htp.prn('</span>');
+          end if;
+          --
+          if c1.PRODUCT_USES is not null then
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Products: ');
+          sys.htp.prn(apex_escape.html(c1.PRODUCT_USES));
+          sys.htp.prn('</span>');
+          end if;
+          
+          --
+          if c1.tags is not null then
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Tags: ');
+          sys.htp.prn(apex_escape.html(c1.tags));
+          sys.htp.prn('</span>');
+          end if;
+          --
+          if c1.WEB_SITE is not null then
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Web Site: ');
+          sys.htp.prn(apex_escape.html(c1.WEB_SITE));
+          sys.htp.prn('</span>');
+          end if;
+          --
+          sys.htp.prn('</li>');
+          if c = l_max_rows then
+             exit;
+          end if;
+      
+        end loop;
+        if c > 0 then 
+          sys.htp.p('</ul>');
+          sys.htp.p('<span class="infoTextRegion"><p>'||c||' customer(s) found.</p></span>');
+        else 
+          sys.htp.p('<span class="infoTextRegion"><p>No customers found.</p></span>');
+        end if;
+      end if;
+      end;
+      
+      declare
+         c pls_integer := 0;
+         l_detail varchar2(4000);
+         i pls_integer;
+         l pls_integer;
+         l_max_rows    integer;
+      begin
+      l_max_rows := nvl(:P15_ROWS,100);
+      if :P15_SEARCH is not null then
+        --
+        -- PUT YOUR QUERY HERE
+        --
+        for c1 in (
+      select 
+      "ID",
+      customer_id,
+      "NAME",
+      "TITLE",
+      "PHONE",
+      "EMAIL",
+      tags,
+      "COMPANY",
+      (select contact_type from eba_cust_contact_types t where t.id = a.contact_type_id) "CONTACT_TYPE",
+      "CITY",
+      "STATE",
+      "COUNTRY",
+      A."CREATED",
+      A."CREATED_BY",
+      A."UPDATED",
+      A."UPDATED_BY",
+      (select customer_name from eba_cust_customers c where c.id = a.customer_id) customer_name
+       from   "EBA_CUST_CONTACTS" A  
+      where instr(upper(NAME),upper(:P15_SEARCH)) > 0 
+             or instr(upper(TITLE),upper(:P15_SEARCH)) > 0 
+             or instr(upper(PHONE),upper(:P15_SEARCH)) > 0
+             or instr(upper(EMAIL),upper(:P15_SEARCH)) > 0
+             or instr(upper(tags),upper(:P15_SEARCH)) > 0
+             or instr(upper(tags),upper(:P15_SEARCH)) > 0
+             or instr(upper(COMPANY),upper(:P15_SEARCH)) > 0
+             or :P15_SEARCH is null
+            )
+      
+        loop
+          c := c + 1;
+          if c = 1 then
+             sys.htp.p('<ul class="sSearchResultsReport">');
+          end if;
+          sys.htp.p('<li>');
+          sys.htp.prn('<span class="title">');
+          --
+          -- DEFINE DRILL DOWN LINK HERE
+          --
+          sys.htp.prn('<a href="'|| apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||c1.id)||'">' );
+      
+          --
+          -- ASSIGN PRIMAY ATTRIBUTE HERE, REFERENCE QUERY COLUMN
+          --
+          l_detail := c1.NAME;
+          --
+          i := instr(upper(l_detail),upper(:P15_SEARCH));
+          if  i > 0 then
+             l := length(:P15_SEARCH);
+             l_detail := apex_escape.html(substr(l_detail,1,i-1))||
+                '<span class="highlight">'||
+                apex_escape.html(substr(l_detail,i,l))||'</span>'||
+                apex_escape.html(substr(l_detail,i+l));
+          else
+              l_detail := apex_escape.html(l_detail);
+          end if;
+          sys.htp.prn(l_detail);                
+          sys.htp.prn('</a></span>');
+          --
+          --
+          sys.htp.prn('<span class="description">');
+          --
+          -- ASSIGN SECONDARY ATTRIBUTE HERE, REFERENCE QUERY COLUMN
+          -- 
+          l_detail := c1.COMPANY;
+          --
+          i := instr(upper(l_detail),upper(:P15_SEARCH));
+          if  i > 0 then
+             l := length(:P15_SEARCH);
+             l_detail := apex_escape.html(substr(l_detail,1,i-1))||
+                '<span class="highlight">'||
+                apex_escape.html(substr(l_detail,i,l))||'</span>'||
+                apex_escape.html(substr(l_detail,i+l));
+          else
+              l_detail := apex_escape.html(l_detail);
+          end if;
+          sys.htp.prn(l_detail);
+          sys.htp.prn('</span>');
+          --
+          -- DEFINE ADDITIONAL QUERY COLUMNS FOR SEARCH BELOW
+          --
+          sys.htp.p('<span class="type">');
+          sys.htp.prn('Email: ');
+          sys.htp.prn(apex_escape.html(c1.email));
+          sys.htp.prn('</span>');
+          --
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Title: ');
+          sys.htp.prn(apex_escape.html(c1.TITLE));
+          sys.htp.prn('</span>');
+          --
+          if c1.phone is not null then
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Phone: ');
+          sys.htp.prn(apex_escape.html(c1.phone));
+          sys.htp.prn('</span>');
+          end if;
+          --
+          if c1.tags is not null then
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Tags: ');
+          sys.htp.prn(apex_escape.html(c1.tags));
+          sys.htp.prn('</span>');
+          end if;
+          --
+          if c1.contact_type is not null then
+          sys.htp.p('<br /><span class="type">');
+          sys.htp.prn('Contact Type: ');
+          sys.htp.prn(apex_escape.html(c1.contact_type));
+          sys.htp.prn('</span>');
+          end if;
+          --
+          sys.htp.prn('</li>');
+          if c = l_max_rows then
+             exit;
+          end if;
+      
+        end loop;
+        if c > 0 then 
+          sys.htp.p('</ul>');
+          sys.htp.p('<span class="infoTextRegion"><p>'||c||' contact(s) found.</p></span>');
+        else 
+          sys.htp.p('<span class="infoTextRegion"><p>No contacts found.</p></span>');
+        end if;
+      end if;
+      end;
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+- # ====== Region: Breadcrumb ==================================
+  id: 16307719292817137054
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P15_ROWS =================================
+  id: 16307718304269137050
+  identification: 
+    name: P15_ROWS
+    type: Select List
+
+  label: 
+    label: Results
+    alignment: 'Above '
+
+  settings: 
+    page-action-on-selection: Submit Page
+    execute-validations: true
+
+  layout: 
+    sequence: 40
+    region: Search # 16307717682519137048
+    position: BODY
+    alignment: Left center
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ROWS # 16307719990611137060
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Static Value
+    static-value: 100
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 100
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+- # ====== Page Item: P15_SEARCH ===============================
+  id: 16307718681100137052
+  identification: 
+    name: P15_SEARCH
+    type: Text Field
+
+  label: 
+    label: Search
+    alignment: 'Above '
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: true
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Search # 16307717682519137048
+    position: BODY
+    alignment: Left center
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Hidden # 14857752070773769895
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--large
+    icon: fa-search
+    width: 64
+    value-placeholder: Search
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Static Value
+    static-value: '&P100_SEARCH.'
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+- # ====== Page Item: P15_STATUS ===============================
+  id: 16307718901658137052
+  identification: 
+    name: P15_STATUS
+    type: Select List
+
+  label: 
+    label: Status
+    alignment: 'Above '
+
+  settings: 
+    page-action-on-selection: Submit Page
+    execute-validations: true
+
+  layout: 
+    sequence: 30
+    region: Search # 16307717682519137048
+    position: BODY
+    alignment: Left center
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: STATUSES # 17798811479214730289
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- All Status Codes -'
+    null-return-value: 0
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+buttons: 
+- # ====== Button: SEARCH ======================================
+  id: 16307717902710137048
+  identification: 
+    button-name: SEARCH
+    label: Search
+
+  layout: 
+    sequence: 20
+    region: Breadcrumb # 16307719292817137054
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RESET_REPORT ================================
+  id: 16307718078712137050
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 16307719292817137054
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:15:&SESSION.::&DEBUG.:2,1,15::'
+      page: 15 # Search Results
+      clear-cache: 2,1,15
+
+    warn-on-unsaved-changes: Do Not Check
+
+branches: 
+- # ====== Branch: Go To Page 15 ===============================
+  id: 16307719903944137058
+  identification: 
+    name: Go To Page 15
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:15:&SESSION.::&DEBUG.:::'
+      page: 15 # Search Results
+
+  comments: 
+    comments: 'Created 14-DEC-2011 09:16 by SHAKEEB'
+

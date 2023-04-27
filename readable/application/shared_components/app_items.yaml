@@ -1,0 +1,297 @@
+---
+- # ====== Application Item: APPLICATION_TITLE =================
+  id: 14735806103726808411
+  identification: 
+    name: APPLICATION_TITLE
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: CUSTOMERS =========================
+  id: 14858111581309186805
+  identification: 
+    name: CUSTOMERS
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: PRODUCTS ==========================
+  id: 14858113317137246032
+  identification: 
+    name: PRODUCTS
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CONTACTS ==========================
+  id: 14858113577324251467
+  identification: 
+    name: CONTACTS
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CUSTOMER ==========================
+  id: 14858177180742629105
+  identification: 
+    name: CUSTOMER
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_01 ============================
+  id: 14953720875308592403
+  identification: 
+    name: CNT_01
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_02 ============================
+  id: 14953721105920593381
+  identification: 
+    name: CNT_02
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_03 ============================
+  id: 14953721303979594218
+  identification: 
+    name: CNT_03
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_04 ============================
+  id: 14953742300126355764
+  identification: 
+    name: CNT_04
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_05 ============================
+  id: 14953742499048356287
+  identification: 
+    name: CNT_05
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_06 ============================
+  id: 14953742697754356852
+  identification: 
+    name: CNT_06
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_07 ============================
+  id: 14953742896460357456
+  identification: 
+    name: CNT_07
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_08 ============================
+  id: 14953743095381357975
+  identification: 
+    name: CNT_08
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: TZ ================================
+  id: 14953743294303358433
+  identification: 
+    name: TZ
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CNT_09 ============================
+  id: 14953761103027764676
+  identification: 
+    name: CNT_09
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: GET_ID ============================
+  id: 15029728911402208522
+  identification: 
+    name: GET_ID
+    scope: Application
+
+  security: 
+    session-state-protection: Unrestricted
+    escape-special-characters: false
+
+  comments: 
+    comments: This is a generic item used to fetch things via ajax. Used for fetching image for customer Logos.
+
+- # ====== Application Item: CNT_10 ============================
+  id: 17000420990972327565
+  identification: 
+    name: CNT_10
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: CUSTOMER_TYPE_HELP ================
+  id: 17000430654446290279
+  identification: 
+    name: CUSTOMER_TYPE_HELP
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: CUSTOMER_USE_CASE_HELP ============
+  id: 17125133671584839641
+  identification: 
+    name: CUSTOMER_USE_CASE_HELP
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+- # ====== Application Item: RETURN_URL ========================
+  id: 17794722896500740975
+  identification: 
+    name: RETURN_URL
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: LAST_VIEW =========================
+  id: 17819281461974954184
+  identification: 
+    name: LAST_VIEW
+    scope: Application
+
+  security: 
+    session-state-protection: Unrestricted
+    escape-special-characters: false
+
+- # ====== Application Item: CREATE_MSG ========================
+  id: 17831400937569379189
+  identification: 
+    name: CREATE_MSG
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: UNLINK_CONFIRM_MSG ================
+  id: 17833527060990440611
+  identification: 
+    name: UNLINK_CONFIRM_MSG
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: ACTIVE_MSG ========================
+  id: 17834258343828229780
+  identification: 
+    name: ACTIVE_MSG
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: INACTIVE_MSG ======================
+  id: 17834258849369231405
+  identification: 
+    name: INACTIVE_MSG
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: CATEGORY_HELP =====================
+  id: 17834284045971410112
+  identification: 
+    name: CATEGORY_HELP
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: CUSTOMER_STATUS_HELP ==============
+  id: 17834284451166411659
+  identification: 
+    name: CUSTOMER_STATUS_HELP
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: CONTACT_TYPES_HELP ================
+  id: 17834284858092413688
+  identification: 
+    name: CONTACT_TYPES_HELP
+    scope: Application
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    escape-special-characters: false
+
+- # ====== Application Item: ACTIVITIES ========================
+  id: 18144242067405880898
+  identification: 
+    name: ACTIVITIES
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: false
+
+  configuration: 
+    build-option: Activities # 18137428917441624781
+

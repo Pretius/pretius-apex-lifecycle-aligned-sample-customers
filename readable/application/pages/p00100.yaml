@@ -1,0 +1,902 @@
+---
+# ====== Page: Referenceability ==============================
+id: 100
+identification: 
+  name: Referenceability
+  alias: REFERENCEABILITY2
+  title: Referenceability
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+configuration: 
+  build-option: Product Referencability # 14286883625103355158
+
+regions: 
+- # ====== Region: by Asset Commitment =========================
+  id: 483926141774074060
+  identification: 
+    title: by Asset Commitment
+    type: Chart
+
+  source: 
+    page-items-to-submit: 
+    - P100_CATEGORY
+    - P100_GEO
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 483926227635074061
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: false
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: None
+      on-data-change: None
+
+    tooltip: 
+      show: true
+      show-series-name: false
+      show-group-name: false
+      show-value: true
+
+    legend: 
+      show: true
+      position: Top
+      hide-and-show-behavior: None
+
+    series: 
+    - # ====== Series: Geography ===================================
+      id: 483926359597074062
+      identification: 
+        name: Geography
+
+      execution-options: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select ID,
+              reference_TYPE group_name,
+              (   select count(distinct(pu.customer_id))
+                  from eba_cust_product_uses pu
+                  where ':'||pu.reference_type_ids||':' like '%:'||t.id||':%'
+              ) cnt
+          from eba_cust_reference_TYPES t
+          order by 2 desc
+
+      column-mapping: 
+        series-name: GROUP_NAME
+        label: GROUP_NAME
+        value: CNT
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:122:&SESSION.::&DEBUG.:RP,122,RIR:IR_REFERENCE_TYPE:&GROUP_NAME.'
+          page: 122 # Referenceability Report
+          clear-cache: RP,122,RIR
+          values: 
+            ir_reference_type: '&GROUP_NAME.'
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 483926423219074063
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 483926531668074064
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: by Phase ====================================
+  id: 483926588938074065
+  identification: 
+    title: by Phase
+    type: Chart
+
+  source: 
+    page-items-to-submit: 
+    - P100_CATEGORY
+    - P100_GEO
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    css-classes: 
+    - scrollable-region
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 483926675897074066
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: false
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: None
+      on-data-change: None
+
+    tooltip: 
+      show: true
+      show-series-name: false
+      show-group-name: false
+      show-value: true
+
+    legend: 
+      show: true
+      position: Top
+      hide-and-show-behavior: None
+
+    series: 
+    - # ====== Series: Geography ===================================
+      id: 483926814414074067
+      identification: 
+        name: Geography
+
+      execution-options: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select id,
+              status group_name,
+              (   select count(distinct(pu.customer_id))
+                  from eba_cust_product_uses pu
+                  where pu.reference_status_id = t.id
+              ) cnt
+          from eba_cust_product_statuses t
+          order by status
+
+      column-mapping: 
+        series-name: GROUP_NAME
+        label: GROUP_NAME
+        value: CNT
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 483926911444074068
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 483927005519074069
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: Product Summary =============================
+  id: 20245435778642758538
+  identification: 
+    title: Product Summary
+    type: Badge List
+
+  source: 
+    sql-query: |
+      select label, nvl(to_number(value,'999G999G990'),0) value, url from (
+      with data as (
+          select count(*) total,
+              count( distinct product_family_id ) families
+          from eba_cust_products p
+      --    where (NVL(:P100_CATEGORY,0) = 0 or CATEGORY_ID = :P100_CATEGORY) and
+      --          (NVL(:P100_GEO,0) = 0 or :P100_GEO = c.geography_id)
+      ), rws as (
+          select level r from dual connect by level < 4
+      )
+      select rws.r display_order,
+          decode(rws.r, 1, 'Products Tracked',    2, 'Product Families',    3, 'Referenceable')  label,
+          decode(rws.r, 1, data.total, 2, data.families, 3, ( select count(*)
+                                                              from eba_cust_product_uses pu
+                                                              where pu.reference_type_ids is not null ) ) value,
+          decode(rws.r, 1, 'f?p='||:APP_ID||':44:'||:APP_SESSION||':::44,RIR:',
+                        2, 'f?p='||:APP_ID||':44:'||:APP_SESSION||':::44,RIR:',
+                        3, 'f?p='||:APP_ID||':59:'||:APP_SESSION||':::44,RIR:') url
+      from data, rws
+      union all
+      select 4 display_order,
+      	'Customers' label,
+      	count(*) value,
+      	'f?p='||:APP_ID||':59:'||:APP_SESSION||':::59,RIR:' url
+      from eba_cust_customers
+      )
+      order by display_order
+    page-items-to-submit: 
+    - P100_CATEGORY
+    - P100_GEO
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      badge-style: Default
+      value: VALUE
+      bottom-label: LABEL
+      link-target: '&URL.'
+      layout: 4 columns
+      color: No
+
+- # ====== Region: Button Bar ==================================
+  id: 20245436096909758547
+  identification: 
+    title: Button Bar
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noPadding
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Region Display Selector =====================
+  id: 20245437355554758550
+  identification: 
+    title: Region Display Selector
+    type: Region Display Selector
+
+  layout: 
+    sequence: 25
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    render-components: Above Content
+
+  advanced: 
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      include-'show-all': true
+      remember-last-selection: true
+
+- # ====== Region: by Internal Contact =========================
+  id: 20245438479571758553
+  identification: 
+    title: by Internal Contact
+    type: HTML 5 Bar Chart
+
+  source: 
+    sql-query: |
+      select internal_contact,
+          count(*) customers
+      from eba_cust_product_uses
+      where internal_contact is not null
+      group by internal_contact
+      order by lower(internal_contact)
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      label-column: INTERNAL_CONTACT
+      value-column: CUSTOMERS
+      label-link-target: 
+        url: 'f?p=&APP_ID.:122:&SESSION.::&DEBUG.:RP,RIR,122:IREQ_REF_RECRUITMENT_OWNER:&INTERNAL_CONTACT.'
+        page: 122 # Referenceability Report
+        clear-cache: RP,RIR,122
+        values: 
+          ireq_ref_recruitment_owner: '&INTERNAL_CONTACT.'
+
+      value-link-target: 
+        url: 'f?p=&APP_ID.:122:&SESSION.::&DEBUG.:RP,RIR,122:IREQ_REF_RECRUITMENT_OWNER:&INTERNAL_CONTACT.'
+        page: 122 # Referenceability Report
+        clear-cache: RP,RIR,122
+        values: 
+          ireq_ref_recruitment_owner: '&INTERNAL_CONTACT.'
+
+      value-display: Value
+      bar-width-calculation: Absolute
+      display-type: Text Chart
+      text-position: Inline
+      color-scheme: Theme Colors
+      maximum-rows: 50
+      message-when-no-data-found: No data found.
+
+- # ====== Region: Breadcrumb ==================================
+  id: 20245438914518758554
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P100_CATEGORY ============================
+  id: 20245436495401758547
+  identification: 
+    name: P100_CATEGORY
+    type: Select List
+
+  label: 
+    label: Category
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 10
+    region: Button Bar # 20245436096909758547
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: CAT # 14863259161685067135
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- All -'
+    null-return-value: 0
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Static Value
+    static-value: 0
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 0
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P100_GEO =================================
+  id: 20245436911366758550
+  identification: 
+    name: P100_GEO
+    type: Select List
+
+  label: 
+    label: Geography
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 20
+    region: Button Bar # 20245436096909758547
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: GEOGRAPHY # 14863255921778046444
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- All - '
+    null-return-value: 0
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: RESET_REPORT ================================
+  id: 20245439294008758554
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 1000
+    region: Breadcrumb # 20245438914518758554
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&APP_PAGE_ID.:&SESSION.::&DEBUG.:RP,&APP_PAGE_ID.,RIR::'
+      page: '&APP_PAGE_ID.'
+      clear-cache: RP,&APP_PAGE_ID.,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: geo =================================
+  id: 20245440031148758560
+  identification: 
+    name: geo
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P100_GEO
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 20245441518725758564
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: by Internal Contact # 20245438479571758553
+
+    execution-options: 
+      sequence: 30
+      event: geo # 20245440031148758560
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 20245442006579758565
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Product Summary # 20245435778642758538
+
+    execution-options: 
+      sequence: 40
+      event: geo # 20245440031148758560
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: cat =================================
+  id: 20245442369438758565
+  identification: 
+    name: cat
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P100_CATEGORY
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 20245443933748758566
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: by Internal Contact # 20245438479571758553
+
+    execution-options: 
+      sequence: 30
+      event: cat # 20245442369438758565
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 20245444407748758566
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Product Summary # 20245435778642758538
+
+    execution-options: 
+      sequence: 40
+      event: cat # 20245442369438758565
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

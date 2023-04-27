@@ -1,0 +1,3670 @@
+---
+# ====== Page: Data Load Results =============================
+id: 128
+identification: 
+  name: Data Load Results
+  alias: DATA-LOAD-RESULTS2
+  title: Data Load Results
+  page-group: Administration # 14718649902724368096
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 18133547034679778431
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Data Load Process Train =====================
+  id: 18133547667115778432
+  identification: 
+    title: Data Load Process Train
+    type: List
+
+  source: 
+    list: Data Load Process Train - Customers # 18133484926490775577
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Wizard Container # 14857738569295769861
+    template-options: 
+    - '#DEFAULT#'
+    - t-Wizard--hideStepsXSmall
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress # 14857751378983769894
+
+- # ====== Region: Data Load Results ===========================
+  id: 18133548013293778432
+  identification: 
+    title: Data Load Results
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Data Load Process Train # 18133547667115778432
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    render-components: Above Content
+
+  advanced: 
+    custom-attributes: 
+    - 'style="width:100%;max-width:none;"'
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: Failed Records ==============================
+  id: 18133550827387778435
+  identification: 
+    title: Failed Records
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select n001 as row_num,
+             c049 as action,
+             c048 as error,
+             c001, c002, c003,
+             c004, c005, c006,
+             c007, c008, c009,
+             c010, c011, c012,
+             c013, c014, c015,
+             c016, c017, c018,
+             c019, c020, c021,
+             c022, c023, c024,
+             c025, c026, c027,
+             c028, c029, c030,
+             c031, c032, c033,
+             c034, c035, c036,
+             c037, c038, c040,
+             c041, c042, c043,
+             c044, c045
+        from apex_collections
+       where collection_name = 'LOAD_CONTENT'
+         and c047 in ('FAILED') 
+       order by seq_id
+
+  layout: 
+    sequence: 20
+    parent-region: Data Load Process Train # 18133547667115778432
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-expanded
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    custom-attributes: 
+    - 'style="width:100%;max-width:none;"'
+    - null
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL and NOT zero
+    item: P128_ERROR_COUNT
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Predefined
+      template: HTML (standard)
+
+    pagination: 
+      type: Row Ranges 1-15 16-30 in select list (with pagination)
+      display-position: Bottom - Right
+      partial-page-refresh: false
+
+    performance: 
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: PL/SQL Function Body
+      pl/sql-function-body: |
+        declare  
+            l_string varchar(32667);
+        begin
+            l_string := wwv_flow_lang.system_message('DATA_LOAD.SEQUENCE_ACTION');
+            l_string := l_string ||':'|| wwv_flow_lang.system_message('ERROR');
+            for l_heading in ( select c005 as label
+                                 from apex_collections
+                                where collection_name = 'LOAD_COL_HEAD'
+                                order by seq_id )
+            loop
+                l_string := l_string || ':' || apex_escape.html(l_heading.label);
+            end loop;
+            return l_string;
+        end;
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ROW_NUM =====================================
+    id: 18133551499869778439
+    identification: 
+      column-name: ROW_NUM
+      type: Plain Text
+
+    heading: 
+      heading: ROW_NUM
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTION ======================================
+    id: 18133551925930778439
+    identification: 
+      column-name: ACTION
+      type: Plain Text
+
+    heading: 
+      heading: ACTION
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ERROR =======================================
+    id: 18133552274539778439
+    identification: 
+      column-name: ERROR
+      type: Plain Text
+
+    heading: 
+      heading: ERROR
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C001 ========================================
+    id: 18133552691207778440
+    identification: 
+      column-name: C001
+      type: Plain Text
+
+    heading: 
+      heading: C001
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C002 ========================================
+    id: 18133553128975778440
+    identification: 
+      column-name: C002
+      type: Plain Text
+
+    heading: 
+      heading: C002
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C003 ========================================
+    id: 18133553549603778440
+    identification: 
+      column-name: C003
+      type: Plain Text
+
+    heading: 
+      heading: C003
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C004 ========================================
+    id: 18133553902454778441
+    identification: 
+      column-name: C004
+      type: Plain Text
+
+    heading: 
+      heading: C004
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C005 ========================================
+    id: 18133554335963778441
+    identification: 
+      column-name: C005
+      type: Plain Text
+
+    heading: 
+      heading: C005
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C006 ========================================
+    id: 18133554710807778441
+    identification: 
+      column-name: C006
+      type: Plain Text
+
+    heading: 
+      heading: C006
+      alignment: start
+
+    layout: 
+      sequence: 9
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C007 ========================================
+    id: 18133555134793778442
+    identification: 
+      column-name: C007
+      type: Plain Text
+
+    heading: 
+      heading: C007
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C008 ========================================
+    id: 18133555487313778442
+    identification: 
+      column-name: C008
+      type: Plain Text
+
+    heading: 
+      heading: C008
+      alignment: start
+
+    layout: 
+      sequence: 11
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C009 ========================================
+    id: 18133555900454778442
+    identification: 
+      column-name: C009
+      type: Plain Text
+
+    heading: 
+      heading: C009
+      alignment: start
+
+    layout: 
+      sequence: 12
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C010 ========================================
+    id: 18133556352690778443
+    identification: 
+      column-name: C010
+      type: Plain Text
+
+    heading: 
+      heading: C010
+      alignment: start
+
+    layout: 
+      sequence: 13
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C011 ========================================
+    id: 18133556673372778443
+    identification: 
+      column-name: C011
+      type: Plain Text
+
+    heading: 
+      heading: C011
+      alignment: start
+
+    layout: 
+      sequence: 14
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C012 ========================================
+    id: 18133557099673778443
+    identification: 
+      column-name: C012
+      type: Plain Text
+
+    heading: 
+      heading: C012
+      alignment: start
+
+    layout: 
+      sequence: 15
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C013 ========================================
+    id: 18133557540606778444
+    identification: 
+      column-name: C013
+      type: Plain Text
+
+    heading: 
+      heading: C013
+      alignment: start
+
+    layout: 
+      sequence: 16
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C014 ========================================
+    id: 18133557902825778444
+    identification: 
+      column-name: C014
+      type: Plain Text
+
+    heading: 
+      heading: C014
+      alignment: start
+
+    layout: 
+      sequence: 17
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C015 ========================================
+    id: 18133558365623778445
+    identification: 
+      column-name: C015
+      type: Plain Text
+
+    heading: 
+      heading: C015
+      alignment: start
+
+    layout: 
+      sequence: 18
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C016 ========================================
+    id: 18133558683088778445
+    identification: 
+      column-name: C016
+      type: Plain Text
+
+    heading: 
+      heading: C016
+      alignment: start
+
+    layout: 
+      sequence: 19
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C017 ========================================
+    id: 18133559114196778445
+    identification: 
+      column-name: C017
+      type: Plain Text
+
+    heading: 
+      heading: C017
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C018 ========================================
+    id: 18133559551658778446
+    identification: 
+      column-name: C018
+      type: Plain Text
+
+    heading: 
+      heading: C018
+      alignment: start
+
+    layout: 
+      sequence: 21
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C019 ========================================
+    id: 18133559940135778446
+    identification: 
+      column-name: C019
+      type: Plain Text
+
+    heading: 
+      heading: C019
+      alignment: start
+
+    layout: 
+      sequence: 22
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C020 ========================================
+    id: 18133560301533778446
+    identification: 
+      column-name: C020
+      type: Plain Text
+
+    heading: 
+      heading: C020
+      alignment: start
+
+    layout: 
+      sequence: 23
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C021 ========================================
+    id: 18133560713816778446
+    identification: 
+      column-name: C021
+      type: Plain Text
+
+    heading: 
+      heading: C021
+      alignment: start
+
+    layout: 
+      sequence: 24
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C022 ========================================
+    id: 18133561139430778447
+    identification: 
+      column-name: C022
+      type: Plain Text
+
+    heading: 
+      heading: C022
+      alignment: start
+
+    layout: 
+      sequence: 25
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C023 ========================================
+    id: 18133561467903778447
+    identification: 
+      column-name: C023
+      type: Plain Text
+
+    heading: 
+      heading: C023
+      alignment: start
+
+    layout: 
+      sequence: 26
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C024 ========================================
+    id: 18133561930972778447
+    identification: 
+      column-name: C024
+      type: Plain Text
+
+    heading: 
+      heading: C024
+      alignment: start
+
+    layout: 
+      sequence: 27
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C025 ========================================
+    id: 18133562356966778448
+    identification: 
+      column-name: C025
+      type: Plain Text
+
+    heading: 
+      heading: C025
+      alignment: start
+
+    layout: 
+      sequence: 28
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C026 ========================================
+    id: 18133562743392778448
+    identification: 
+      column-name: C026
+      type: Plain Text
+
+    heading: 
+      heading: C026
+      alignment: start
+
+    layout: 
+      sequence: 29
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C027 ========================================
+    id: 18133563155468778449
+    identification: 
+      column-name: C027
+      type: Plain Text
+
+    heading: 
+      heading: C027
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C028 ========================================
+    id: 18133563563369778449
+    identification: 
+      column-name: C028
+      type: Plain Text
+
+    heading: 
+      heading: C028
+      alignment: start
+
+    layout: 
+      sequence: 31
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C029 ========================================
+    id: 18133563902393778449
+    identification: 
+      column-name: C029
+      type: Plain Text
+
+    heading: 
+      heading: C029
+      alignment: start
+
+    layout: 
+      sequence: 32
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C030 ========================================
+    id: 18133564274764778450
+    identification: 
+      column-name: C030
+      type: Plain Text
+
+    heading: 
+      heading: C030
+      alignment: start
+
+    layout: 
+      sequence: 33
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C031 ========================================
+    id: 18133564683209778450
+    identification: 
+      column-name: C031
+      type: Plain Text
+
+    heading: 
+      heading: C031
+      alignment: start
+
+    layout: 
+      sequence: 34
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C032 ========================================
+    id: 18133565144478778450
+    identification: 
+      column-name: C032
+      type: Plain Text
+
+    heading: 
+      heading: C032
+      alignment: start
+
+    layout: 
+      sequence: 35
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C033 ========================================
+    id: 18133565490025778451
+    identification: 
+      column-name: C033
+      type: Plain Text
+
+    heading: 
+      heading: C033
+      alignment: start
+
+    layout: 
+      sequence: 36
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C034 ========================================
+    id: 18133565937114778451
+    identification: 
+      column-name: C034
+      type: Plain Text
+
+    heading: 
+      heading: C034
+      alignment: start
+
+    layout: 
+      sequence: 37
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C035 ========================================
+    id: 18133566309116778451
+    identification: 
+      column-name: C035
+      type: Plain Text
+
+    heading: 
+      heading: C035
+      alignment: start
+
+    layout: 
+      sequence: 38
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C036 ========================================
+    id: 18133566756638778452
+    identification: 
+      column-name: C036
+      type: Plain Text
+
+    heading: 
+      heading: C036
+      alignment: start
+
+    layout: 
+      sequence: 39
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C037 ========================================
+    id: 18133567160576778452
+    identification: 
+      column-name: C037
+      type: Plain Text
+
+    heading: 
+      heading: C037
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C038 ========================================
+    id: 18133567478087778452
+    identification: 
+      column-name: C038
+      type: Plain Text
+
+    heading: 
+      heading: C038
+      alignment: start
+
+    layout: 
+      sequence: 41
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C040 ========================================
+    id: 18133567881225778453
+    identification: 
+      column-name: C040
+      type: Plain Text
+
+    heading: 
+      heading: C040
+      alignment: start
+
+    layout: 
+      sequence: 42
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C041 ========================================
+    id: 18133568301950778453
+    identification: 
+      column-name: C041
+      type: Plain Text
+
+    heading: 
+      heading: C041
+      alignment: start
+
+    layout: 
+      sequence: 43
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C042 ========================================
+    id: 18133568670794778453
+    identification: 
+      column-name: C042
+      type: Plain Text
+
+    heading: 
+      heading: C042
+      alignment: start
+
+    layout: 
+      sequence: 44
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C043 ========================================
+    id: 18133569102787778454
+    identification: 
+      column-name: C043
+      type: Plain Text
+
+    heading: 
+      heading: C043
+      alignment: start
+
+    layout: 
+      sequence: 45
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C044 ========================================
+    id: 18133569521885778454
+    identification: 
+      column-name: C044
+      type: Plain Text
+
+    heading: 
+      heading: C044
+      alignment: start
+
+    layout: 
+      sequence: 46
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C045 ========================================
+    id: 18133569892098778454
+    identification: 
+      column-name: C045
+      type: Plain Text
+
+    heading: 
+      heading: C045
+      alignment: start
+
+    layout: 
+      sequence: 47
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Records Changed by Another User. ============
+  id: 18133570622134778464
+  identification: 
+    title: Records Changed by Another User.
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select n001 as row_num,
+             c049 as action,
+             c048 as error,
+             c001, c002, c003,
+             c004, c005, c006,
+             c007, c008, c009,
+             c010, c011, c012,
+             c013, c014, c015,
+             c016, c017, c018,
+             c019, c020, c021,
+             c022, c023, c024,
+             c025, c026, c027,
+             c028, c029, c030,
+             c031, c032, c033,
+             c034, c035, c036,
+             c037, c038, c040,
+             c041, c042, c043,
+             c044, c045
+        from apex_collections
+       where collection_name = 'LOAD_CONTENT'
+         and c049 in ('REVIEW') 
+       order by seq_id
+
+  layout: 
+    sequence: 30
+    parent-region: Data Load Process Train # 18133547667115778432
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    custom-attributes: 
+    - 'style="width:100%;max-width:none;"'
+    - null
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL and NOT zero
+    item: P128_REVIEW_COUNT
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Predefined
+      template: HTML (standard)
+
+    pagination: 
+      type: Row Ranges 1-15 16-30 in select list (with pagination)
+      display-position: Bottom - Right
+      partial-page-refresh: false
+
+    performance: 
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: PL/SQL Function Body
+      pl/sql-function-body: |
+        declare  
+            l_string varchar(32667);
+        begin
+            l_string := wwv_flow_lang.system_message('DATA_LOAD.SEQUENCE_ACTION');
+            l_string := l_string ||':'|| wwv_flow_lang.system_message('ERROR');
+            for l_heading in ( select c005 as label
+                                 from apex_collections
+                                where collection_name = 'LOAD_COL_HEAD'
+                                order by seq_id )
+            loop
+                l_string := l_string || ':' || apex_escape.html(l_heading.label);
+            end loop;
+            return l_string;
+        end;
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ROW_NUM =====================================
+    id: 18133571287355778467
+    identification: 
+      column-name: ROW_NUM
+      type: Plain Text
+
+    heading: 
+      heading: ROW_NUM
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTION ======================================
+    id: 18133571666867778467
+    identification: 
+      column-name: ACTION
+      type: Plain Text
+
+    heading: 
+      heading: ACTION
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ERROR =======================================
+    id: 18133572099615778467
+    identification: 
+      column-name: ERROR
+      type: Plain Text
+
+    heading: 
+      heading: ERROR
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C001 ========================================
+    id: 18133572530696778468
+    identification: 
+      column-name: C001
+      type: Plain Text
+
+    heading: 
+      heading: C001
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C002 ========================================
+    id: 18133572877011778468
+    identification: 
+      column-name: C002
+      type: Plain Text
+
+    heading: 
+      heading: C002
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C003 ========================================
+    id: 18133573354117778468
+    identification: 
+      column-name: C003
+      type: Plain Text
+
+    heading: 
+      heading: C003
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C004 ========================================
+    id: 18133573725593778469
+    identification: 
+      column-name: C004
+      type: Plain Text
+
+    heading: 
+      heading: C004
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C005 ========================================
+    id: 18133574110141778469
+    identification: 
+      column-name: C005
+      type: Plain Text
+
+    heading: 
+      heading: C005
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C006 ========================================
+    id: 18133574489471778469
+    identification: 
+      column-name: C006
+      type: Plain Text
+
+    heading: 
+      heading: C006
+      alignment: start
+
+    layout: 
+      sequence: 9
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C007 ========================================
+    id: 18133574918973778472
+    identification: 
+      column-name: C007
+      type: Plain Text
+
+    heading: 
+      heading: C007
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C008 ========================================
+    id: 18133575330964778473
+    identification: 
+      column-name: C008
+      type: Plain Text
+
+    heading: 
+      heading: C008
+      alignment: start
+
+    layout: 
+      sequence: 11
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C009 ========================================
+    id: 18133575702488778473
+    identification: 
+      column-name: C009
+      type: Plain Text
+
+    heading: 
+      heading: C009
+      alignment: start
+
+    layout: 
+      sequence: 12
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C010 ========================================
+    id: 18133576069368778473
+    identification: 
+      column-name: C010
+      type: Plain Text
+
+    heading: 
+      heading: C010
+      alignment: start
+
+    layout: 
+      sequence: 13
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C011 ========================================
+    id: 18133576511726778474
+    identification: 
+      column-name: C011
+      type: Plain Text
+
+    heading: 
+      heading: C011
+      alignment: start
+
+    layout: 
+      sequence: 14
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C012 ========================================
+    id: 18133576919718778474
+    identification: 
+      column-name: C012
+      type: Plain Text
+
+    heading: 
+      heading: C012
+      alignment: start
+
+    layout: 
+      sequence: 15
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C013 ========================================
+    id: 18133577294720778475
+    identification: 
+      column-name: C013
+      type: Plain Text
+
+    heading: 
+      heading: C013
+      alignment: start
+
+    layout: 
+      sequence: 16
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C014 ========================================
+    id: 18133577746483778475
+    identification: 
+      column-name: C014
+      type: Plain Text
+
+    heading: 
+      heading: C014
+      alignment: start
+
+    layout: 
+      sequence: 17
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C015 ========================================
+    id: 18133578068239778475
+    identification: 
+      column-name: C015
+      type: Plain Text
+
+    heading: 
+      heading: C015
+      alignment: start
+
+    layout: 
+      sequence: 18
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C016 ========================================
+    id: 18133578483701778476
+    identification: 
+      column-name: C016
+      type: Plain Text
+
+    heading: 
+      heading: C016
+      alignment: start
+
+    layout: 
+      sequence: 19
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C017 ========================================
+    id: 18133578890735778476
+    identification: 
+      column-name: C017
+      type: Plain Text
+
+    heading: 
+      heading: C017
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C018 ========================================
+    id: 18133579354994778476
+    identification: 
+      column-name: C018
+      type: Plain Text
+
+    heading: 
+      heading: C018
+      alignment: start
+
+    layout: 
+      sequence: 21
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C019 ========================================
+    id: 18133579745609778477
+    identification: 
+      column-name: C019
+      type: Plain Text
+
+    heading: 
+      heading: C019
+      alignment: start
+
+    layout: 
+      sequence: 22
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C020 ========================================
+    id: 18133580090100778477
+    identification: 
+      column-name: C020
+      type: Plain Text
+
+    heading: 
+      heading: C020
+      alignment: start
+
+    layout: 
+      sequence: 23
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C021 ========================================
+    id: 18133580484800778477
+    identification: 
+      column-name: C021
+      type: Plain Text
+
+    heading: 
+      heading: C021
+      alignment: start
+
+    layout: 
+      sequence: 24
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C022 ========================================
+    id: 18133580894165778478
+    identification: 
+      column-name: C022
+      type: Plain Text
+
+    heading: 
+      heading: C022
+      alignment: start
+
+    layout: 
+      sequence: 25
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C023 ========================================
+    id: 18133581332941778478
+    identification: 
+      column-name: C023
+      type: Plain Text
+
+    heading: 
+      heading: C023
+      alignment: start
+
+    layout: 
+      sequence: 26
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C024 ========================================
+    id: 18133581704495778478
+    identification: 
+      column-name: C024
+      type: Plain Text
+
+    heading: 
+      heading: C024
+      alignment: start
+
+    layout: 
+      sequence: 27
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C025 ========================================
+    id: 18133582078253778479
+    identification: 
+      column-name: C025
+      type: Plain Text
+
+    heading: 
+      heading: C025
+      alignment: start
+
+    layout: 
+      sequence: 28
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C026 ========================================
+    id: 18133582550981778479
+    identification: 
+      column-name: C026
+      type: Plain Text
+
+    heading: 
+      heading: C026
+      alignment: start
+
+    layout: 
+      sequence: 29
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C027 ========================================
+    id: 18133582872403778479
+    identification: 
+      column-name: C027
+      type: Plain Text
+
+    heading: 
+      heading: C027
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C028 ========================================
+    id: 18133583350424778480
+    identification: 
+      column-name: C028
+      type: Plain Text
+
+    heading: 
+      heading: C028
+      alignment: start
+
+    layout: 
+      sequence: 31
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C029 ========================================
+    id: 18133583755617778480
+    identification: 
+      column-name: C029
+      type: Plain Text
+
+    heading: 
+      heading: C029
+      alignment: start
+
+    layout: 
+      sequence: 32
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C030 ========================================
+    id: 18133584151242778481
+    identification: 
+      column-name: C030
+      type: Plain Text
+
+    heading: 
+      heading: C030
+      alignment: start
+
+    layout: 
+      sequence: 33
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C031 ========================================
+    id: 18133584476883778481
+    identification: 
+      column-name: C031
+      type: Plain Text
+
+    heading: 
+      heading: C031
+      alignment: start
+
+    layout: 
+      sequence: 34
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C032 ========================================
+    id: 18133584933787778482
+    identification: 
+      column-name: C032
+      type: Plain Text
+
+    heading: 
+      heading: C032
+      alignment: start
+
+    layout: 
+      sequence: 35
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C033 ========================================
+    id: 18133585346673778482
+    identification: 
+      column-name: C033
+      type: Plain Text
+
+    heading: 
+      heading: C033
+      alignment: start
+
+    layout: 
+      sequence: 36
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C034 ========================================
+    id: 18133585761632778482
+    identification: 
+      column-name: C034
+      type: Plain Text
+
+    heading: 
+      heading: C034
+      alignment: start
+
+    layout: 
+      sequence: 37
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C035 ========================================
+    id: 18133586077559778483
+    identification: 
+      column-name: C035
+      type: Plain Text
+
+    heading: 
+      heading: C035
+      alignment: start
+
+    layout: 
+      sequence: 38
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C036 ========================================
+    id: 18133586474124778483
+    identification: 
+      column-name: C036
+      type: Plain Text
+
+    heading: 
+      heading: C036
+      alignment: start
+
+    layout: 
+      sequence: 39
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C037 ========================================
+    id: 18133586955802778484
+    identification: 
+      column-name: C037
+      type: Plain Text
+
+    heading: 
+      heading: C037
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C038 ========================================
+    id: 18133587356566778484
+    identification: 
+      column-name: C038
+      type: Plain Text
+
+    heading: 
+      heading: C038
+      alignment: start
+
+    layout: 
+      sequence: 41
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C040 ========================================
+    id: 18133587693362778484
+    identification: 
+      column-name: C040
+      type: Plain Text
+
+    heading: 
+      heading: C040
+      alignment: start
+
+    layout: 
+      sequence: 42
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C041 ========================================
+    id: 18133588086497778485
+    identification: 
+      column-name: C041
+      type: Plain Text
+
+    heading: 
+      heading: C041
+      alignment: start
+
+    layout: 
+      sequence: 43
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C042 ========================================
+    id: 18133588485656778485
+    identification: 
+      column-name: C042
+      type: Plain Text
+
+    heading: 
+      heading: C042
+      alignment: start
+
+    layout: 
+      sequence: 44
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C043 ========================================
+    id: 18133588897787778485
+    identification: 
+      column-name: C043
+      type: Plain Text
+
+    heading: 
+      heading: C043
+      alignment: start
+
+    layout: 
+      sequence: 45
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C044 ========================================
+    id: 18133589364348778486
+    identification: 
+      column-name: C044
+      type: Plain Text
+
+    heading: 
+      heading: C044
+      alignment: start
+
+    layout: 
+      sequence: 46
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: C045 ========================================
+    id: 18133589679806778486
+    identification: 
+      column-name: C045
+      type: Plain Text
+
+    heading: 
+      heading: C045
+      alignment: start
+
+    layout: 
+      sequence: 47
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+page-items: 
+- # ====== Page Item: P128_INSERT_COUNT ========================
+  id: 18133549287053778434
+  identification: 
+    name: P128_INSERT_COUNT
+    type: Display Only
+
+  label: 
+    label: 'Inserted Row(s):'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 10
+    region: Data Load Results # 18133548013293778432
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    custom-attributes: 
+    - class="fielddata"
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P128_UPDATE_COUNT ========================
+  id: 18133549704672778434
+  identification: 
+    name: P128_UPDATE_COUNT
+    type: Display Only
+
+  label: 
+    label: 'Updated Row(s):'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 20
+    region: Data Load Results # 18133548013293778432
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    custom-attributes: 
+    - class="fielddata"
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P128_ERROR_COUNT =========================
+  id: 18133550124262778435
+  identification: 
+    name: P128_ERROR_COUNT
+    type: Display Only
+
+  label: 
+    label: 'Failed Row(s):'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 30
+    region: Data Load Results # 18133548013293778432
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    custom-attributes: 
+    - class="fielddata"
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: select count(*) c from apex_collections where collection_name = 'LOAD_CONTENT' and c047 = 'FAILED'
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P128_REVIEW_COUNT ========================
+  id: 18133550561874778435
+  identification: 
+    name: P128_REVIEW_COUNT
+    type: Display Only
+
+  label: 
+    label: 'To be Reviewed Row(s):'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 40
+    region: Data Load Results # 18133548013293778432
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    custom-attributes: 
+    - class="fielddata"
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 18133548465255778433
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 20
+    region: Data Load Process Train # 18133547667115778432
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.'
+      page: 12 # Administration
+
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Never
+
+- # ====== Button: FINISH ======================================
+  id: 18133548772712778433
+  identification: 
+    button-name: FINISH
+    label: Finish
+
+  layout: 
+    sequence: 10
+    region: Data Load Process Train # 18133547667115778432
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:CUSTOMERS:&SESSION.::&DEBUG.:::'
+      page: CUSTOMERS
+
+    warn-on-unsaved-changes: Do Not Check
+

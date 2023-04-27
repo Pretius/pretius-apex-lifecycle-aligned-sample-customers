@@ -1,0 +1,25 @@
+---
+- # ====== Authentication: Application Express Accounts ========
+  id: 17798789260151217963
+  identification: 
+    name: Application Express Accounts
+
+  settings: 
+    type: Oracle APEX Accounts
+
+  session-not-valid: 
+    redirect-to: Login Page
+
+  login-processing: 
+    switch-in-session: false
+
+  post-logout-url: 
+    post-logout-url: 'f?p=&APP_ID.:customers'
+
+  session-sharing: 
+    cookie-name: ORA_WWV_PACKAGED_APPLICATIONS
+    secure: false
+
+  real-application-security: 
+    ras-mode: Disabled
+

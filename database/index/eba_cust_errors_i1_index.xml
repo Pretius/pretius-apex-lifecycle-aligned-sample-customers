@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="b335eeb63b05a5ff722a2c28aaed53f379286202" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createSxmlObject objectName="EBA_CUST_ERRORS_I1" objectType="INDEX" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  <INDEX xmlns="http://xmlns.oracle.com/ku" version="1.0">
+   <SCHEMA>SAMPLE_CUSTOMERS</SCHEMA>
+   <NAME>EBA_CUST_ERRORS_I1</NAME>
+   <TABLE_INDEX>
+      <ON_TABLE>
+         <SCHEMA>SAMPLE_CUSTOMERS</SCHEMA>
+         <NAME>EBA_CUST_ERRORS</NAME>
+      </ON_TABLE>
+      <COL_LIST>
+         <COL_LIST_ITEM>
+            <DEFAULT_EXPRESSION>SYS_EXTRACT_UTC("ERR_TIME")</DEFAULT_EXPRESSION>
+         </COL_LIST_ITEM>
+      </COL_LIST>
+      <INDEX_ATTRIBUTES>
+         <PCTFREE>10</PCTFREE>
+         <INITRANS>2</INITRANS>
+         <MAXTRANS>255</MAXTRANS>
+                  <LOGGING>Y</LOGGING>
+      </INDEX_ATTRIBUTES>
+   </TABLE_INDEX>
+</INDEX>]]></n0:source>
+		</n0:createSxmlObject>
+	</changeSet>
+</databaseChangeLog>

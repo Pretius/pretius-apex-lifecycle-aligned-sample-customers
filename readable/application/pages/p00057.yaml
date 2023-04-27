@@ -1,0 +1,542 @@
+---
+# ====== Page: Access Control List ===========================
+id: 57
+identification: 
+  name: Access Control List
+  alias: MANAGE_ACL
+  title: Access Control List
+  page-group: ACL # 14718650004109368475
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+  - ui-dialog--stretch
+  - t-Dialog--noPadding
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: <p>When Access Control is enabled, Administrators have the ability to restrict access to certain application features, for authenticated users. Customers supports the following 3 access levels; Reader, Contributor and Administrator. <b>Reader's</b> have read-only access and can also view reports. <b>Contributor's</b> can create, edit, delete and view reports. <b>Administrator's</b>, in addition to Contributor's capability, can also perform Customers administration, including configuration of access control, managing application look-up data and installing or uninstalling sample data.</p>
+
+regions: 
+- # ====== Region: Users =======================================
+  id: 15688829975472441227
+  identification: 
+    title: Users
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select id,
+             username,
+             access_level_id,
+             case when account_locked = 'Y' then 'Yes' else 'No' end account_locked,
+             created_by,
+             created
+        from eba_cust_users
+      
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--noBorders
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 15688830086599441227
+    link: 
+      link-column: Exclude Link Column
+
+    appearance: 
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 100000
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      send-as-email: true
+
+    heading: 
+      fixed-to: None
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 15688834680590441939
+      identification: 
+        name: Primary Report
+        alias: 16248539
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 15688830279656441240
+      identification: 
+        column-name: ID
+        type: Hidden Column
+
+      heading: 
+        heading: Id
+
+      layout: 
+        sequence: 1
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: USERNAME ====================================
+      id: 15688830390431441242
+      identification: 
+        column-name: USERNAME
+        type: Link
+
+      heading: 
+        heading: Username
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 2
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:58:&SESSION.::&DEBUG.:RP,58:P58_ID:#ID#'
+          page: 58 # User Details
+          clear-cache: RP,58
+          values: 
+            p58_id: '#ID#'
+
+        link-text: '#USERNAME#'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACCESS_LEVEL_ID =============================
+      id: 15688830478703441242
+      identification: 
+        column-name: ACCESS_LEVEL_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: ACCESS_LEVELS # 15689140690989520564
+
+      heading: 
+        heading: Access Level
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 3
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 15688830596411441243
+      identification: 
+        column-name: CREATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Created By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 4
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED =====================================
+      id: 15688830680478441243
+      identification: 
+        column-name: CREATED
+        type: Plain Text
+
+      heading: 
+        heading: Created
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 5
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACCOUNT_LOCKED ==============================
+      id: 16002860885490260632
+      identification: 
+        column-name: ACCOUNT_LOCKED
+        type: Plain Text
+
+      heading: 
+        heading: Account Locked
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 6
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+buttons: 
+- # ====== Button: RESET =======================================
+  id: 14743781094294818925
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 30
+    region: Users # 15688829975472441227
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&APP_PAGE_ID.:&SESSION.::&DEBUG.:RP,&APP_PAGE_ID.,RIR::'
+      page: '&APP_PAGE_ID.'
+      clear-cache: RP,&APP_PAGE_ID.,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: BULK_ADD_USERS ==============================
+  id: 14813872704321816062
+  identification: 
+    button-name: BULK_ADD_USERS
+    label: Add Multiple Users
+
+  layout: 
+    sequence: 40
+    region: Users # 15688829975472441227
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:73:&SESSION.::&DEBUG.:73,74::'
+      page: 73 # Add Multiple Users
+      clear-cache: 73,74
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: CREATE ======================================
+  id: 15827045789367915422
+  identification: 
+    button-name: CREATE
+    label: Add User
+
+  layout: 
+    sequence: 50
+    region: Users # 15688829975472441227
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:58:&SESSION.::&DEBUG.:58::'
+      page: 58 # User Details
+      clear-cache: 58
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refresh Report ======================
+  id: 1658503459248072800
+  identification: 
+    name: Refresh Report
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: JavaScript Expression
+    javascript-expression: window
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 1658503842942072808
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Users # 15688829975472441227
+
+    execution-options: 
+      sequence: 10
+      event: Refresh Report # 1658503459248072800
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 1658504308428072809
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: apex.message.showPageSuccess('Action Processed.');
+
+    execution-options: 
+      sequence: 20
+      event: Refresh Report # 1658503459248072800
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: LAST_VIEW ==============================
+  id: 14914183191695345948
+  identification: 
+    item-name: LAST_VIEW
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: '&APP_PAGE_ID.'
+

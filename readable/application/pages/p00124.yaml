@@ -1,0 +1,1149 @@
+---
+# ====== Page: Timeline ======================================
+id: 124
+identification: 
+  name: Timeline
+  alias: TIMELINE
+  title: Timeline
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Left Side Column # 14857694771998769797
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+javascript: 
+  execute-when-page-loads: |
+    //$x('P10_SEARCH').focus();
+    
+
+css: 
+  inline: |
+    .t-Timeline-type.is-updated {
+        background-color: #cd4411;
+        color: #FFF;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: The "Timeline" page shows a history of application transactions. Use the filter controls on the left to change the results displayed on the right.
+
+regions: 
+- # ====== Region: Timeline ====================================
+  id: 7226957050722039203
+  identification: 
+    title: Timeline
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select
+          c.created SORT_COLUMN,
+          null EVENT_ATTRIBUTES,
+          null EVENT_MODIFIERS,
+          'u-color-'|| (ora_hash(c.created_by,44) + 1) USER_COLOR,
+          upper( decode(instr(replace(c.created_by,'.',' '),' '),
+                      0, 
+                      substr(c.created_by,1,2),
+                      substr(c.created_by,1,1)||substr(c.created_by,instr(replace(c.created_by,'.',' '),' ')+1,1)
+                 ))  USER_AVATAR,
+          c.created_by as user_name,
+          c.created EVENT_DATE,
+          'fa fa-user' EVENT_ICON,
+          'is-new' EVENT_STATUS,
+          'Customer Added' EVENT_TYPE,
+          c.customer_name EVENT_TITLE,
+          c.summary EVENT_DESC,
+          apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||c.id) event_link
+      from EBA_CUST_CUSTOMERS c
+      where c.created > (current_timestamp - :P124_TIMEFRAME)
+          and ( :P124_CUSTOMER is null or c.id = :P124_CUSTOMER )
+          and ( :P124_UPDATE_BY is null or lower(c.created_by) = lower(:P124_UPDATE_BY) )
+      union all
+      select
+          n.created SORT_COLUMN,
+          null EVENT_ATTRIBUTES,
+          null EVENT_MODIFIERS,
+          'u-color-'|| (ora_hash(n.created_by,44) + 1) USER_COLOR,
+          upper( decode(instr(replace(n.created_by,'.',' '),' '),
+                      0, 
+                      substr(n.created_by,1,2),
+                      substr(n.created_by,1,1)||substr(n.created_by,instr(replace(n.created_by,'.',' '),' ')+1,1)
+                 ))  USER_AVATAR,
+          n.created_by as user_name,
+          n.created EVENT_DATE,
+          'fa fa-file' EVENT_ICON,
+          'is-new' EVENT_STATUS,
+          'Customer Added Note' EVENT_TYPE,
+          (select customer_name from eba_cust_customers c where c.id = n.customer_id) EVENT_TITLE,
+          TO_CHAR(dbms_lob.substr(n.note, length(n.note), 1 )) EVENT_DESC,
+          apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||n.customer_id) event_link
+      from EBA_CUST_NOTES n
+      where n.created > (current_timestamp - :P124_TIMEFRAME)
+          and ( :P124_CUSTOMER is null or n.customer_id = :P124_CUSTOMER )
+          and ( :P124_UPDATE_BY is null or lower(n.created_by) = lower(:P124_UPDATE_BY) )
+      union all
+      select
+          c.created SORT_COLUMN,
+          null EVENT_ATTRIBUTES,
+          null EVENT_MODIFIERS,
+          'u-color-'|| (ora_hash(c.created_by,44) + 1) USER_COLOR,
+          upper( decode(instr(replace(c.created_by,'.',' '),' '),
+                      0, 
+                      substr(c.created_by,1,2),
+                      substr(c.created_by,1,1)||substr(c.created_by,instr(replace(c.created_by,'.',' '),' ')+1,1)
+                 ))  USER_AVATAR,
+          c.created_by as user_name,
+          c.created EVENT_DATE,
+          'fa fa-user' EVENT_ICON,
+          'is-new' EVENT_STATUS,
+          'Customer Added Contact' EVENT_TYPE,
+          (select customer_name from eba_cust_customers c where c.id = c.customer_id) EVENT_TITLE,
+          c.name EVENT_DESC,
+          apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||c.customer_id) event_link
+      from EBA_CUST_CONTACTS c
+      where c.created > (current_timestamp - :P124_TIMEFRAME)
+          and ( :P124_CUSTOMER is null or c.customer_id = :P124_CUSTOMER )
+          and ( :P124_UPDATE_BY is null or lower(c.created_by) = lower(:P124_UPDATE_BY) )
+      union all
+      select f.created SORT_COLUMN,
+          null EVENT_ATTRIBUTES,
+          null EVENT_MODIFIERS,
+          'u-color-'|| (ora_hash(f.created_by,44) + 1) USER_COLOR,
+          upper( decode(instr(replace(f.created_by,'.',' '),' '),
+                      0, 
+                      substr(f.created_by,1,2),
+                      substr(f.created_by,1,1)||substr(f.created_by,instr(replace(f.created_by,'.',' '),' ')+1,1)
+                 ))  USER_AVATAR,
+          f.created_by as user_name,
+          f.created EVENT_DATE,
+          'fa fa-paperclip' EVENT_ICON,
+          'is-new' EVENT_STATUS,
+          'Customer Added Attachment' EVENT_TYPE,
+          (select customer_name from eba_cust_customers c where c.id = f.customer_id) EVENT_TITLE,
+          substr(f.FILE_NAME,1,255) || ' ' || substr(f.FILE_COMMENTS,1,200) EVENT_DESC,
+          apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||f.customer_id) event_link
+      from EBA_CUST_FILES f
+      where f.created > (current_timestamp - :P124_TIMEFRAME)
+          and ( :P124_CUSTOMER is null or f.customer_id = :P124_CUSTOMER )
+          and ( :P124_UPDATE_BY is null or lower(f.created_by) = lower(:P124_UPDATE_BY) )
+      union all
+      select l.created SORT_COLUMN,
+          null EVENT_ATTRIBUTES,
+          null EVENT_MODIFIERS,
+          'u-color-'|| (ora_hash(l.created_by,44) + 1) USER_COLOR,
+          upper( decode(instr(replace(l.created_by,'.',' '),' '),
+                      0, 
+                      substr(l.created_by,1,2),
+                      substr(l.created_by,1,1)||substr(l.created_by,instr(replace(l.created_by,'.',' '),' ')+1,1)
+                 ))  USER_AVATAR,
+          l.created_by as user_name,
+          l.created EVENT_DATE,
+          'fa fa-external-link' EVENT_ICON,
+          'is-new' EVENT_STATUS,
+          'Customer Added Link' EVENT_TYPE,
+          (select customer_name from eba_cust_customers c where c.id = l.customer_id) EVENT_TITLE,
+          substr(nvl(LINK_DESC,LINK),1,255) || ' '||substr(link_comments,1,200) EVENT_DESC,
+          apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||l.customer_id) event_link
+      from EBA_CUST_LINKS l
+      where l.created > (current_timestamp - :P124_TIMEFRAME)
+          and ( :P124_CUSTOMER is null or l.customer_id = :P124_CUSTOMER )
+          and ( :P124_UPDATE_BY is null or lower(l.created_by) = lower(:P124_UPDATE_BY) )
+      union all
+      select h.change_date SORT_COLUMN,
+          null EVENT_ATTRIBUTES,
+          null EVENT_MODIFIERS,
+          'u-color-'|| (ora_hash(c.updated_by,44) + 1) USER_COLOR,
+          upper( decode(instr(replace(c.updated_by,'.',' '),' '),
+                      0, 
+                      substr(c.updated_by,1,2),
+                      substr(c.updated_by,1,1)||substr(c.updated_by,instr(replace(c.updated_by,'.',' '),' ')+1,1)
+                 ))  USER_AVATAR,
+          h.changed_by as user_name,
+          h.change_date EVENT_DATE,
+          'fa fa-archive' EVENT_ICON,
+          'is-updated' EVENT_STATUS,
+          case when substr(h.table_name,-1) = 'S' then initcap(substr(h.table_name, 1, length(h.table_name) - 1)) else initcap(h.table_name) end || ' Updated ' || initcap(replace(replace(h.column_name,'_ID',null),'_',' ')) EVENT_TYPE,
+          c.customer_name EVENT_TITLE,
+          case
+              when (substr(h.old_value, 3, 1) = '-' and substr(h.old_value, 7, 1) = '-' and length(h.old_value) > 11) or
+                   (substr(h.new_value, 3, 1) = '-' and substr(h.new_value, 7, 1) = '-' and length(h.new_value) > 11) then
+                  'Changed from ' || case when h.old_value is not null then '<span class="t-Comments-text--prevValue">' else null end ||
+                  apex_escape.html(substr(nvl(h.old_value, 'Unassigned'), 1, 11)) || case when h.old_value is not null then '</span>' else null end ||
+                  ' to <span class="t-Comments-text--newValue">'||
+                  apex_escape.html(substr(nvl(h.new_value, 'Unassigned'), 1, 11))||'</span>'
+              else
+                  'Changed from ' || case when h.old_value is not null then '<span class="t-Comments-text--prevValue">' else null end ||
+                  apex_escape.html(substr(nvl(h.old_value, 'Unassigned'),1,255)) || case when h.old_value is not null then '</span>' else null end ||
+                  ' to <span class="t-Comments-text--newValue">'||
+                  apex_escape.html(substr(nvl(h.new_value, 'Unassigned'),1,255))||'</span>'
+          end as event_desc,
+          apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||c.id) event_link
+      from EBA_CUST_HISTORY h, eba_cust_customers c
+      where h.COMPONENT_ID = c.id
+          and h.change_date > (current_timestamp - :P124_TIMEFRAME)
+          and ( :P124_CUSTOMER is null or c.id = :P124_CUSTOMER )
+          and ( :P124_UPDATE_BY is null or lower(h.changed_by) = lower(:P124_UPDATE_BY) )
+      union all
+      select h.change_date SORT_COLUMN,
+          null EVENT_ATTRIBUTES,
+          null EVENT_MODIFIERS,
+          'u-color-'|| (ora_hash(h.changed_by,44) + 1) USER_COLOR,
+          upper( decode(instr(replace(h.changed_by,'.',' '),' '),
+                      0, 
+                      substr(h.changed_by,1,2),
+                      substr(h.changed_by,1,1)||substr(h.changed_by,instr(replace(h.changed_by,'.',' '),' ')+1,1)
+                 ))  USER_AVATAR,
+          h.changed_by as user_name,
+          h.change_date EVENT_DATE,
+          'fa fa-trash-o' EVENT_ICON,
+          'is-removed' EVENT_STATUS,
+          'Customer Removed' EVENT_TYPE,
+          h.old_value EVENT_TITLE,
+          'This customer has been removed. The "Customer" link will give a "No Data Found" error.' as event_desc,
+          apex_util.prepare_url('f?p='||:APP_ID||':50:'||:APP_SESSION||':::50:P50_ID:'||h.component_id) event_link
+      from EBA_CUST_HISTORY h
+      where h.column_name = 'CUSTOMER_REMOVED'
+          and h.change_date > (current_timestamp - :P124_TIMEFRAME)
+          and ( :P124_CUSTOMER is null or h.component_id = :P124_CUSTOMER )
+          and ( :P124_UPDATE_BY is null or lower(h.changed_by) = lower(:P124_UPDATE_BY) )
+      order by 7 desc
+    page-items-to-submit: 
+    - P124_CUSTOMER
+    - P124_UPDATE_BY
+    - P124_TIMEFRAME
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 250
+
+    appearance: 
+      template-type: Theme
+      template: Timeline # 13597750385508284314
+      template-options: 
+      - '#DEFAULT#'
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: No changes found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: SORT_COLUMN =================================
+    id: 2028298202956286355
+    identification: 
+      column-name: SORT_COLUMN
+      type: Plain Text
+
+    heading: 
+      heading: Sort Column
+      alignment: start
+
+    layout: 
+      sequence: 12
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_ATTRIBUTES ============================
+    id: 2028298576426286357
+    identification: 
+      column-name: EVENT_ATTRIBUTES
+      type: Plain Text
+
+    heading: 
+      heading: Event Attributes
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_MODIFIERS =============================
+    id: 2028299056521286357
+    identification: 
+      column-name: EVENT_MODIFIERS
+      type: Plain Text
+
+    heading: 
+      heading: Event Modifiers
+      alignment: start
+
+    layout: 
+      sequence: 13
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_COLOR ==================================
+    id: 2028299440954286358
+    identification: 
+      column-name: USER_COLOR
+      type: Plain Text
+
+    heading: 
+      heading: User Color
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_AVATAR =================================
+    id: 2028299827834286358
+    identification: 
+      column-name: USER_AVATAR
+      type: Plain Text
+
+    heading: 
+      heading: User Avatar
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_NAME ===================================
+    id: 2028300189460286359
+    identification: 
+      column-name: USER_NAME
+      type: Plain Text
+
+    heading: 
+      heading: User Name
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DATE ==================================
+    id: 2028300576218286359
+    identification: 
+      column-name: EVENT_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Event Date
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_ICON ==================================
+    id: 2028301060467286360
+    identification: 
+      column-name: EVENT_ICON
+      type: Plain Text
+
+    heading: 
+      heading: Event Icon
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_STATUS ================================
+    id: 2028301385444286361
+    identification: 
+      column-name: EVENT_STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Event Status
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TYPE ==================================
+    id: 2028301869235286361
+    identification: 
+      column-name: EVENT_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Event Type
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_TITLE =================================
+    id: 2028302199861286362
+    identification: 
+      column-name: EVENT_TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Event Title
+      alignment: start
+
+    layout: 
+      sequence: 9
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EVENT_DESC ==================================
+    id: 2028302594008286362
+    identification: 
+      column-name: EVENT_DESC
+      type: Plain Text
+
+    heading: 
+      heading: Event Desc
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: false
+
+  - # ====== Column: EVENT_LINK ==================================
+    id: 2028303066182286363
+    identification: 
+      column-name: EVENT_LINK
+      type: Plain Text
+
+    heading: 
+      heading: Event Link
+      alignment: start
+
+    layout: 
+      sequence: 11
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Breadcrumb ==================================
+  id: 10865366306493452339
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 100
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Filter Controls =============================
+  id: 16972794629806431830
+  identification: 
+    title: Filter Controls
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P124_CUSTOMER ============================
+  id: 2028304359105286383
+  identification: 
+    name: P124_CUSTOMER
+    type: Select List
+
+  label: 
+    label: Customer
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 10
+    region: Filter Controls # 16972794629806431830
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: CUSTOMERS # 16589419985608937808
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- All -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P124_UPDATE_BY ===========================
+  id: 2028304724192286392
+  identification: 
+    name: P124_UPDATE_BY
+    type: Select List
+
+  label: 
+    label: Updated by
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 20
+    region: Filter Controls # 16972794629806431830
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select lower(username) d, lower(username) r
+      from eba_cust_users
+      order by lower(username)
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Anyone -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P124_TIMEFRAME ===========================
+  id: 2028305103380286393
+  identification: 
+    name: P124_TIMEFRAME
+    type: Select List
+
+  label: 
+    label: Timeframe
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 30
+    region: Filter Controls # 16972794629806431830
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Above # 15019745507416106690
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:Day;1,Week;7,30 Days;30,60 Days;60,Year;365'
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 7
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: P124_RESET ==================================
+  id: 2028303887715286379
+  identification: 
+    button-name: P124_RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Filter Controls # 16972794629806431830
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: false
+    template-options: 
+    - t-Button--iconLeft
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:124:&SESSION.::&DEBUG.:RP,RIR,124::'
+      page: 124 # Timeline
+      clear-cache: RP,RIR,124
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Update Filters ======================
+  id: 2028307742896286422
+  identification: 
+    name: Update Filters
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P124_CUSTOMER
+    - P124_UPDATE_BY
+    - P124_TIMEFRAME
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 2028308230532286430
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Timeline # 7226957050722039203
+
+    execution-options: 
+      sequence: 10
+      event: Update Filters # 2028307742896286422
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: APPLICATION_TITLE ======================
+  id: 2028306189142286417
+  identification: 
+    item-name: APPLICATION_TITLE
+
+  execution-options: 
+    sequence: 30
+    point: Before Header
+
+  computation: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      declare
+          l_app_name varchar2(255);
+      begin
+          select nvl(preference_value,:APP_NAME)
+            into l_app_name
+            from eba_proj_preferences
+           where preference_name = 'APPLICATION_TITLE';
+          return l_app_name;
+      exception
+          when others then
+              return :APP_NAME;
+      end;
+
+  server-side-condition: 
+    type: Item is NULL
+    item: APPLICATION_TITLE
+
+- # ====== Computation: LAST_VIEW ==============================
+  id: 2028306570719286417
+  identification: 
+    item-name: LAST_VIEW
+
+  execution-options: 
+    sequence: 50
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: 10
+
+processes: 
+- # ====== Process: replace commas =============================
+  id: 2028307338186286418
+  identification: 
+    name: replace commas
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: ":P124_SEARCH := replace(:P124_SEARCH,',','[comma]');"
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+branches: 
+- # ====== Branch: Go To Page 8 ================================
+  id: 2028308710635286434
+  identification: 
+    name: Go To Page 8
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:8:&SESSION.::&DEBUG.:RP,10:P8_SEARCH:&P10_SEARCH.'
+      page: 8 # Contact Types
+      clear-cache: RP,10
+      values: 
+        p8_search: '&P10_SEARCH.'
+
+  comments: 
+    comments: 'Created 07-OCT-2010 13:32 by MIKE'
+

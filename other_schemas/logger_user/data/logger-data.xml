@@ -1,0 +1,80 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="pretius (generated)" id="1681810693464-1">
+        <insert tableName="LOGGER_LOGS">
+            <column name="ID" valueNumeric="2"/>
+            <column name="LOGGER_LEVEL" valueNumeric="1"/>
+            <column name="TEXT" value="Logger version 3.1.1 installed."/>
+            <column name="TIME_STAMP" valueDate="2023-04-17T09:30:33.173695"/>
+            <column name="SCOPE"/>
+            <column name="MODULE" value="SQLcl"/>
+            <column name="ACTION"/>
+            <column name="USER_NAME" value="LOGGER_USER"/>
+            <column name="CLIENT_IDENTIFIER"/>
+            <column name="CALL_STACK" value="  object      line  object&#10;  handle    number  name&#10;0x778cffd8         2  anonymous block&#10;"/>
+            <column name="UNIT_NAME"/>
+            <column name="LINE_NO"/>
+            <column name="SCN"/>
+            <column name="EXTRA"/>
+            <column name="SID" valueNumeric="47"/>
+            <column name="CLIENT_INFO"/>
+        </insert>
+    </changeSet>
+    <changeSet author="pretius (generated)" id="1681810693464-2">
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="LOGGER_DEBUG"/>
+            <column name="PREF_VALUE" value="FALSE"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="PREF_BY_CLIENT_ID_EXPIRE_HOURS"/>
+            <column name="PREF_VALUE" value="12"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="PLUGIN_FN_ERROR"/>
+            <column name="PREF_VALUE" value="NONE"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="PURGE_MIN_LEVEL"/>
+            <column name="PREF_VALUE" value="DEBUG"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="INSTALL_SCHEMA"/>
+            <column name="PREF_VALUE" value="LOGGER_USER"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="INCLUDE_CALL_STACK"/>
+            <column name="PREF_VALUE" value="TRUE"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="LEVEL"/>
+            <column name="PREF_VALUE" value="DEBUG"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="PURGE_AFTER_DAYS"/>
+            <column name="PREF_VALUE" value="7"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="PROTECT_ADMIN_PROCS"/>
+            <column name="PREF_VALUE" value="TRUE"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="LOGGER_VERSION"/>
+            <column name="PREF_VALUE" value="3.1.1"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+        <insert tableName="LOGGER_PREFS">
+            <column name="PREF_NAME" value="GLOBAL_CONTEXT_NAME"/>
+            <column name="PREF_VALUE" value="LOGGER_USER_LOGCTX"/>
+            <column name="PREF_TYPE" value="LOGGER"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,569 @@
+---
+# ====== Page: Recent Activities =============================
+id: 29
+identification: 
+  name: Recent Activities
+  alias: RECENT-ACTIVITIES
+  title: Recent Activities
+  page-group: Reports # 14718650376536369951
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+configuration: 
+  build-option: Reports # 14954739582107816435
+
+regions: 
+- # ====== Region: Customer Updates ============================
+  id: 16597945507271727230
+  identification: 
+    title: Customer Updates
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select  n.customer_id,
+              c.customer_name,
+              'Note Added' note_type,
+              dbms_lob.substr(n.note,100,1)||decode(greatest(length(n.note),100),100,null,'...') detail,
+              lower(n.created_by) updated_by,
+              n.created updated
+      from EBA_CUST_NOTES n, eba_cust_customers c
+      where n.customer_id = c.id
+      union all
+      select  c.id,
+              c.customer_name,
+              'Customer Added' note_type,
+              c.summary detail,
+              lower(c.created_by) updated_by,
+              c.created updated
+      from eba_cust_customers c
+      union all
+      select  n.customer_id,
+              c.customer_name,
+              'Contact Added' note_type,
+              n.name detail,
+              lower(n.created_by) updated_by,
+              n.created updated
+      from EBA_CUST_CONTACTS n, eba_cust_customers c
+      where n.customer_id = c.id
+      union all
+      select  n.customer_id,
+              c.customer_name,
+              'Link Added' note_type,
+              n.link_desc detail,
+              lower(n.created_by) updated_by,
+              n.created updated
+      from EBA_CUST_LINKS n, eba_cust_customers c
+      where n.customer_id = c.id
+      union all
+      select  n.customer_id,
+              c.customer_name,
+              'File Added' note_type,
+              n.file_name detail,
+              lower(n.created_by) updated_by,
+              n.created updated
+      from EBA_CUST_FILES n, eba_cust_customers c
+      where n.customer_id = c.id
+      union all
+      select y.customer_id,
+             y.customer_name,
+             y.note_type,
+             substr(y.detail,1,100)||decode(greatest(length(y.detail),100),100,null,'...') detail,
+             y.updated_by,
+             y.updated
+      from (
+      select h.component_id customer_id,
+             c.customer_name,
+             initcap(substr(h.table_name, 1, length(h.table_name) - 1)) || ' Updated' note_type,
+             initcap(replace(replace(h.COLUMN_NAME,'_ID',null),'_',' '))||' changed from "'||h.OLD_VALUE||'" to "'||h.new_value||'"' detail,
+             lower(h.CHANGED_BY) updated_by,
+             h.CHANGE_DATE updated
+      from EBA_CUST_HISTORY h, eba_cust_customers c
+      where h.component_id = c.id) y
+      union all
+      select y.customer_id,
+             y.customer_name,
+             y.note_type,
+             substr(y.detail,1,100)||decode(greatest(length(y.detail),100),100,null,'...') detail,
+             y.updated_by,
+             y.updated
+      from (
+      select h.component_id customer_id,
+             h.old_value customer_name,
+             initcap(substr(h.table_name, 1, length(h.table_name) - 1)) || ' Removed' note_type,
+             'This customer has been removed. The "Customer Name" link will give a "No Data Found" error.' detail,
+             lower(h.CHANGED_BY) updated_by,
+             h.CHANGE_DATE updated
+      from EBA_CUST_HISTORY h
+      where h.column_name = 'CUSTOMER_REMOVED') y
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 16597945598566727244
+    link: 
+      link-column: Exclude Link Column
+
+    appearance: 
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 100000
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 16597947480390728990
+      identification: 
+        name: Primary Report
+        alias: 25339667
+
+    columns: 
+    - # ====== Column: NOTE_TYPE ===================================
+      id: 16597949777105765819
+      identification: 
+        column-name: NOTE_TYPE
+        type: Plain Text
+
+      heading: 
+        heading: Update Type
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 1
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMER_ID =================================
+      id: 16597952003124801737
+      identification: 
+        column-name: CUSTOMER_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Customer Id
+
+      layout: 
+        sequence: 2
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: DETAIL ======================================
+      id: 16597952183293801738
+      identification: 
+        column-name: DETAIL
+        type: Plain Text
+
+      heading: 
+        heading: Detail
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 4
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 16597952295447801738
+      identification: 
+        column-name: UPDATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Updated By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 5
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED =====================================
+      id: 16597952401921801738
+      identification: 
+        column-name: UPDATED
+        type: Plain Text
+
+      heading: 
+        heading: Updated
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 6
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMER_NAME ===============================
+      id: 16597953985724815655
+      identification: 
+        column-name: CUSTOMER_NAME
+        type: Link
+
+      heading: 
+        heading: Customer Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 7
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:50:P50_ID:#CUSTOMER_ID#'
+          page: 50 # Customer
+          clear-cache: 50
+          values: 
+            p50_id: '#CUSTOMER_ID#'
+
+        link-text: '#CUSTOMER_NAME#'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: Customer Updates ============================
+  id: 17821544866984856488
+  identification: 
+    title: Customer Updates
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+buttons: 
+- # ====== Button: RESET_REPORT ================================
+  id: 16597979686810544576
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Customer Updates # 16597945507271727230
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.:RP,RIR::'
+      page: 29 # Recent Activities
+      clear-cache: RP,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+branches: 
+- # ====== Branch: Go To Page 29 ===============================
+  id: 17795850944894341531
+  identification: 
+    name: Go To Page 29
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.:29::'
+      page: 29 # Recent Activities
+      clear-cache: 29
+
+    save-state-before-branching: true
+
+  server-side-condition: 
+    when-button-pressed: 17807790949173340796 # 17807790949173340796
+
+  comments: 
+    comments: 'Created 31-JUL-2007 04:50 by SATHISH'
+
+- # ====== Branch: Go To Page 29 ===============================
+  id: 17823999354364092979
+  identification: 
+    name: Go To Page 29
+
+  execution-options: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.:::'
+      page: 29 # Recent Activities
+
+    save-state-before-branching: true
+
+  comments: 
+    comments: 'Created 30-MAY-2007 04:37 by SATHISH'
+

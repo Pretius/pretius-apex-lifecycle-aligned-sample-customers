@@ -1,0 +1,876 @@
+---
+# ====== Page: Customer Attachments ==========================
+id: 52
+identification: 
+  name: Customer Attachments
+  alias: CUSTOMER-ATTACHMENTS
+  title: Customer Attachments
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Customer Files ==============================
+  id: 16422400683048045609
+  identification: 
+    title: Customer Files
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 1
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Customer Files ==============================
+  id: 16588579775476242258
+  identification: 
+    title: Customer Files
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select customer_id, 
+      id,
+      '<a href="'||APEX_UTIL.GET_BLOB_FILE_SRC('P50_FILE',id)||'">'||apex_escape.html(file_name)||'</a>' filename,
+      substr(file_comments,1,50)||decode(greatest(length(file_comments),50),50,'','...') description,
+      TAGS,
+      dbms_lob.getlength(FILE_BLOB) file_size,
+      FILE_MIMETYPE mimetype,
+      created, lower(created_by) created_by,
+      updated, lower(updated_by) updated_by,
+      '#' delete_file
+      from EBA_CUST_FILES
+      where customer_id = :P52_ID
+        
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 16588579997041242258
+    link: 
+      link-column: Link to Custom Target
+      target: 
+        url: 'f?p=&APP_ID.:64:&SESSION.::&DEBUG.::P64_ID:#ID#'
+        page: 64 # Customer Attachment
+        values: 
+          p64_id: '#ID#'
+
+      link-icon: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
+      authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+    appearance: 
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 100000
+
+    messages: 
+      when-no-data-found: No attachments found
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 16588582775331262278
+      identification: 
+        name: Primary Report
+        alias: 25246020
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 16588580094290242262
+      identification: 
+        column-name: ID
+        type: Hidden Column
+
+      heading: 
+        heading: Id
+
+      layout: 
+        sequence: 1
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: CUSTOMER_ID =================================
+      id: 16588580190376242265
+      identification: 
+        column-name: CUSTOMER_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Customer Id
+
+      layout: 
+        sequence: 2
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: CREATED =====================================
+      id: 16588580789634242266
+      identification: 
+        column-name: CREATED
+        type: Plain Text
+
+      heading: 
+        heading: Date Added
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 8
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 16588580883764242266
+      identification: 
+        column-name: CREATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Added By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 9
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED =====================================
+      id: 16588580975929242268
+      identification: 
+        column-name: UPDATED
+        type: Plain Text
+
+      heading: 
+        heading: Updated
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 16588581085723242268
+      identification: 
+        column-name: UPDATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Updated By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 11
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TAGS ========================================
+      id: 16588581276424242268
+      identification: 
+        column-name: TAGS
+        type: Plain Text
+
+      heading: 
+        heading: Tags
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 13
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Never
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FILENAME ====================================
+      id: 16588582277278253360
+      identification: 
+        column-name: FILENAME
+        type: Plain Text
+
+      heading: 
+        heading: Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 14
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: DESCRIPTION =================================
+      id: 16588582382465253362
+      identification: 
+        column-name: DESCRIPTION
+        type: Plain Text
+
+      heading: 
+        heading: Description
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 15
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FILE_SIZE ===================================
+      id: 16588582498898253362
+      identification: 
+        column-name: FILE_SIZE
+        type: Plain Text
+
+      heading: 
+        heading: Size
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 16
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: MIMETYPE ====================================
+      id: 16588582583833253366
+      identification: 
+        column-name: MIMETYPE
+        type: Plain Text
+
+      heading: 
+        heading: Mimetype
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 17
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: DELETE_FILE =================================
+      id: 16588582685232253366
+      identification: 
+        column-name: DELETE_FILE
+        type: Link
+
+      heading: 
+        heading: Delete
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 18
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:52:&SESSION.:DELETE_FILE:&DEBUG.::P52_DELETE_FILE_ID:#ID#'
+          page: 52 # Customer Attachments
+          request: DELETE_FILE
+          values: 
+            p52_delete_file_id: '#ID#'
+
+        link-text: <span class="t-Icon fa fa-trash-o" aria-hidden="true"></span>
+        link-attributes: class="t-Button t-Button--danger t-Button--simple t-Button--small" title="Delete File"
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: true
+
+      security: 
+        authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+        escape-special-characters: true
+
+page-items: 
+- # ====== Page Item: P52_ID ===================================
+  id: 16422400301401045609
+  identification: 
+    name: P52_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Customer Files # 16588579775476242258
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P52_DELETE_FILE_ID =======================
+  id: 16589395780658453785
+  identification: 
+    name: P52_DELETE_FILE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Customer Files # 16588579775476242258
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: Add_FILE ====================================
+  id: 16588581481265242268
+  identification: 
+    button-name: Add_FILE
+    label: Add Attachment
+
+  layout: 
+    sequence: 10
+    region: Customer Files # 16422400683048045609
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:64:&SESSION.::&DEBUG.:64:P64_CUSTOMER_ID:&P52_ID.'
+      page: 64 # Customer Attachment
+      clear-cache: 64
+      values: 
+        p64_customer_id: '&P52_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: RESET_REPORT ================================
+  id: 16588583692993267356
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Customer Files # 16588579775476242258
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:52:&SESSION.::&DEBUG.:RP,RIR::'
+      page: 52 # Customer Attachments
+      clear-cache: RP,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refresh IRR on close ================
+  id: 13525272926263760507
+  identification: 
+    name: Refresh IRR on close
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Button
+    button: Add_FILE # 16588581481265242268
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 13525273027482760508
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Files # 16588579775476242258
+
+    execution-options: 
+      sequence: 10
+      event: Refresh IRR on close # 13525272926263760507
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refresh IRR on Edit Close ===========
+  id: 14276347338507669517
+  identification: 
+    name: Refresh IRR on Edit Close
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Customer Files # 16588579775476242258
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 14276347388662669518
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Customer Files # 16588579775476242258
+
+    execution-options: 
+      sequence: 10
+      event: Refresh IRR on Edit Close # 14276347338507669517
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P50_ID =================================
+  id: 16593360890205509010
+  identification: 
+    item-name: P50_ID
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Item
+    item-name: P52_ID
+
+processes: 
+- # ====== Process: delete file ================================
+  id: 16589395900398459484
+  identification: 
+    name: delete file
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: 'delete from eba_cust_files where id = :P52_DELETE_FILE_ID;'
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Attachment deleted
+
+  server-side-condition: 
+    type: Request = Value
+    value: DELETE_FILE
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+

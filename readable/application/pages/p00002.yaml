@@ -1,0 +1,3059 @@
+---
+# ====== Page: Customer Details ==============================
+id: 2
+identification: 
+  name: Customer Details
+  alias: CUSTOMER-DETAILS
+  title: Customer Details
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+html-header: 
+  html-header: |
+    <script language="JavaScript" type="text/javascript">
+    <!--
+    
+     htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+    
+    function open_url(url) {
+        window.open(url);
+        return ;
+    }
+    
+    //-->
+    </script>
+    <style>
+    .shuttle select {width: 350px}
+    </style>
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Logo ========================================
+  id: 14276347896909669523
+  identification: 
+    title: Logo
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: RDS =========================================
+  id: 15842795300062373619
+  identification: 
+    title: RDS
+    type: Region Display Selector
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      include-'show-all': true
+      remember-last-selection: true
+
+- # ====== Region: Project =====================================
+  id: 17712109859296817149
+  identification: 
+    title: Project
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Classification ==============================
+  id: 17792314710421547006
+  identification: 
+    title: Classification
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Customer Details ============================
+  id: 17798795274611218238
+  identification: 
+    title: Customer Details
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--scrollBody
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUSTOMERS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumbs =================================
+  id: 17798800453222218313
+  identification: 
+    title: Breadcrumbs
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P2_REFERENCABLE ==========================
+  id: 60495880075401371
+  identification: 
+    name: P2_REFERENCABLE
+    type: Select List
+
+  label: 
+    label: Publicly Referenceable
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 470
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: REFERENCABLE # 14757303586572178523
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: REFERENCABLE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: No
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P2_ID
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Would this customer give us a good reference?
+
+  configuration: 
+    build-option: Customer Referencability # 14286825208374281006
+
+- # ====== Page Item: P2_REFERENCE_TYPES =======================
+  id: 60496726131405496
+  identification: 
+    name: P2_REFERENCE_TYPES
+    type: Checkbox Group
+
+  label: 
+    label: Reference Types
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+
+  layout: 
+    sequence: 480
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: REFERENCE_TYPES # 15640351289809627339
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return colon separated value)
+    sql-query: |
+      select listagg(rt.id,':') within group (order by rt.reference_type) types
+      from eba_cust_reference_types rt,
+          eba_cust_customer_reftype_ref ref
+      where rt.id = ref.reference_type_id
+          and ref.customer_id = :P2_ID
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P2_ID
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: In what ways would this customer be willing to be a reference?
+
+  configuration: 
+    build-option: Customer Referencability # 14286825208374281006
+
+- # ====== Page Item: P2_REFERENCE_PHASE_ID ====================
+  id: 60497513369407703
+  identification: 
+    name: P2_REFERENCE_PHASE_ID
+    type: Select List
+
+  label: 
+    label: Reference Phase
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 490
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: REFERENCE PHASE # 15842689991551232403
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: REFERENCE_PHASE_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P2_ID
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Customer Referencability # 14286825208374281006
+
+- # ====== Page Item: P2_REF_RECRUITMENT_OWNER =================
+  id: 60497825861409873
+  identification: 
+    name: P2_REF_RECRUITMENT_OWNER
+    type: Text Field
+
+  label: 
+    label: Recruitment Owner
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 500
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: REF_RECRUITMENT_OWNER
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P2_ID
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Customer Referencability # 14286825208374281006
+
+- # ====== Page Item: P2_TOTAL_CONTRACT_VALUE ==================
+  id: 984041781486622955
+  identification: 
+    name: P2_TOTAL_CONTRACT_VALUE
+    type: Number Field
+
+  label: 
+    label: TCV
+    alignment: Left
+
+  settings: 
+    number-alignment: Right
+
+  layout: 
+    sequence: 170
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TOTAL_CONTRACT_VALUE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Total Contract Value (TCV) is a metric that represents the value of one-time and recurring charges. The TCV does not include usage charges.
+
+  configuration: 
+    build-option: Total Contract Value (TCV) # 1161714135219972214
+
+- # ====== Page Item: P2_DISCOUNT_LEVEL ========================
+  id: 984041889421622956
+  identification: 
+    name: P2_DISCOUNT_LEVEL
+    type: Number Field
+
+  label: 
+    label: Discount
+    alignment: Left
+
+  settings: 
+    minimum-value: 0
+    maximum-value: 100
+    number-alignment: Right
+
+  layout: 
+    sequence: 200
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--postTextBlock
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    post-text-: '%'
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: DISCOUNT_LEVEL
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Discount Percentage # 1161713851662966103
+
+- # ====== Page Item: P2_ANNUAL_RECURRING_REVENUE ==============
+  id: 984042197715622959
+  identification: 
+    name: P2_ANNUAL_RECURRING_REVENUE
+    type: Number Field
+
+  label: 
+    label: ARR
+    alignment: Left
+
+  settings: 
+    number-alignment: Right
+
+  layout: 
+    sequence: 180
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ANNUAL_RECURRING_REVENUE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Annual Recurring Revenue (ARR) is a measure of revenue; it is typically used by companies that sell subscriptions or services.
+
+  configuration: 
+    build-option: Annual Recurring Revenue (ARR) # 1161715259242998972
+
+- # ====== Page Item: P2_CURRENCY ==============================
+  id: 984042353635622960
+  identification: 
+    name: P2_CURRENCY
+    type: Text Field
+
+  label: 
+    label: Currency
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 190
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 20
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CURRENCY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: USD
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Monitory values are to be in this currency.  Default is United States Dollars (USD).
+
+- # ====== Page Item: P2_LOGO ==================================
+  id: 14276348025780669524
+  identification: 
+    name: P2_LOGO
+    type: Display Image
+
+  label: 
+    label: Logo
+    alignment: Left
+
+  settings: 
+    based-on: BLOB Column specified in Item Source
+    filename-column: LOGO_NAME
+    blob-last-updated-column: LOGO_LASTUPD
+
+  layout: 
+    sequence: 460
+    region: Logo # 14276347896909669523
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    custom-attributes: 
+    - 'style="max-width:500px;max-height:250px;"'
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: LOGO_BLOB
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_LOGO_NAME
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_LOGO_NAME =============================
+  id: 14464921145198089793
+  identification: 
+    name: P2_LOGO_NAME
+    type: Display Only
+
+  label: 
+    label: Filename
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 430
+    region: Logo # 14276347896909669523
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: LOGO_NAME
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_LOGO_NAME
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Logo's File Name.
+
+- # ====== Page Item: P2_LOGO_MIMETYPE =========================
+  id: 14464926214268093550
+  identification: 
+    name: P2_LOGO_MIMETYPE
+    type: Display Only
+
+  label: 
+    label: Mimetype
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 440
+    region: Logo # 14276347896909669523
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: LOGO_MIMETYPE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_LOGO_MIMETYPE
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Logo's MIME Type.
+
+- # ====== Page Item: P2_LOGO_BLOB =============================
+  id: 14464968457183115877
+  identification: 
+    name: P2_LOGO_BLOB
+    type: File Browse...
+
+  label: 
+    label: Image/File
+    alignment: Left
+
+  settings: 
+    display-as: Inline File Browse
+    storage-type: BLOB column specified in Item Source attribute
+    mime-type-column: LOGO_MIMETYPE
+    filename-column: LOGO_NAME
+    character-set-column: LOGO_CHARSET
+    blob-last-updated-column: LOGO_LASTUPD
+    display-download-link: true
+    content-disposition: Attachment
+
+  layout: 
+    sequence: 450
+    region: Logo # 14276347896909669523
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: LOGO_BLOB
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Attachments must be under 15M in size.
+    help-text: Select the logo image/file for this customer.
+
+- # ====== Page Item: P2_SUMMARY ===============================
+  id: 14863110255207896388
+  identification: 
+    name: P2_SUMMARY
+    type: Textarea
+
+  label: 
+    label: Project Summary
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 180
+    region: Project # 17712109859296817149
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    width: 80
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: SUMMARY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_STRATEGIC_CUST_PROG ===================
+  id: 15030519812915525923
+  identification: 
+    name: P2_STRATEGIC_CUST_PROG
+    type: Select List
+
+  label: 
+    label: SCP Customer
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 120
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 1
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: Y_OR_N # 17800927397335229149
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: STRATEGIC_CUSTOMER_PROGRAM_YN
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: N
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Strategic Customer Program # 16886892968439277617
+
+- # ====== Page Item: P2_NUMBER_OF_USERS =======================
+  id: 15066898875819020189
+  identification: 
+    name: P2_NUMBER_OF_USERS
+    type: Number Field
+
+  label: 
+    label: Number of Users
+    alignment: Left
+
+  settings: 
+    number-alignment: Right
+
+  layout: 
+    sequence: 160
+    region: Project # 17712109859296817149
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: NUMBER_OF_USERS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter the number of users / employees.
+
+  configuration: 
+    build-option: Number_of_users # 14873966273348850773
+
+- # ====== Page Item: P2_SALES_CHANNEL_ID ======================
+  id: 15842992335020484192
+  identification: 
+    name: P2_SALES_CHANNEL_ID
+    type: Select List
+
+  label: 
+    label: Sales Channel
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 130
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: select  CHANNEL, id from EBA_CUST_SALES_CHANNEL order by 1
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: SALES_CHANNEL_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_LINKEDIN ==============================
+  id: 16610851599474684841
+  identification: 
+    name: P2_LINKEDIN
+    type: Text Field
+
+  label: 
+    label: LinkedIn
+    alignment: Left
+
+  settings: 
+    subtype: URL
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 220
+    region: Classification # 17792314710421547006
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 80
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: LINKEDIN
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_FACEBOOK ==============================
+  id: 16610851775363687401
+  identification: 
+    name: P2_FACEBOOK
+    type: Text Field
+
+  label: 
+    label: Facebook
+    alignment: Left
+
+  settings: 
+    subtype: URL
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 230
+    region: Classification # 17792314710421547006
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 80
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: FACEBOOK
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_TWITTER ===============================
+  id: 16610855992874881633
+  identification: 
+    name: P2_TWITTER
+    type: Text Field
+
+  label: 
+    label: Twitter
+    alignment: Left
+
+  settings: 
+    subtype: URL
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 240
+    region: Classification # 17792314710421547006
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 80
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TWITTER
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_MARQUEE_CUSTOMER_YN ===================
+  id: 16649039788091974770
+  identification: 
+    name: P2_MARQUEE_CUSTOMER_YN
+    type: Select List
+
+  label: 
+    label: Marquee Customer
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 110
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: MARQUEE # 14757305802502183145
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: MARQUEE_CUSTOMER_YN
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: N
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_COUNTRY_ID ============================
+  id: 16887364489343421826
+  identification: 
+    name: P2_COUNTRY_ID
+    type: Select List
+
+  label: 
+    label: Country
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 90
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 1
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: COUNTRIES_P2 # 17307326360871147101
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P2_GEOGRAPHY_ID
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: COUNTRY_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Countries # 16926257625523939711
+
+- # ====== Page Item: P2_TYPE_ID ===============================
+  id: 17000537586570322482
+  identification: 
+    name: P2_TYPE_ID
+    type: Select List
+
+  label: 
+    label: Type
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 50
+    region: Project # 17712109859296817149
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: TYPE # 17039734630296662665
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TYPE_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Select a type.
+
+- # ====== Page Item: P2_USE_CASE_ID ===========================
+  id: 17000538999805322496
+  identification: 
+    name: P2_USE_CASE_ID
+    type: Select List
+
+  label: 
+    label: Use Case
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 150
+    region: Project # 17712109859296817149
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 1
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: USE_CASE # 17125994141500024761
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: USE_CASE_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Select a use case.
+
+  configuration: 
+    build-option: Customer Use Case # 17116199856807611850
+
+- # ====== Page Item: P2_CUSTOMER_PROFILE ======================
+  id: 17719546414515730217
+  identification: 
+    name: P2_CUSTOMER_PROFILE
+    type: Textarea
+
+  label: 
+    label: Customer Description
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 210
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 80
+    height: 5
+
+  validation: 
+    value-required: false
+    maximum-length: 99999999999
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CUSTOMER_PROFILE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_GEOGRAPHY_ID ==========================
+  id: 17793000798176709997
+  identification: 
+    name: P2_GEOGRAPHY_ID
+    type: Select List
+
+  label: 
+    label: Geography
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 80
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: GEOGRAPHY # 14863255921778046444
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: GEOGRAPHY_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Geography # 14954642305559426091
+
+- # ====== Page Item: P2_INDUSTRY_ID ===========================
+  id: 17793001008219712975
+  identification: 
+    name: P2_INDUSTRY_ID
+    type: Select List
+
+  label: 
+    label: Industry
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 70
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 1
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: P2_INDUSTRY_ID LOOKUP # 14822340496428168521
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: INDUSTRY_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The industry in which this particular customer belongs to
+
+- # ====== Page Item: P2_ROW_KEY ===============================
+  id: 17793329094338898808
+  identification: 
+    name: P2_ROW_KEY
+    type: Display Only
+
+  label: 
+    label: 'Customer Unique ID:'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 10
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ROW_KEY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_ID
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_TAGS ==================================
+  id: 17794523215541503608
+  identification: 
+    name: P2_TAGS
+    type: Popup LOV
+
+  label: 
+    label: Tags
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    multiple-values: true
+    separator: ','
+    manual-entry: true
+    search-as-you-type: true
+    minimum-characters: No minimum (0)
+
+  layout: 
+    sequence: 170
+    region: Project # 17712109859296817149
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 1
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select tag
+        from eba_cust_tags_type_sum
+       where content_type = 'CUSTOMER'
+       order by 1
+      
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: TAGS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Enter tags separated by commas
+    help-text: Provide tags for this particular customers
+
+- # ====== Page Item: P2_ID ====================================
+  id: 17798795976416218255
+  identification: 
+    name: P2_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Customer Details # 17798795274611218238
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_CUSTOMER_NAME =========================
+  id: 17798796063735218255
+  identification: 
+    name: P2_CUSTOMER_NAME
+    type: Text Field
+
+  label: 
+    label: Customer Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 30
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required # 14857752276675769898
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: true
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CUSTOMER_NAME
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: Blocklist HTML command characters (<>")
+
+- # ====== Page Item: P2_CATEGORY_ID ===========================
+  id: 17798796264444218269
+  identification: 
+    name: P2_CATEGORY_ID
+    type: Select List
+
+  label: 
+    label: Category
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 60
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACTIVE_CATEGORIES_P2 # 17826482223874066631
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CATEGORY_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_STATUS_ID =============================
+  id: 17798796559609218277
+  identification: 
+    name: P2_STATUS_ID
+    type: Select List
+
+  label: 
+    label: Status
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+    allow-multi-selection: false
+
+  layout: 
+    sequence: 50
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACTIVE_STATUSES_P2 # 17826482809065066631
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- Select -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: STATUS_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Customer Status # 17138001262823690072
+
+- # ====== Page Item: P2_WEB_SITE ==============================
+  id: 17798797254667218278
+  identification: 
+    name: P2_WEB_SITE
+    type: Text Field
+
+  label: 
+    label: Web Site
+    alignment: Left
+
+  settings: 
+    subtype: URL
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 210
+    region: Classification # 17792314710421547006
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 80
+
+  validation: 
+    value-required: false
+    maximum-length: 1000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: WEB_SITE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter the URL of the Customer's Web site.
+
+- # ====== Page Item: P2_STOCK_SYMBOL ==========================
+  id: 17798797474958218280
+  identification: 
+    name: P2_STOCK_SYMBOL
+    type: Text Field
+
+  label: 
+    label: Stock Symbol
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 170
+    region: Classification # 17792314710421547006
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 16
+
+  validation: 
+    value-required: false
+    maximum-length: 30
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: STOCK_SYMBOL
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Stock Symbol of the Customer.
+
+- # ====== Page Item: P2_SIC ===================================
+  id: 17798797664381218280
+  identification: 
+    name: P2_SIC
+    type: Text Field
+
+  label: 
+    label: SIC
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 200
+    region: Classification # 17792314710421547006
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 16
+
+  validation: 
+    value-required: false
+    maximum-length: 30
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: SIC
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter Standard Industry Code of the Customer.
+
+- # ====== Page Item: P2_DUNS ==================================
+  id: 17798797882107218280
+  identification: 
+    name: P2_DUNS
+    type: Text Field
+
+  label: 
+    label: 'DUNS #'
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 190
+    region: Classification # 17792314710421547006
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 16
+
+  validation: 
+    value-required: false
+    maximum-length: 30
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: DUNS
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter unique nine-digit identification sequence of Customer's Business.
+
+- # ====== Page Item: P2_REGION_TITLE ==========================
+  id: 17798841059333689653
+  identification: 
+    name: P2_REGION_TITLE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 100
+    region: Customer Details # 17798795274611218238
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_REQUEST ===============================
+  id: 17827014748513831752
+  identification: 
+    name: P2_REQUEST
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 420
+    region: Breadcrumbs # 17798800453222218313
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Item
+    item: P2_REQUEST
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_PARENT_CUSTOMER_ID ====================
+  id: 18458897496752279618
+  identification: 
+    name: P2_PARENT_CUSTOMER_ID
+    type: Popup LOV
+
+  label: 
+    label: Parent
+    alignment: Left
+
+  settings: 
+    display-as: Modal Dialog
+    initial-fetch: Automatic
+    multiple-values: false
+    manual-entry: false
+    search-as-you-type: false
+
+  layout: 
+    sequence: 40
+    region: Customer Details # 17798795274611218238
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: CUSTOMERS # 16589419985608937808
+    display-extra-values: false
+    display-null-value: true
+    null-display-value: '- No Parent -'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: PARENT_CUSTOMER_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P2_CUSTOMER_ACCOUNT_NUMBER ===============
+  id: 18458897665263279619
+  identification: 
+    name: P2_CUSTOMER_ACCOUNT_NUMBER
+    type: Text Field
+
+  label: 
+    label: Account Number
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 180
+    region: Classification # 17792314710421547006
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CUSTOMER_ACCOUNT_NUMBER
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 17798795359424218239
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Breadcrumbs # 17798800453222218313
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:RP::'
+      page: '&LAST_VIEW.'
+      clear-cache: RP
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 17798795477281218239
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Breadcrumbs # 17798800453222218313
+    position: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--danger
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE');"
+    execute-validations: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_ID
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: SAVE ========================================
+  id: 17798795563150218239
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Breadcrumbs # 17798800453222218313
+    position: CREATE
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_ID
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: CREATE ======================================
+  id: 17798795657586218239
+  identification: 
+    button-name: CREATE
+    label: Add Customer
+
+  layout: 
+    sequence: 40
+    region: Breadcrumbs # 17798800453222218313
+    position: CREATE
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P2_ID
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+validations: 
+- # ====== Validation: Valid Characters in Tags ================
+  id: 273821299722930106
+  identification: 
+    name: Valid Characters in Tags
+
+  execution-options: 
+    sequence: 50
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "not regexp_like( :P2_TAGS, '[:;#\\/\\\\\\?\\&]' )"
+    always-execute: false
+
+  error: 
+    error-message: 'Tags may not contain the following characters: : ; \ / ? &'
+    display-location: Inline with Field and in Notification
+    associated-item: P2_TAGS # 17794523215541503608
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE
+
+- # ====== Validation: Website Must Be a URL starting with http 
+  id: 465061629513632202
+  identification: 
+    name: Website Must Be a URL starting with http
+
+  execution-options: 
+    sequence: 60
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "substr(:P2_WEB_SITE, 1, 4) = 'http'"
+    always-execute: false
+
+  error: 
+    error-message: Please provide a URL that begins with, "http".
+    display-location: Inline with Field and in Notification
+    associated-item: P2_WEB_SITE # 17798797254667218278
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_WEB_SITE
+
+- # ====== Validation: Facebook Must Be a URL starting with http
+  id: 465061789433632203
+  identification: 
+    name: Facebook Must Be a URL starting with http
+
+  execution-options: 
+    sequence: 70
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "substr(:P2_FACEBOOK, 1, 4) = 'http'"
+    always-execute: false
+
+  error: 
+    error-message: Please provide a URL that begins with, "http".
+    display-location: Inline with Field and in Notification
+    associated-item: P2_FACEBOOK # 16610851775363687401
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_FACEBOOK
+
+- # ====== Validation: LinkedIn Must Be a URL starting with http
+  id: 465061838485632204
+  identification: 
+    name: LinkedIn Must Be a URL starting with http
+
+  execution-options: 
+    sequence: 80
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "substr(:P2_LINKEDIN, 1, 4) = 'http'"
+    always-execute: false
+
+  error: 
+    error-message: Please provide a URL that begins with, "http".
+    display-location: Inline with Field and in Notification
+    associated-item: P2_LINKEDIN # 16610851599474684841
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_LINKEDIN
+
+- # ====== Validation: Twitter Must Be a URL starting with http 
+  id: 465061914449632205
+  identification: 
+    name: Twitter Must Be a URL starting with http
+
+  execution-options: 
+    sequence: 90
+
+  validation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "substr(:P2_TWITTER, 1, 4) = 'http'"
+    always-execute: false
+
+  error: 
+    error-message: Please provide a URL that begins with, "http".
+    display-location: Inline with Field and in Notification
+    associated-item: P2_TWITTER # 16610855992874881633
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P2_TWITTER
+
+- # ====== Validation: P2_CATEGORY_ID must be number ===========
+  id: 17798796480797218272
+  identification: 
+    name: P2_CATEGORY_ID must be number
+
+  execution-options: 
+    sequence: 10
+
+  validation: 
+    type: Item is numeric
+    item: P2_CATEGORY_ID
+    always-execute: false
+
+  error: 
+    error-message: Category Id must be number.
+    display-location: Inline with Field and in Notification
+    associated-item: P2_CATEGORY_ID # 17798796264444218269
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 17798795563150218239
+
+- # ====== Validation: P2_STATUS_ID must be number =============
+  id: 17798796760848218277
+  identification: 
+    name: P2_STATUS_ID must be number
+
+  execution-options: 
+    sequence: 20
+
+  validation: 
+    type: Item is numeric
+    item: P2_STATUS_ID
+    always-execute: false
+
+  error: 
+    error-message: Status Id must be number.
+    display-location: Inline with Field and in Notification
+    associated-item: P2_STATUS_ID # 17798796559609218277
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 17798795563150218239
+
+- # ====== Validation: Unique Account Number ===================
+  id: 18458897691231279620
+  identification: 
+    name: Unique Account Number
+
+  execution-options: 
+    sequence: 30
+
+  validation: 
+    type: No Rows returned
+    sql-query: |
+      select null
+      from eba_cust_customers
+      where id <> :P2_ID
+          and customer_account_number = :P2_CUSTOMER_ACCOUNT_NUMBER
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# already associated with another customer.'
+    display-location: Inline with Field and in Notification
+    associated-item: P2_CUSTOMER_ACCOUNT_NUMBER # 18458897665263279619
+
+- # ====== Validation: No Customer Cycles ======================
+  id: 18458897770228279621
+  identification: 
+    name: No Customer Cycles
+
+  execution-options: 
+    sequence: 40
+
+  validation: 
+    type: No Rows returned
+    sql-query: |
+      select null
+      from (  select c.id
+              from eba_cust_customers c
+              start with c.id = :P2_PARENT_CUSTOMER_ID
+              connect by prior parent_customer_id = id
+          ) x
+      where x.id = :P2_ID
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# cannot be circular'
+    display-location: Inline with Field and in Notification
+    associated-item: P2_PARENT_CUSTOMER_ID # 18458897496752279618
+
+processes: 
+- # ====== Process: Fetch Row from EBA_CUST_CUSTOMERS ==========
+  id: 17798800069712218306
+  identification: 
+    name: Fetch Row from EBA_CUST_CUSTOMERS
+    type: Automatic Row Fetch [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_CUSTOMERS
+    primary-key-column-: ID
+    primary-key-item: P2_ID
+
+  execution-options: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Unable to fetch row.
+
+- # ====== Process: Process Row of EBA_CUST_CUSTOMERS ==========
+  id: 17798800170231218306
+  identification: 
+    name: Process Row of EBA_CUST_CUSTOMERS
+    type: Automatic Row Processing (DML) [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_CUSTOMERS
+    primary-key-column-: ID
+    primary-key-item: P2_ID
+    return-key-into-item: P2_ID
+    lock-row: true
+    supported-operations: 'I:U:D'
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Action Processed.
+
+  error: 
+    error-message: Unable to process row of table EBA_CUST_CUSTOMERS.
+    display-location: On Error Page
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+branches: 
+- # ====== Branch: Go To CUSTOMERS after delete ================
+  id: 14908315502142933989
+  identification: 
+    name: Go To CUSTOMERS after delete
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:CUSTOMERS:&SESSION.::&DEBUG.:::'
+      page: CUSTOMERS
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 17798795477281218239
+
+- # ====== Branch: goto edit customer on create ================
+  id: 15066472980541984860
+  identification: 
+    name: goto edit customer on create
+
+  execution-options: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:RP,50:P50_ID:&P2_ID.'
+      page: 50 # Customer
+      clear-cache: RP,50
+      values: 
+        p50_id: '&P2_ID.'
+
+  server-side-condition: 
+    when-button-pressed: CREATE # 17798795657586218239
+
+- # ====== Branch: Go To Page &LAST_VIEW. ======================
+  id: 17798795878250218255
+  identification: 
+    name: Go To Page &LAST_VIEW.
+
+  execution-options: 
+    sequence: 30
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.:&P2_REQUEST.:&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: '&LAST_VIEW.'
+      request: '&P2_REQUEST.'
+
+    save-state-before-branching: true
+

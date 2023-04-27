@@ -1,0 +1,1813 @@
+---
+# ====== Page: &P145_ACTIVITY. ===============================
+id: 145
+identification: 
+  name: '&P145_ACTIVITY.'
+  alias: ACTIVITY
+  title: '&P145_ACTIVITY.'
+  page-group: Activities # 20110470510240044582
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Marquee # 14857704922607769810
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+javascript: 
+  function-and-global-variable-declaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+  execute-when-page-loads: "$('dd.t-AVPList-value img').attr('style','max-height:250px;max-width:500px;');"
+
+css: 
+  inline: |
+    .js-dynamicHideShowRegion { display: none }
+    .apex-rds { visibility: hidden }
+    .t-Report--cleanBorders .t-Report-colHead { border-bottom: 1px solid rgba(0, 0, 0, .05); background-color: #fcfcfc; color: #707070; font-weight: normal; padding-bottom: .8rem; padding-top: .8rem }
+    .t-Report--cleanBorders .js-stickyTableHeader.is-stuck .t-Report-colHead { border-bottom: 0; }
+    .t-Report--cleanBorders .t-Report-cell { border-top: 1px solid #F4F4F4; }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+configuration: 
+  build-option: Activities # 18137428917441624781
+
+regions: 
+- # ====== Region: References ==================================
+  id: 17959702834804746526
+  identification: 
+    title: References
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select rf.id,
+          c.id customer_id,
+          c.customer_name,
+          ct.name contact_name,
+          nvl(a.activity_date, rf.activity_date) activity_date,
+          nvl(a.owner, rf.owner) owner,
+          nvl(a.location, rf.location) location,
+          rf.contact_id
+      from eba_cust_activities a,
+          eba_cust_activity_ref rf,
+          eba_cust_customers c,
+          eba_cust_contacts ct
+      where a.id = :P145_ID
+          and rf.activity_id = a.id
+          and c.id = rf.customer_id
+          and ct.id(+) = rf.contact_id
+      order by lower(c.customer_name), lower(ct.name)
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - t-Region--hiddenOverflow
+    css-classes: 
+    - js-dynamicHideShowRegion
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 14857742002178769869
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      - t-Report--inline
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges 1-15 16-30 in select list (with pagination)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ID ==========================================
+    id: 17959702927779746527
+    identification: 
+      column-name: ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 1
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CUSTOMER_ID =================================
+    id: 17959703035088746528
+    identification: 
+      column-name: CUSTOMER_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 2
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CUSTOMER_NAME ===============================
+    id: 17959703144628746529
+    identification: 
+      column-name: CUSTOMER_NAME
+      type: Link
+
+    heading: 
+      heading: Customer
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:RP:P50_ID:#CUSTOMER_ID#'
+        page: 50 # Customer
+        clear-cache: RP
+        values: 
+          p50_id: '#CUSTOMER_ID#'
+
+      link-text: '#CUSTOMER_NAME#'
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CONTACT_NAME ================================
+    id: 17959703225040746530
+    identification: 
+      column-name: CONTACT_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Contact
+      alignment: start
+
+    layout: 
+      sequence: 4
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTIVITY_DATE ===============================
+    id: 18167451969876751981
+    identification: 
+      column-name: ACTIVITY_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Activity date
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: fmDay, fmDD fmMonth, YYYY
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select null
+        from eba_cust_activities
+        where id = :P145_ID
+            and activity_date is null
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: OWNER =======================================
+    id: 18167452094671751982
+    identification: 
+      column-name: OWNER
+      type: Plain Text
+
+    heading: 
+      heading: Owner
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select null
+        from eba_cust_activities
+        where id = :P145_ID
+            and owner is null
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LOCATION ====================================
+    id: 18167452220656751983
+    identification: 
+      column-name: LOCATION
+      type: Plain Text
+
+    heading: 
+      heading: Location
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select null
+        from eba_cust_activities
+        where id = :P145_ID
+            and location is null
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CONTACT_ID ==================================
+    id: 18167456393069752025
+    identification: 
+      column-name: CONTACT_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 8
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Page Actions ================================
+  id: 18166609760384540024
+  identification: 
+    title: Page Actions
+    type: List
+
+  source: 
+    list: Activity Actions # 18172614503655329440
+
+  layout: 
+    sequence: 120
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader
+    - t-Region--stacked
+    - t-Region--hiddenOverflow
+    - t-Form--stretchInputs
+    render-components: Above Content
+
+  advanced: 
+    static-id: listPageActions
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Links List # 14857747128496769880
+      template-options: 
+      - '#DEFAULT#'
+      - t-LinksList--actions
+      - t-LinksList--showIcons
+
+- # ====== Region: Region display selector =====================
+  id: 18166610105680540026
+  identification: 
+    title: Region display selector
+    type: Region Display Selector
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    render-components: Above Content
+
+  advanced: 
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      include-'show-all': true
+      remember-last-selection: true
+
+- # ====== Region: Hidden Items ================================
+  id: 18166624147432540038
+  identification: 
+    title: Hidden Items
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Attachments =================================
+  id: 18166633240690540060
+  identification: 
+    title: Attachments
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select id,
+          '<a href="'||apex_util.get_blob_file_src('P64_FILE_BLOB',id)||'">'||apex_escape.html(f.file_name)||'</a>' file_name,
+          f.file_mimetype,
+          f.file_charset,
+          apex_util.filesize_mask(dbms_lob.getlength(f.file_blob)) f_len,
+          substr(f.file_comments,1,50)||decode(greatest(length(nvl(f.file_comments,' ')),50),50,null,'...') file_comments,
+          case when instr(upper(f.file_name),'.PPT') > 0or instr(upper(f.file_name),'.PPTX') > 0 then
+              'uFileIcon powerpoint'
+          when instr(upper(f.file_name),'.XLS') > 0 or instr(upper(f.file_name),'.XLSX') > 0 then
+              'uFileIcon excel'
+          when instr(upper(f.file_name),'.DOC') > 0 or instr(upper(f.file_name),'.DOCX') > 0 then
+              'uFileIcon word'
+          when instr(upper(f.file_name),'.PDF') > 0 then
+              'uFileIcon pdf'
+          when instr(upper(f.file_name),'.GIF') > 0 or
+               instr(upper(f.file_name),'.PNG') > 0 or
+               instr(upper(f.file_name),'.TIFF') > 0 or
+               instr(upper(f.file_name),'.JPG') > 0 then
+              'uFileIcon image'
+          else
+              'uFileIcon generic'
+          end file_type,
+          f.created,
+          lower(f.created_by) created_by
+      from eba_cust_activity_files f
+      where f.activity_id = :P145_ID
+      order by f.created desc;
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - js-showMaximizeButton
+    - t-Region--hiddenOverflow
+    css-classes: 
+    - js-dynamicHideShowRegion
+    render-components: Above Content
+
+  advanced: 
+    static-id: rptAttachments
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 14857742002178769869
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--staticRowColors
+      - t-Report--rowHighlight
+      - t-Report--noBorders
+      css-classes: 
+      - t-Report--cleanBorders
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: No attachments found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ID ==========================================
+    id: 18166633665121540061
+    identification: 
+      column-name: ID
+      type: Link
+
+    heading: 
+      heading: <span class="u-VisuallyHidden">Edit</span>
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:114:&SESSION.::&DEBUG.:RP,114:P114_ACTIVITY_ID,P114_ID:&P50_ID.,#ID#'
+        page: 114 # Activity Attachment
+        clear-cache: RP,114
+        values: 
+          p114_activity_id: '&P50_ID.'
+          p114_id: '#ID#'
+
+      link-text: <img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="">
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_NAME ===================================
+    id: 18166634024845540062
+    identification: 
+      column-name: FILE_NAME
+      type: Plain Text
+
+    heading: 
+      heading: Name
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: false
+
+  - # ====== Column: FILE_MIMETYPE ===============================
+    id: 18166634441155540062
+    identification: 
+      column-name: FILE_MIMETYPE
+      type: Hidden Column
+
+    layout: 
+      sequence: 8
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_CHARSET ================================
+    id: 18166634772486540062
+    identification: 
+      column-name: FILE_CHARSET
+      type: Hidden Column
+
+    layout: 
+      sequence: 9
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: F_LEN =======================================
+    id: 18166635228414540063
+    identification: 
+      column-name: F_LEN
+      type: Plain Text
+
+    heading: 
+      heading: Size
+      alignment: end
+
+    layout: 
+      sequence: 4
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_COMMENTS ===============================
+    id: 18166635613847540063
+    identification: 
+      column-name: FILE_COMMENTS
+      type: Plain Text
+
+    heading: 
+      heading: Description
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILE_TYPE ===================================
+    id: 18166635996036540064
+    identification: 
+      column-name: FILE_TYPE
+      type: Hidden Column
+
+    layout: 
+      sequence: 2
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED =====================================
+    id: 18166636465461540064
+    identification: 
+      column-name: CREATED
+      type: Plain Text
+
+    heading: 
+      heading: Added
+      alignment: end
+
+    layout: 
+      sequence: 6
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    column-formatting: 
+      html-expression: '#CREATED# &middot; #CREATED_BY#'
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED_BY ==================================
+    id: 18166636821598540064
+    identification: 
+      column-name: CREATED_BY
+      type: Plain Text
+
+    heading: 
+      heading: Added By
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Never
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Activity ====================================
+  id: 18166641659695540071
+  identification: 
+    title: Activity
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select a.id,
+          a.type_id,
+          a.name,
+          a.description,
+          a.activity_date,
+          a.owner,
+          a.location,
+          a.created,
+          lower(a.created_by) created_by,
+          a.updated,
+          lower(a.updated_by) updated_by,
+          (   select count(*)
+              from eba_cust_activity_ref rf
+              where rf.activity_id = a.id ) references
+      from eba_cust_activities a
+      where a.id = :P145_ID
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUSTOMERS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Value Attribute Pairs - Column # 14857743897467769875
+      template-options: 
+      - '#DEFAULT#'
+      - t-AVPList--leftAligned
+      css-classes: 
+      - t-Report--cleanBorders
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: NAME ========================================
+    id: 17959702126501746519
+    identification: 
+      column-name: NAME
+      type: Plain Text
+
+    heading: 
+      heading: Name
+      alignment: start
+
+    layout: 
+      sequence: 6
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DESCRIPTION =================================
+    id: 17959702265327746520
+    identification: 
+      column-name: DESCRIPTION
+      type: Plain Text
+
+    heading: 
+      heading: Description
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTIVITY_DATE ===============================
+    id: 17959702270057746521
+    identification: 
+      column-name: ACTIVITY_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Activity date
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select null
+        from eba_cust_activities
+        where id = :P145_ID
+            and activity_date is not null
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: OWNER =======================================
+    id: 17959702392799746522
+    identification: 
+      column-name: OWNER
+      type: Plain Text
+
+    heading: 
+      heading: Owner
+      alignment: start
+
+    layout: 
+      sequence: 9
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select null
+        from eba_cust_activities
+        where id = :P145_ID
+            and owner is not null
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LOCATION ====================================
+    id: 17959702542983746523
+    identification: 
+      column-name: LOCATION
+      type: Plain Text
+
+    heading: 
+      heading: Location
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select null
+        from eba_cust_activities
+        where id = :P145_ID
+            and location is not null
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED_BY ==================================
+    id: 17959702657673746524
+    identification: 
+      column-name: CREATED_BY
+      type: Hidden Column
+
+    layout: 
+      sequence: 14
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: REFERENCES ==================================
+    id: 17959702670533746525
+    identification: 
+      column-name: REFERENCES
+      type: Plain Text
+
+    heading: 
+      heading: References
+      alignment: start
+
+    layout: 
+      sequence: 12
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED =====================================
+    id: 18166644837968540087
+    identification: 
+      column-name: CREATED
+      type: Plain Text
+
+    heading: 
+      heading: Created
+      alignment: start
+
+    layout: 
+      sequence: 13
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: SINCE
+
+    column-formatting: 
+      html-expression: '#CREATED# by <i>#CREATED_BY#</i>'
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ID ==========================================
+    id: 18166656334164540158
+    identification: 
+      column-name: ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 1
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TYPE_ID =====================================
+    id: 18166657094115540161
+    identification: 
+      column-name: TYPE_ID
+      type: Plain Text (based on List of Values)
+
+    heading: 
+      heading: Type
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: ACTIVITY TYPES # 18144412855379977785
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED =====================================
+    id: 18166657948621540164
+    identification: 
+      column-name: UPDATED
+      type: Plain Text
+
+    heading: 
+      heading: Updated
+      alignment: start
+
+    layout: 
+      sequence: 15
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: Since
+
+    column-formatting: 
+      html-expression: '#UPDATED# by <i>#UPDATED_BY#</i><!-- <button type="button" class="t-Button t-Button--icon t-Button--small t-Button--iconRight" onclick="f?p=&APP_ID.:117:&APP_SESSION.:::RP:P117_ID:#ID#"><span class="t-Button-label">View History</span><span class="t-Icon t-Icon--right fa fa-external-link" aria-hidden="true"></span></button>-->'
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED_BY ==================================
+    id: 18166658328807540166
+    identification: 
+      column-name: UPDATED_BY
+      type: Hidden Column
+
+    layout: 
+      sequence: 16
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Breadcrumb ==================================
+  id: 18166659877352540171
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 80
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P145_ID ==================================
+  id: 18166624485507540039
+  identification: 
+    name: P145_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Hidden Items # 18166624147432540038
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P145_ACTIVITY ============================
+  id: 18167452366087751984
+  identification: 
+    name: P145_ACTIVITY
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Hidden Items # 18166624147432540038
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select name
+      from eba_cust_activities
+      where id = :P145_ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: POPATTACHMENT ===============================
+  id: 18166637188013540065
+  identification: 
+    button-name: POPATTACHMENT
+    label: Add Attachment
+
+  layout: 
+    sequence: 90
+    region: Attachments # 18166633240690540060
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-plus
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:64:&SESSION.::&DEBUG.:RP,64:P64_CUSTOMER_ID:&P145_ID.'
+      page: 64 # Customer Attachment
+      clear-cache: RP,64
+      values: 
+        p64_customer_id: '&P145_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: VIEW_ATTACHMENTS ============================
+  id: 18166637649634540065
+  identification: 
+    button-name: VIEW_ATTACHMENTS
+    label: View Attachments
+
+  layout: 
+    sequence: 100
+    region: Attachments # 18166633240690540060
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:52:&SESSION.::&DEBUG.:52:P52_ID:&P145_ID.'
+      page: 52 # Customer Attachments
+      clear-cache: 52
+      values: 
+        p52_id: '&P145_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RELOAD ======================================
+  id: 18166660267895540172
+  identification: 
+    button-name: RELOAD
+    label: Reload
+
+  layout: 
+    sequence: 1
+    region: Breadcrumb # 18166659877352540171
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-undo
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&APP_PAGE_ID.:&SESSION.::&DEBUG.:RP::'
+      page: '&APP_PAGE_ID.'
+      clear-cache: RP
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: EDIT ========================================
+  id: 18166660760804540172
+  identification: 
+    button-name: EDIT
+    label: Edit Activity
+
+  layout: 
+    sequence: 110
+    region: Breadcrumb # 18166659877352540171
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:56:&SESSION.::&DEBUG.:RP,56:P56_ID:&P145_ID.'
+      page: 56 # Activity Details
+      clear-cache: RP,56
+      values: 
+        p56_id: '&P145_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+dynamic-actions: 
+- # ====== Dynamic Action: Handle Show / Hide Content Regions ==
+  id: 18166686000158540220
+  identification: 
+    name: Handle Show / Hide Content Regions
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.READY
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 18166686527043540221
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        (function() {
+          function toggleRegion() {
+              var $region = $(this)
+                noDataFound = $region.find('.nodatafound').length === 1;
+              
+              //triggering after hide/show because that what the RDS response to
+              if (noDataFound) {
+                $region.hide();
+                $region.trigger('apexafterhide');
+              } else {
+                $region.show();
+                $region.trigger('apexaftershow');
+              }
+          }
+          
+          function initHIdeShowRegions() {
+            var $regions = $('.js-dynamicHideShowRegion'),
+              $rds = $('.apex-rds');
+        
+            $regions
+              .each(toggleRegion)
+              .on('apexafterrefresh', toggleRegion);
+         
+            //using visiblity over display to avoid DOM movement issues
+            $rds.css('visibility', 'visible');
+          } 
+        
+          //using load because document.ready here goes before the RDS has added its listeners
+          $(window).on('theme42ready',initHIdeShowRegions);
+        }())
+
+    execution-options: 
+      sequence: 10
+      event: Handle Show / Hide Content Regions # 18166686000158540220
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: Refresh Page Regions on dialog close 
+  id: 18166688708747540224
+  identification: 
+    name: Refresh Page Regions on dialog close
+
+  execution-options: 
+    sequence: 110
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Page Actions # 18166609760384540024
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 18166689699687540225
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Attachments # 18166633240690540060
+
+    execution-options: 
+      sequence: 20
+      event: Refresh Page Regions on dialog close # 18166688708747540224
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refresh Attachments =================
+  id: 18166693010506540228
+  identification: 
+    name: Refresh Attachments
+
+  execution-options: 
+    sequence: 80
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Page Actions # 18166609760384540024
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 18166693510640540228
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Attachments # 18166633240690540060
+
+    execution-options: 
+      sequence: 10
+      event: Refresh Attachments # 18166693010506540228
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refresh Page ========================
+  id: 18167452432545751985
+  identification: 
+    name: Refresh Page
+
+  execution-options: 
+    sequence: 120
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Button
+    button: EDIT # 18166660760804540172
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_JAVASCRIPT_CODE ======================
+    id: 18167452504539751986
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: location.reload();
+
+    affected-elements: 
+      selection-type: Region
+      region: Breadcrumb # 18166659877352540171
+
+    execution-options: 
+      sequence: 10
+      event: Refresh Page # 18167452432545751985
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P145_ACTIVITY ==========================
+  id: 18166682302188540208
+  identification: 
+    item-name: P145_ACTIVITY
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select name
+      from eba_cust_activities
+      where id = :P145_ID
+
+- # ====== Computation: LAST_VIEW ==============================
+  id: 18166682689717540210
+  identification: 
+    item-name: LAST_VIEW
+
+  execution-options: 
+    sequence: 20
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: 145
+
+processes: 
+- # ====== Process: Count Clicks ===============================
+  id: 18166683398455540212
+  identification: 
+    name: Count Clicks
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      insert into eba_cust_clicks (cust_id) values (:P145_ID);
+      delete from eba_cust_clicks where view_timestamp < (sysdate - 90);
+      commit;
+
+  execution-options: 
+    sequence: 60
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+

@@ -1,0 +1,771 @@
+---
+# ====== Page: Customer Product Use ==========================
+id: 19
+identification: 
+  name: Customer Product Use
+  alias: CUSTOMER-PRODUCT-USE
+  title: Customer Product Use
+  page-group: Products # 14718650684154372230
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 17803526608923036421
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Customer Product Use ========================
+  id: 17803527021995036423
+  identification: 
+    title: Customer Product Use
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select p.product_name,
+          c.customer_name,
+          c.row_key customer_row_key,
+          c.referencable,
+          c.tags,
+          u.customer_id,
+          u.product_id,
+          u.reference_status_id,
+          (
+              select listagg(rt.reference_type,', ') within group (order by rt.reference_type)
+                from eba_cust_reference_types rt
+               where ':'||u.reference_type_ids||':' like '%:'||rt.id||':%'
+          ) as reference_types,
+          decode( u.customer_contact_id, null, null,
+              (select decode(email, null, name, '<a href="mailto:' || apex_escape.html(email) || '">'
+                             || apex_escape.html(name) || '</a>')
+               from EBA_CUST_CONTACTS where id = u.customer_contact_id) ) as customer_contact,
+          case when instr(nvl(u.internal_contact,'xxx'), '@') = 0 then
+                  apex_escape.html(u.internal_contact)
+               else '<a href="mailto:' || apex_escape.html(u.internal_contact) || '">'
+                   || apex_escape.html(u.internal_contact) || '</a>' end as internal_contact,
+          u.valid_from,
+          u.valid_to
+      from eba_cust_customers c,
+          eba_cust_product_uses u,
+          eba_cust_products p
+      where p.id = u.product_id
+          and c.id = u.customer_id
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: CUSTOMERS_PRODUCTS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 17803527123644036423
+    link: 
+      link-column: Exclude Link Column
+
+    appearance: 
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 10000
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 17803527802598036703
+      identification: 
+        name: Primary Report
+        alias: 9117469
+
+    columns: 
+    - # ====== Column: REFERENCE_STATUS_ID =========================
+      id: 14276346283737669507
+      identification: 
+        column-name: REFERENCE_STATUS_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: PRODUCT STATUSES # 14279675779419505523
+
+      heading: 
+        heading: Reference Status
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 59
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: |
+          APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Product Referencability') = 'INCLUDE'
+
+    - # ====== Column: REFERENCE_TYPES =============================
+      id: 14276346458459669508
+      identification: 
+        column-name: REFERENCE_TYPES
+        type: Plain Text
+
+      heading: 
+        heading: Reference Assets
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 69
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: |
+          APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Product Referencability') = 'INCLUDE'
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMER_CONTACT ============================
+      id: 14276346545480669509
+      identification: 
+        column-name: CUSTOMER_CONTACT
+        type: Plain Text
+
+      heading: 
+        heading: Customer Contact
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 79
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: INTERNAL_CONTACT ============================
+      id: 14276346591092669510
+      identification: 
+        column-name: INTERNAL_CONTACT
+        type: Plain Text
+
+      heading: 
+        heading: Internal Contact
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 89
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: VALID_FROM ==================================
+      id: 14276346672262669511
+      identification: 
+        column-name: VALID_FROM
+        type: Plain Text
+
+      heading: 
+        heading: Valid From
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 99
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALID_TO ====================================
+      id: 14276346832360669512
+      identification: 
+        column-name: VALID_TO
+        type: Plain Text
+
+      heading: 
+        heading: Valid Until
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 109
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PRODUCT_NAME ================================
+      id: 17803527303636036424
+      identification: 
+        column-name: PRODUCT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Product / Service
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 1
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMER_NAME ===============================
+      id: 17803527420487036425
+      identification: 
+        column-name: CUSTOMER_NAME
+        type: Link
+
+      heading: 
+        heading: Customer
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 2
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:50,RP:P50_ID:#CUSTOMER_ID#'
+          page: 50 # Customer
+          clear-cache: 50,RP
+          values: 
+            p50_id: '#CUSTOMER_ID#'
+
+        link-text: '#CUSTOMER_NAME#'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMER_ROW_KEY ============================
+      id: 17803527513662036425
+      identification: 
+        column-name: CUSTOMER_ROW_KEY
+        type: Plain Text
+
+      heading: 
+        heading: Customer Row Key
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 3
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: REFERENCABLE ================================
+      id: 17803527605523036426
+      identification: 
+        column-name: REFERENCABLE
+        type: Plain Text
+
+      heading: 
+        heading: Publicly Referenceable
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 4
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: |
+          APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Customer Referencability') = 'INCLUDE'
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TAGS ========================================
+      id: 17803527721611036426
+      identification: 
+        column-name: TAGS
+        type: Plain Text
+
+      heading: 
+        heading: Tags
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 5
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMER_ID =================================
+      id: 17803528312295039496
+      identification: 
+        column-name: CUSTOMER_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Customer
+
+      layout: 
+        sequence: 6
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: PRODUCT_ID ==================================
+      id: 17803528417345039496
+      identification: 
+        column-name: PRODUCT_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Product
+
+      layout: 
+        sequence: 7
+
+      security: 
+        escape-special-characters: false
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 2013619193079979773
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 17803526608923036421
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:RP::'
+      page: '&LAST_VIEW.'
+      clear-cache: RP
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: RESET =======================================
+  id: 14720895790917424052
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Customer Product Use # 17803527021995036423
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:19:&SESSION.::&DEBUG.:RP,19,RIR::'
+      page: 19 # Customer Product Use
+      clear-cache: RP,19,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="5b90d5d8893f78b8c747842a895d98d07c39c29d" author="(LOGGER_USER)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="BIU_LOGGER_APEX_ITEMS" objectType="TRIGGER" ownerName="LOGGER_USER"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "LOGGER_USER"."BIU_LOGGER_APEX_ITEMS" 
+  before insert or update on logger_logs_apex_items
+for each row
+begin
+  $if $$logger_no_op_install $then
+    null;
+  $else
+    :new.id := logger_apx_items_seq.nextval;
+  $end
+end;
+
+ALTER TRIGGER "LOGGER_USER"."BIU_LOGGER_APEX_ITEMS" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

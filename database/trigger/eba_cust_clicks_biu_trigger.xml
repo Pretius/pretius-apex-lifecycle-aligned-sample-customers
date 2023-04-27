@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="ed0b86afcbdade958355ca984397c37c24a88a80" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="EBA_CUST_CLICKS_BIU" objectType="TRIGGER" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SAMPLE_CUSTOMERS"."EBA_CUST_CLICKS_BIU" 
+    before insert on eba_cust_clicks
+    for each row
+begin
+     if :new.id is null then
+         :new.id := eba_cust_seq.nextval;
+     end if;
+     :new.view_timestamp := current_timestamp;
+     :new.app_username := nvl(v('APP_USER'),user);
+     :new.app_session := v('APP_SESSION');
+end;
+
+ALTER TRIGGER "SAMPLE_CUSTOMERS"."EBA_CUST_CLICKS_BIU" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

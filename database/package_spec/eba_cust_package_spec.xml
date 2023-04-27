@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="5391b31f08d6fec91aa56b1124e731161c3a2d58" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOraclePackageSpec objectName="EBA_CUST" objectType="PACKAGE_SPEC" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SAMPLE_CUSTOMERS"."EBA_CUST" as
+    -------------------------------------------------------------------------
+    -- Generates a unique Identifier
+    -------------------------------------------------------------------------
+    function gen_id return number;
+    -------------------------------------------------------------------------
+    -- Gets the current user's authorization level. Can depend on the following:
+    --  * If access control is currently disabled, returns highest level of 3.
+    --  * If access control is enabled, but user is not in list, returns 0
+    --  * If access control is enabled and user is in list, returns their
+    --    access level.
+    -------------------------------------------------------------------------
+    function get_authorization_level (
+        p_username             varchar2)
+        return number;
+    -------------------------------------------------------------------------
+    -- Gets the current user's feature level. 
+    --   Based on combination of the ACL Feature's access level and user's access level (if access control enabled) 
+    -------------------------------------------------------------------------
+    function get_feature_level (
+        p_username             varchar2,
+        p_authorization_name   varchar2)
+        return boolean;
+    -------------------------------------------------------------------------
+    procedure eba_cust_add_views_log(
+        p_view_type varchar2,
+        p_id number
+    );
+        
+end eba_cust;
+]]></n0:source>
+		</n0:createOraclePackageSpec>
+	</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,161 @@
+---
+# ====== Application: Customers ==============================
+id: 102
+identification: 
+  name: Customers
+  alias: CUSTOMERS
+  version: 22.1.0
+  application-group: 22.1 Starter Apps # 162622091734521428
+
+row-search: 
+  tokenize: false
+
+availability: 
+  status: Available with Developer Toolbar
+  build-status: Run and Build Application
+
+error-handling: 
+  default-display-location: Inline with Field and in Notification
+  error-handling-function: eba_cust_fw.apex_error_handling
+
+report-printing: 
+  type: Use Instance Settings
+
+advanced: 
+  friendly-urls: true
+  allow-feedback: false
+  logging: true
+  debugging: true
+  compatibility-mode: 21.2 / 22.1
+  copyright-banner: |
+    Name: #APP_NAME#
+    Copyright (c)2012, #YEAR# Oracle and/or its affiliates.
+    Licensed under the Universal Permissive License v 1.0 as shown 
+    at https://oss.oracle.com/licenses/upl/
+
+authentication: 
+  public-user: APEX_PUBLIC_USER
+  authentication-scheme: Application Express Accounts # 17798789260151217963
+
+authorization: 
+  authorization-scheme: APPLICATION SENTRY # 15965136105005268988
+  run-on-public-pages: false
+  run-on-background-job: true
+  source-for-role-or-group-schemes: Access Control User Role Assignments
+
+session-management: 
+  rejoin-sessions: Enabled for Public Sessions
+  maximum-session-length: 28800
+  maximum-session-idle-time: 28800
+
+session-state-protection: 
+  enabled: true
+
+security: 
+  deep-linking: Enabled
+  browser-cache: Disabled
+  embed-in-frames: Deny
+  referrer-policy: strict-origin
+  html-escaping-mode: Extended
+  runtime-api-usage: 
+  - Modify This Application
+
+database-session: 
+  parsing-schema: SAMPLE_CUSTOMERS
+
+globalization: 
+  primary-language: English (United States) (en-us)
+  document-direction: Left-To-Right
+  language-derived-from: Application Primary Language
+  automatic-time-zone: false
+  automatic-csv-encoding: false
+
+application-format-masks: 
+  date: DS
+  timestamp: DS
+
+character-value-comparison: 
+  behavior: Database session NLS setting (default)
+
+logo: 
+  type: Text
+  text: '&APPLICATION_TITLE.'
+
+progressive-web-app: 
+  enable: false
+
+substitutions: 
+- # ====== Substitution: APP_DATE_FORMAT =======================
+  id: 10903513818591508
+  identification: 
+    name: APP_DATE_FORMAT
+
+  value: 
+    static-value: DD-MON-YYYY
+
+- # ====== Substitution: GETTING_STARTED_URL ===================
+  id: 10903513818591507
+  identification: 
+    name: GETTING_STARTED_URL
+
+  value: 
+    static-value: 'http://www.oracle.com/technetwork/developer-tools/apex/index.html'
+
+- # ====== Substitution: APP_DATETIME_FORMAT ===================
+  id: 10903513818591506
+  identification: 
+    name: APP_DATETIME_FORMAT
+
+  value: 
+    static-value: 'DD-MON-YYYY HH24:MI'
+
+- # ====== Substitution: APP_NAME ==============================
+  id: 10903513818591505
+  identification: 
+    name: APP_NAME
+
+  value: 
+    static-value: Customers
+
+user-interfaces: 
+- # ====== User Interface: DESKTOP =============================
+  id: 14542516592926628312
+  identification: 
+    name: DESKTOP
+
+  navigation: 
+    home-url: 
+      url: 'f?p=&APP_ID.:59:&SESSION.'
+      page: 59 # Customers
+
+  navigation-menu: 
+    list-template: Side Navigation Menu # 14857751184094769892
+    template-options: 
+    - '#DEFAULT#'
+    - js-defaultCollapsed
+    - js-navCollapsed--hidden
+    - t-TreeNav--styleA
+    list-position: Side
+    list: Application Navigation # 14857842905771835523
+
+  navigation-bar: 
+    implementation: List
+    list: Navigation Bar # 14872150735613499327
+    list-template: Navigation Bar # 14857750970564769891
+
+  javascript: 
+    include-deprecated-or-desupported-javascript-functions: 
+    - Pre 18.1
+    - 18.x
+    include-jquery-migrate: false
+
+  css: 
+    file-urls: 
+    - '#IMAGE_PREFIX#pkgapp_ui/css/5.0#MIN#.css'
+
+  attributes: 
+    theme: Universal Theme # 42
+    global-page: 0
+    enable-end-users-to-choose-theme-style: true
+    add-"built-with-apex"-to-footer: true
+

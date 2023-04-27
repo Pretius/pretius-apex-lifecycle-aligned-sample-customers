@@ -1,0 +1,762 @@
+---
+# ====== Page: New User Details ==============================
+id: 192
+identification: 
+  name: New User Details
+  alias: NEW-USER-DETAILS
+  title: New User Details
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog # 14857708428617769813
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+javascript: 
+  function-and-global-variable-declaration: var htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Buttons =====================================
+  id: 3127740007662358685
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Information =================================
+  id: 5905001476599300087
+  identification: 
+    title: Information
+    type: PL/SQL Dynamic Content
+
+  source: 
+    pl/sql-code: |
+      htp.prn(replace(
+          apex_lang.message('ACCESS_CONTROL_INFO'),
+          '#IMAGE_PREFIX'||'#',
+          :image_prefix));
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noBorder
+    - t-Region--hiddenOverflow
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+- # ====== Region: Form Items ==================================
+  id: 5905001683179302016
+  identification: 
+    title: Form Items
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: User Details # 7008580179113075895
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: User Details ================================
+  id: 7008580179113075895
+  identification: 
+    title: User Details
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P192_USERNAME ============================
+  id: 1162467068737596152
+  identification: 
+    name: P192_USERNAME
+    type: Text Field
+
+  label: 
+    label: Username
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Form Items # 5905001683179302016
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required # 14857752276675769898
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  read-only: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P192_SEQUENCE is not null and lower(:APP_USER) = lower(:P192_USERNAME)'
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    help-text: The username assigned by this user.
+
+- # ====== Page Item: P192_ACCESS_LEVEL_ID =====================
+  id: 1162467909140596152
+  identification: 
+    name: P192_ACCESS_LEVEL_ID
+    type: Radio Group
+
+  label: 
+    label: Access Level
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 30
+    region: Form Items # 5905001683179302016
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required # 14857752276675769898
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACCESS_LEVELS # 15689140690989520564
+    display-extra-values: true
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: 2
+
+  read-only: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P192_SEQUENCE is not null and lower(:APP_USER) = lower(:P192_USERNAME)'
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    help-text: The access level assigned to this user.
+
+- # ====== Page Item: P192_SEQUENCE ============================
+  id: 1162468850159596153
+  identification: 
+    name: P192_SEQUENCE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Form Items # 5905001683179302016
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 1162469520043596154
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 40
+    region: Buttons # 3127740007662358685
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: DELETE ======================================
+  id: 1162469913029596154
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 50
+    region: Buttons # 3127740007662358685
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--simple
+    - t-Button--danger
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE');"
+    execute-validations: false
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P192_SEQUENCE is not null and lower(:APP_USER) != lower(:P192_USERNAME)'
+
+- # ====== Button: SAVE ========================================
+  id: 1162470352170596154
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 20
+    region: Buttons # 3127740007662358685
+    position: EDIT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P192_SEQUENCE
+
+- # ====== Button: CREATE_AGAIN ================================
+  id: 1162470763959596155
+  identification: 
+    button-name: CREATE_AGAIN
+    label: Add and Add Another
+
+  layout: 
+    sequence: 10
+    region: Buttons # 3127740007662358685
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P192_SEQUENCE
+
+- # ====== Button: CREATE ======================================
+  id: 1162471116475596155
+  identification: 
+    button-name: CREATE
+    label: Add User
+
+  layout: 
+    sequence: 30
+    region: Buttons # 3127740007662358685
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P192_SEQUENCE
+
+dynamic-actions: 
+- # ====== Dynamic Action: Close Dialog ========================
+  id: 1162474736635596159
+  identification: 
+    name: Close Dialog
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 1162469520043596154
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CLOSE =========================
+    id: 1162475245692596159
+    identification: 
+      action: Close Dialog
+
+    execution-options: 
+      sequence: 10
+      event: Close Dialog # 1162474736635596159
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+validations: 
+- # ====== Validation: Username is unique ======================
+  id: 1162471643731596156
+  identification: 
+    name: Username is unique
+
+  execution-options: 
+    sequence: 40
+
+  validation: 
+    type: No Rows returned
+    sql-query: |
+      select
+          null
+      from
+          apex_collections
+      where
+          collection_name = 'NEW_USERS'
+      and
+          lower(c001) = lower(:P192_USERNAME)
+      and
+          :P192_SEQUENCE is null;
+    always-execute: false
+
+  error: 
+    error-message: This username has already been added. Please enter a unique username.
+    display-location: Inline with Field and in Notification
+    associated-item: P192_USERNAME # 1162467068737596152
+
+- # ====== Validation: P192_USERNAME Email is Valid ============
+  id: 1162471982560596156
+  identification: 
+    name: P192_USERNAME Email is Valid
+
+  execution-options: 
+    sequence: 30
+
+  validation: 
+    type: Item matches Regular Expression
+    item: P192_USERNAME
+    regular-expression: ^[-!#$%&''''*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&''''*+/0-9=?A-Z^_a-z{|}~])*@(-?[a-zA-Z0-9+])+(\.(-?[a-zA-Z0-9+])*)+$
+    always-execute: false
+
+  error: 
+    error-message: Username is not in a valid email address format. Please note the application's username format below.
+    display-location: Inline with Field and in Notification
+    associated-item: P192_USERNAME # 1162467068737596152
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value ('USERNAME_FORMAT') = 'EMAIL'
+
+- # ====== Validation: cannot update yourself ==================
+  id: 1162472423048596156
+  identification: 
+    name: cannot update yourself
+
+  execution-options: 
+    sequence: 10
+
+  validation: 
+    type: No Rows returned
+    sql-query: |
+      select 1
+        from eba_cust_users
+       where upper(username) = :APP_USER
+         and upper(username) = upper(:P192_USERNAME)
+    always-execute: false
+
+  error: 
+    error-message: You cannot update your own record.
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 1162470352170596154
+
+processes: 
+- # ====== Process: Add User to Collection =====================
+  id: 1162472707022596157
+  identification: 
+    name: Add User to Collection
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      apex_collection.add_member(
+          p_collection_name => 'NEW_USERS',
+          p_c001            => lower(:P192_USERNAME),
+          p_n001            => :P192_ACCESS_LEVEL_ID);
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: '&P192_USERNAME. added successfully.'
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,CREATE_AGAIN
+
+- # ====== Process: Close Dialog ===============================
+  id: 1162473123635596157
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+
+- # ====== Process: Remove User from Collection ================
+  id: 1162473494522596157
+  identification: 
+    name: Remove User from Collection
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: "apex_collection.delete_member(p_collection_name => 'NEW_USERS', p_seq => :P192_SEQUENCE);"
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 1162469913029596154
+
+- # ====== Process: Update User in Collection ==================
+  id: 1162473910141596158
+  identification: 
+    name: Update User in Collection
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      apex_collection.update_member(
+          p_collection_name => 'NEW_USERS',
+          p_c001            => lower(:P192_USERNAME),
+          p_n001            => :P192_ACCESS_LEVEL_ID,
+          p_seq             => :P192_SEQUENCE);
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 1162470352170596154
+
+- # ====== Process: reset page =================================
+  id: 1162474339929596158
+  identification: 
+    name: reset page
+    type: Clear Session State
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution-options: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CREATE_AGAIN # 1162470763959596155
+
+branches: 
+- # ====== Branch: Add and Add Another =========================
+  id: 1162475730330596160
+  identification: 
+    name: Add and Add Another
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:&APP_PAGE_ID.:&SESSION.::&DEBUG.:&APP_PAGE_ID.::&success_msg=#SUCCESS_MSG#'
+      page: '&APP_PAGE_ID.'
+      clear-cache: '&APP_PAGE_ID.'
+
+  server-side-condition: 
+    when-button-pressed: CREATE_AGAIN # 1162470763959596155
+

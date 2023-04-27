@@ -1,0 +1,883 @@
+---
+# ====== Page: Customer History ==============================
+id: 117
+identification: 
+  name: Customer History
+  alias: CUSTOMER-HISTORY
+  title: Customer History
+  page-group: Reports # 14718650376536369951
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+css: 
+  inline: '.t-ButtonRegion.dialog-filters {margin: 0;}'
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Filters =====================================
+  id: 17948198087158366217
+  identification: 
+    title: Filters
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--slimPadding
+    - t-ButtonRegion--noBorder
+    css-classes: 
+    - dialog-filters
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Never
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Change Log ==================================
+  id: 17948199358786366228
+  identification: 
+    title: Change Log
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select comment_modifiers,
+          note_type,
+          comment_text,
+          attribute_1,
+          attribute_2,
+          attribute_3,
+          attribute_4,
+          user_name,
+          comment_date,
+          icon_modifier,
+          user_icon,
+          actions,
+          update_id,
+          apex_util.prepare_url('f?p=' || :APP_ID || ':133:' || :APP_SESSION || ':::133,RIR:IR_USERNAME:' || x.user_id) as profile_url
+      from (
+      /*      select 'is-systemMessage' comment_modifiers, --use is-systemMessage for gray look
+                  'View' note_type,
+                  'Project Viewed' comment_text,
+                  '  ' attribute_1,
+                  ' ' attribute_2,
+                  ' ' attribute_3,
+                  ' ' attribute_4,
+                  lower(f.APP_USERNAME) user_name,
+                  apex_util.get_since(f.VIEW_TIMESTAMP) comment_date,
+                  ora_hash(f.VIEW_TIMESTAMP,29) icon_modifier,
+                  --
+                  upper(
+                        decode(instr(replace(f.APP_USERNAME,'.',' '),' '),
+                               0, 
+                               substr(f.APP_USERNAME,1,2),
+                               substr(f.APP_USERNAME,1,1)||substr(f.APP_USERNAME,instr(replace(f.APP_USERNAME,'.',' '),' ')+1,1)
+                         )) user_icon,
+                  --
+                  ' ' actions,
+                  null update_id,
+                  f.VIEW_TIMESTAMP,
+                  f.APP_USERNAME as user_id
+              from EBA_PROJ_STATUS_CLICKS f
+              where project_id = :P117_ID and NVL(:P117_SHOW_VIEWS,'N') = 'Y'
+          union all
+      */
+          select
+              'is-systemMessage' comment_modifiers, --use is-systemMessage for gray look
+              'Update' note_type,
+              initcap(replace(replace(h.column_name,'_ID',null),'_',' ')) comment_text,
+              ' changed from "'||h.old_value||'"' attribute_1,
+              ' to "'||h.new_value||'"' attribute_2,
+              ' ' attribute_3,
+              ' ' attribute_4,
+              lower(h.changed_by) user_name,
+              apex_util.get_since(h.change_date)||' - '||to_char(h.change_date,'Day DD-MON-YYYY HH24:MI') comment_date,
+              ora_hash(h.changed_by,29) icon_modifier,
+              upper(
+                    decode(instr(replace(h.changed_by,'.',' '),' '),
+                           0, 
+                           substr(h.changed_by,1,2),
+                           substr(h.changed_by,1,1)||substr(h.changed_by,instr(replace(h.changed_by,'.',' '),' ')+1,1)
+                     )) user_icon,
+              ' ' as actions,
+              null update_id,
+              h.change_date,
+              h.changed_by user_id
+          from eba_cust_history h
+          where h.component_id = :P117_ID
+              and h.table_name = 'CUSTOMERS'
+          union all
+          select
+              'is-systemMessage' comment_modifiers, --use is-systemMessage for gray look
+              'Product Update' note_type,
+              initcap(replace(replace(h.column_name,'_ID',null),'_',' ')) comment_text,
+              ' changed from "'||h.old_value||'"' attribute_1,
+              ' to "'||h.new_value||'"' attribute_2,
+              ' ' attribute_3,
+              ' ' attribute_4,
+              lower(h.changed_by) user_name,
+              apex_util.get_since(h.change_date)||' - '||to_char(h.change_date,'Day DD-MON-YYYY HH24:MI') comment_date,
+              ora_hash(h.changed_by,29) icon_modifier,
+              upper(
+                    decode(instr(replace(h.changed_by,'.',' '),' '),
+                           0, 
+                           substr(h.changed_by,1,2),
+                           substr(h.changed_by,1,1)||substr(h.changed_by,instr(replace(h.changed_by,'.',' '),' ')+1,1)
+                     )) user_icon,
+              ' ' as actions,
+              null update_id,
+              h.change_date,
+              h.changed_by user_id
+          from eba_cust_history h
+          where h.component_id = :P117_ID
+              and h.table_name = 'PRODUCT_USES'
+          union all
+          select
+              'is-systemMessage' comment_modifiers, --use is-systemMessage for gray look
+              'Contact Update' note_type,
+              decode(sign(eba_cust.get_authorization_level(:APP_USER)-1),
+                  1, '<a href="'||apex_util.prepare_url('f?p='||:APP_ID||':37:'||:APP_SESSION||'::NO::P37_ID:'||cc.id)
+                      ||'">'||apex_escape.html(cc.name)||'</a>',
+                  apex_escape.html(cc.name))
+                  ||' '||initcap(replace(replace(h.column_name,'_ID',null),'_',' ')) comment_text,
+              ' changed from "'||h.old_value||'"' attribute_1,
+              ' to "'||h.new_value||'"' attribute_2,
+              ' ' attribute_3,
+              ' ' attribute_4,
+              lower(h.changed_by) user_name,
+              apex_util.get_since(h.change_date)||' - '||to_char(h.change_date,'Day DD-MON-YYYY HH24:MI') comment_date,
+              ora_hash(h.changed_by,29) icon_modifier,
+              upper(
+                    decode(instr(replace(h.changed_by,'.',' '),' '),
+                           0, 
+                           substr(h.changed_by,1,2),
+                           substr(h.changed_by,1,1)||substr(h.changed_by,instr(replace(h.changed_by,'.',' '),' ')+1,1)
+                     )) user_icon,
+              ' ' as actions,
+              null update_id,
+              h.change_date,
+              h.changed_by user_id
+          from eba_cust_history h,
+              eba_cust_contacts cc
+          where h.component_id = cc.id
+              and cc.customer_id = :P117_ID
+              and h.table_name = 'CONTACTS'
+              order by 14 desc
+      ) x
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: projectChangeLog
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  comments: 
+    comments: |
+      select 1 x
+      from EBA_PROJ_STATUS_UPDATES u,
+          EBA_PROJ_STATUS_UPDATE_TYPES t
+      where u.update_type = t.id(+)
+          and ( u.project_id = :P200_ID 
+              or (nvl(:P200_INC_CHILD,'N') = 'Y'
+                  and u.project_id in (select s.id 
+                                       from EBA_PROJ_STATUS s
+                                       where s.parent_project_id = :P200_ID))
+          )
+      union all
+      select 1 x
+      from eba_proj_history f
+      where component_id = :P200_ID 
+      union all
+      select 1 x
+      from eba_proj_history f,
+          eba_proj_status_ais ai
+      where f.table_name = 'STATUS_AIS'
+          and f.component_id = ai.id
+          and ai.project_id = :P200_ID 
+      union all
+      select 1 x
+      from eba_proj_history f,
+          eba_proj_status_ms ms
+      where f.table_name = 'STATUS_MS'
+          and f.component_id = ms.id
+          and ms.project_id = :P200_ID
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 150
+
+    appearance: 
+      template-type: Theme
+      template: Comments # 14857741621681769867
+      template-options: 
+      - '#DEFAULT#'
+      - t-Comments--chat
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 5000
+
+    messages: 
+      when-no-data-found: No customer updates
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Column Names
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: COMMENT_MODIFIERS ===========================
+    id: 17948199787171366235
+    identification: 
+      column-name: COMMENT_MODIFIERS
+      type: Plain Text
+
+    heading: 
+      heading: Comment Modifiers
+      alignment: start
+
+    layout: 
+      sequence: 13
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: NOTE_TYPE ===================================
+    id: 17948200224157366239
+    identification: 
+      column-name: NOTE_TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Note Type
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMMENT_TEXT ================================
+    id: 17948200636233366244
+    identification: 
+      column-name: COMMENT_TEXT
+      type: Plain Text
+
+    heading: 
+      heading: Comment Text
+      alignment: start
+
+    layout: 
+      sequence: 7
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: false
+
+  - # ====== Column: ATTRIBUTE_1 =================================
+    id: 17948201047159366245
+    identification: 
+      column-name: ATTRIBUTE_1
+      type: Hidden Column
+
+    layout: 
+      sequence: 3
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ATTRIBUTE_2 =================================
+    id: 17948201457219366247
+    identification: 
+      column-name: ATTRIBUTE_2
+      type: Hidden Column
+
+    layout: 
+      sequence: 4
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ATTRIBUTE_3 =================================
+    id: 17948201847767366248
+    identification: 
+      column-name: ATTRIBUTE_3
+      type: Hidden Column
+
+    layout: 
+      sequence: 2
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ATTRIBUTE_4 =================================
+    id: 17948212190078366250
+    identification: 
+      column-name: ATTRIBUTE_4
+      type: Hidden Column
+
+    layout: 
+      sequence: 5
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_NAME ===================================
+    id: 17948212573168366251
+    identification: 
+      column-name: USER_NAME
+      type: Plain Text
+
+    heading: 
+      heading: User Name
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    column-formatting: 
+      html-expression: <a href="#PROFILE_URL#">#USER_NAME#</a>
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMMENT_DATE ================================
+    id: 17948212981953366252
+    identification: 
+      column-name: COMMENT_DATE
+      type: Plain Text
+
+    heading: 
+      heading: Comment Date
+      alignment: start
+
+    layout: 
+      sequence: 9
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ICON_MODIFIER ===============================
+    id: 17948213392718366253
+    identification: 
+      column-name: ICON_MODIFIER
+      type: Plain Text
+
+    heading: 
+      heading: Icon Modifier
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    column-formatting: 
+      html-expression: u-Color-#ICON_MODIFIER#-BG--txt u-Color-#ICON_MODIFIER#-FG--bg
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USER_ICON ===================================
+    id: 17948213828133366255
+    identification: 
+      column-name: USER_ICON
+      type: Plain Text
+
+    heading: 
+      heading: User Icon
+      alignment: start
+
+    layout: 
+      sequence: 11
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTIONS =====================================
+    id: 17948214150322366256
+    identification: 
+      column-name: ACTIONS
+      type: Link
+
+    heading: 
+      heading: Actions
+      alignment: start
+
+    layout: 
+      sequence: 12
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.:RP,12:P12_ID:#UPDATE_ID#'
+        page: 12 # Administration
+        clear-cache: RP,12
+        values: 
+          p12_id: '#UPDATE_ID#'
+
+      link-text: '#ACTIONS#'
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+      escape-special-characters: true
+
+  - # ====== Column: UPDATE_ID ===================================
+    id: 17948214502320366259
+    identification: 
+      column-name: UPDATE_ID
+      type: Hidden Column
+
+    layout: 
+      sequence: 6
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROFILE_URL =================================
+    id: 17948214873048366260
+    identification: 
+      column-name: PROFILE_URL
+      type: Hidden Column
+
+    layout: 
+      sequence: 14
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+page-items: 
+- # ====== Page Item: P117_SHOW_VIEWS ==========================
+  id: 17948198892502366225
+  identification: 
+    name: P117_SHOW_VIEWS
+    type: Checkbox Group
+
+  label: 
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+
+  layout: 
+    sequence: 30
+    region: Filters # 17948198087158366217
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SHOW CUSTOMER VIEWS CHECKBOX # 17948219055104366288
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P117_ID ==================================
+  id: 17948215319369366262
+  identification: 
+    name: P117_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Change Log # 17948199358786366228
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: Perform Search on Enter =============
+  id: 17948215761947366276
+  identification: 
+    name: Perform Search on Enter
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.KEYDOWN
+    selection-type: Item(s)
+    item(s): 
+    - P117_SEARCH
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: this.browserEvent.which === 13
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 17948216231029366279
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+
+    execution-options: 
+      sequence: 10
+      event: Perform Search on Enter # 17948215761947366276
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 17948216759540366280
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+
+    execution-options: 
+      sequence: 20
+      event: Perform Search on Enter # 17948215761947366276
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_CANCEL_EVENT =========================
+    id: 17948217181987366281
+    identification: 
+      action: Cancel Event
+
+    execution-options: 
+      sequence: 30
+      event: Perform Search on Enter # 17948215761947366276
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: refresh report ======================
+  id: 17948217573461366281
+  identification: 
+    name: refresh report
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P117_SHOW_VIEWS
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_EXECUTE_PLSQL_CODE ===================
+    id: 17948218095347366283
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: null;
+      items-to-submit: 
+      - P117_SHOW_VIEWS
+
+    execution-options: 
+      sequence: 10
+      event: refresh report # 17948217573461366281
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 17948218612372366284
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Change Log # 17948199358786366228
+
+    execution-options: 
+      sequence: 20
+      event: refresh report # 17948217573461366281
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="a9d0e612495d92370edb06f94925c53244325c07" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOraclePackageBody objectName="UT_EBA_CUST_FW" objectType="PACKAGE_BODY" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE PACKAGE BODY "SAMPLE_CUSTOMERS"."UT_EBA_CUST_FW" AS 
+
+  PROCEDURE try_conv_urls_links 
+  IS
+    l_input VARCHAR2(32767) := 'http://www.twitter.com/Matt_Mulvaney';
+    l_expected VARCHAR2(32767) := '<a href="http://www.twitter.com/Matt_Mulvaney">http://www.twitter.com/Matt_Mulvaney</a> ';
+    l_output VARCHAR2(32767);
+  BEGIN
+    l_output := eba_cust_fw.conv_urls_links(l_input);
+    ut.expect(l_output).to_equal(l_expected);
+  END try_conv_urls_links;
+
+  PROCEDURE try_conv_txt_html
+  IS
+    l_input VARCHAR2(32767) := 'Matt' || CHR(10) || 'Mulvaney';
+    l_expected VARCHAR2(32767) := 'Matt<br />Mulvaney';
+    l_output VARCHAR2(32767);
+  BEGIN
+    l_output := eba_cust_fw.conv_txt_html(l_input);
+    ut.expect(l_output).to_equal(l_expected);
+  END try_conv_txt_html;
+
+END ut_eba_cust_fw;]]></n0:source>
+		</n0:createOraclePackageBody>
+	</changeSet>
+</databaseChangeLog>

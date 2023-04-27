@@ -1,0 +1,300 @@
+---
+- # ====== Build Option: Display Row Key =======================
+  id: 1161631675468892461
+  identification: 
+    name: Display Row Key
+
+  status: 
+    status: Exclude
+    default-on-export: Exclude
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Row Keys are alphanumeric unique identifiers that can be used to easily identify a specific customer.  If you wish to see these unique identifiers in the application set to Include; if you do not wish to see these unique identifiers in the application set to exclude.
+
+- # ====== Build Option: Discount Percentage ===================
+  id: 1161713851662966103
+  identification: 
+    name: Discount Percentage
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Include a customer attribute that tracks discount percentage at the customer level.  Including the discount will allow this value to be displayed and edited within the application.  Excluding this attribute will hide this feature from the application.
+
+- # ====== Build Option: Total Contract Value (TCV) ============
+  id: 1161714135219972214
+  identification: 
+    name: Total Contract Value (TCV)
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: A status of include will expose an Total Contract Value (TCV) attribute of customers.  A status of exclude will hide the attribute.
+
+- # ====== Build Option: Annual Recurring Revenue (ARR) ========
+  id: 1161715259242998972
+  identification: 
+    name: Annual Recurring Revenue (ARR)
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: A status of include will expose an Annual Recurring Revenue attribute of customers.  A status of exclude will hide the attribute.
+
+- # ====== Build Option: Competitors ===========================
+  id: 1335351478967749597
+  identification: 
+    name: Competitors
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This feature allows the tracking of competitors, and which customers they are competing against you on.
+
+- # ====== Build Option: Partners ==============================
+  id: 1338503066871774279
+  identification: 
+    name: Partners
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This feature allows the tracking of partners, and which customers they are working with you on.
+
+- # ====== Build Option: Issues ================================
+  id: 2564694359236856813
+  identification: 
+    name: Issues
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This feature allows end-users to capture and record customer issues.
+
+- # ====== Build Option: Customer Referencability ==============
+  id: 14286825208374281006
+  identification: 
+    name: Customer Referencability
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Support reference attributes at the customer level.
+
+- # ====== Build Option: Product Referencability ===============
+  id: 14286883625103355158
+  identification: 
+    name: Product Referencability
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Support reference attributes at the customer product level.
+
+- # ====== Build Option: Number_of_users =======================
+  id: 14873966273348850773
+  identification: 
+    name: Number_of_users
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Expose the number of users attribute
+
+- # ====== Build Option: Content Completeness Widget ===========
+  id: 14935275401130384906
+  identification: 
+    name: Content Completeness Widget
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This build option controls whether the "Content Completeness" plugin region is displayed on the Customer details page or not.
+
+- # ====== Build Option: Validations Widget ====================
+  id: 14935275594444388023
+  identification: 
+    name: Validations Widget
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This build option controls whether the "Validations" plugin region is displayed on the Customer details page or not.
+
+- # ====== Build Option: Geography =============================
+  id: 14954642305559426091
+  identification: 
+    name: Geography
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Including will allow reporting and management of geography by customer.  Excluding will not show the geography attribute for customers.
+
+- # ====== Build Option: Products and Services =================
+  id: 14954665590037691528
+  identification: 
+    name: Products and Services
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Use this build option to enable or disable products and services application functionality.
+
+- # ====== Build Option: Contacts ==============================
+  id: 14954672877910757979
+  identification: 
+    name: Contacts
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Use this build option to enable or disable tracking of customer contacts.
+
+- # ====== Build Option: Reports ===============================
+  id: 14954739582107816435
+  identification: 
+    name: Reports
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Enable or disable the application reporting tab that provides summary reporting of application data.  Disable this option to keep the application more terse and focused, enable this option to enable additional reporting functionality.
+
+- # ====== Build Option: Customer Data Loading =================
+  id: 14954817401937536194
+  identification: 
+    name: Customer Data Loading
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Allow application contributors to load customer data from CSV files or cut and paste via a data loading wizard.
+
+- # ====== Build Option: Strategic Customer Program ============
+  id: 16886892968439277617
+  identification: 
+    name: Strategic Customer Program
+
+  status: 
+    status: Exclude
+    default-on-export: Exclude
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Support tracking whether a customer is a "Strategic Customer Program" customer or not.
+
+- # ====== Build Option: Countries =============================
+  id: 16926257625523939711
+  identification: 
+    name: Countries
+
+  status: 
+    status: Exclude
+    default-on-export: Exclude
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Including will allow reporting and management of countries by customer. Excluding will not show the country attribute for customers.
+
+- # ====== Build Option: Customer Use Case =====================
+  id: 17116199856807611850
+  identification: 
+    name: Customer Use Case
+
+  status: 
+    status: Exclude
+    default-on-export: Exclude
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Support a use case status attribute at the customer level (development, test/stage, production, etc...).
+
+- # ====== Build Option: Customer Status =======================
+  id: 17138001262823690072
+  identification: 
+    name: Customer Status
+
+  status: 
+    status: Include
+    default-on-export: Include
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: Support a status attribute at the customer level.
+
+- # ====== Build Option: Activities ============================
+  id: 18137428917441624781
+  identification: 
+    name: Activities
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This feature allows the tracking of contacts who have attended various events.
+
+- # ====== Build Option: Feedback ==============================
+  id: 18729811502462578449
+  identification: 
+    name: Feedback
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: true
+
+  comments: 
+    comments: This feature allows end-users to submit feedback about the application that can be emailed and viewed by application administrators.
+

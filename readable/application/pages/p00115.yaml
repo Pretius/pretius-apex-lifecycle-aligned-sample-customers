@@ -1,0 +1,579 @@
+---
+# ====== Page: Partners ======================================
+id: 115
+identification: 
+  name: Partners
+  alias: PARTNERS
+  title: Partners
+  page-group: Products # 14718650684154372230
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+configuration: 
+  build-option: Partners # 1338503066871774279
+
+regions: 
+- # ====== Region: Implementation Partners =====================
+  id: 17776446350006088827
+  identification: 
+    title: Implementation Partners
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select p.id partner_id,
+          p.name partner_name,
+          p.website,
+          p.description,
+          (select count(*) from eba_cust_cust_partner_ref r where r.PARTNER_ID = p.id) customers,
+          (select listagg(customer_id,',') within group (order by customer_id desc) from EBA_CUST_CUST_PARTNER_REF r where r.partner_ID = p.id) as cust_ids
+      from 
+           eba_cust_impl_partners p
+      
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: PRODUCTS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 17776446731419088829
+    link: 
+      link-column: Exclude Link Column
+
+    appearance: 
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 10000
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 17776457122020088859
+      identification: 
+        name: Primary Report
+        alias: 167209222
+
+    columns: 
+    - # ====== Column: CUST_IDS ====================================
+      id: 1158033682483551963
+      identification: 
+        column-name: CUST_IDS
+        type: Hidden Column
+
+      heading: 
+        heading: Cust ids
+
+      layout: 
+        sequence: 60
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: DESCRIPTION =================================
+      id: 17776448771935088843
+      identification: 
+        column-name: DESCRIPTION
+        type: Plain Text
+
+      heading: 
+        heading: Description
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PARTNER_ID ==================================
+      id: 17776542164945122261
+      identification: 
+        column-name: PARTNER_ID
+        type: Link
+
+      heading: 
+        heading: Edit
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:107:&SESSION.::&DEBUG.:RP,107:P107_ID:#PARTNER_ID#'
+          page: 107 # Implementation Partner Details
+          clear-cache: RP,107
+          values: 
+            p107_id: '#PARTNER_ID#'
+
+        link-text: '<img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="Edit #PARTNER_NAME#">'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+        escape-special-characters: true
+
+    - # ====== Column: PARTNER_NAME ================================
+      id: 17776542829544122264
+      identification: 
+        column-name: PARTNER_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Partner Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: WEBSITE =====================================
+      id: 17776543512623122265
+      identification: 
+        column-name: WEBSITE
+        type: Plain Text
+
+      heading: 
+        heading: Website
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMERS ===================================
+      id: 17776544251754122265
+      identification: 
+        column-name: CUSTOMERS
+        type: Link
+
+      heading: 
+        heading: Customers
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:RP,RIR,CIR:P59_IMP_PARTNER,IRIN_ID:#PARTNER_ID#,\#CUST_IDS#\'
+          page: 59 # Customers
+          clear-cache: RP,RIR,CIR
+          values: 
+            p59_imp_partner: '#PARTNER_ID#'
+            irin_id: '#CUST_IDS#'
+
+        link-text: '#CUSTOMERS#'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: Breadcrumb ==================================
+  id: 17776551135556127495
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+buttons: 
+- # ====== Button: CREATE_PARTNER ==============================
+  id: 1158033613751551962
+  identification: 
+    button-name: CREATE_PARTNER
+    label: Create Partner
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 17776551135556127495
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:107:&SESSION.::&DEBUG.:RP,107::'
+      page: 107 # Implementation Partner Details
+      clear-cache: RP,107
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: RESET_REPORT ================================
+  id: 17776457603459088864
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Implementation Partners # 17776446350006088827
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    - t-Button--iconLeft
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:115:&SESSION.::&DEBUG.:RP,RIR::'
+      page: 115 # Partners
+      clear-cache: RP,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refresh IR after add ================
+  id: 1158034305186551969
+  identification: 
+    name: Refresh IR after add
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Button
+    button: CREATE_PARTNER # 1158033613751551962
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 1158034379434551970
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Implementation Partners # 17776446350006088827
+
+    execution-options: 
+      sequence: 10
+      event: Refresh IR after add # 1158034305186551969
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refresh IR after edit ===============
+  id: 1158034529219551971
+  identification: 
+    name: Refresh IR after edit
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Implementation Partners # 17776446350006088827
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 1158034612593551972
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Implementation Partners # 17776446350006088827
+
+    execution-options: 
+      sequence: 10
+      event: Refresh IR after edit # 1158034529219551971
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: LAST_VIEW ==============================
+  id: 17776458457973088883
+  identification: 
+    item-name: LAST_VIEW
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: 44
+

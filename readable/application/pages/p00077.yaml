@@ -1,0 +1,368 @@
+---
+# ====== Page: Manage Sample Data ============================
+id: 77
+identification: 
+  name: Manage Sample Data
+  alias: MANAGE-SAMPLE-DATA
+  title: Manage Sample Data
+  page-group: Administration # 14718649902724368096
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Manage Sample Data ==========================
+  id: 15887264684499188888
+  identification: 
+    title: Manage Sample Data
+    type: Static Content
+
+  source: 
+    html-code: <p>This application ships with sample data.  You can remove and recreate sample data using this page.  If the sample data is old recreating the data makes the dates more current.  Removing or adding sample data will not affect any decisions you created.</p>
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert # 14857719916040769828
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--wizard
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+buttons: 
+- # ====== Button: load_sample_data ============================
+  id: 15384408718387296341
+  identification: 
+    button-name: load_sample_data
+    label: Load Sample Data
+
+  layout: 
+    sequence: 30
+    region: Manage Sample Data # 15887264684499188888
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--primary
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: No Rows returned
+    sql-query: |
+      select null as value from eba_cust_links where id < 100
+      union all
+      select null as value from eba_cust_notes where id < 100
+      union all
+      select null as value from eba_cust_product_uses where id < 100
+      union all
+      select null as value from eba_cust_products where id < 100
+      union all
+      select null as value from eba_cust_contacts where id < 100
+      union all
+      select null as value from eba_cust_customers where id < 100;
+
+- # ====== Button: remove_sample_data ==========================
+  id: 15384409047910296341
+  identification: 
+    button-name: remove_sample_data
+    label: Remove Sample Data
+
+  layout: 
+    sequence: 20
+    region: Manage Sample Data # 15887264684499188888
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      select null as value from eba_cust_links where id < 100
+      union all
+      select null as value from eba_cust_notes where id < 100
+      union all
+      select null as value from eba_cust_product_uses where id < 100
+      union all
+      select null as value from eba_cust_products where id < 100
+      union all
+      select null as value from eba_cust_contacts where id < 100
+      union all
+      select null as value from eba_cust_customers where id < 100;
+
+- # ====== Button: reset_data ==================================
+  id: 15384409501727296341
+  identification: 
+    button-name: reset_data
+    label: Reset Data
+
+  layout: 
+    sequence: 40
+    region: Manage Sample Data # 15887264684499188888
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: CANCEL ======================================
+  id: 15384409860656296342
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Manage Sample Data # 15887264684499188888
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: CNX =================================
+  id: 332747727318269079
+  identification: 
+    name: CNX
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 15384409860656296342
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CANCEL ========================
+    id: 332747821671269080
+    identification: 
+      action: Cancel Dialog
+
+    execution-options: 
+      sequence: 10
+      event: CNX # 332747727318269079
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: reset data =================================
+  id: 15384411307996296349
+  identification: 
+    name: reset data
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      eba_cust_sample_data.remove_sample_data;
+      eba_cust_sample_data.create_sample_data;
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Sample data reset.
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: reset_data # 15384409501727296341
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+
+- # ====== Process: remove sample data =========================
+  id: 15384411672393296351
+  identification: 
+    name: remove sample data
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: eba_cust_sample_data.remove_sample_data;
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Sample Data Removed
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: remove_sample_data # 15384409047910296341
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+
+- # ====== Process: Load Sample Data ===========================
+  id: 15384412086262296351
+  identification: 
+    name: Load Sample Data
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: eba_cust_sample_data.create_sample_data;
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Sample Data Loaded.
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: load_sample_data # 15384408718387296341
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+
+branches: 
+- # ====== Branch: Go To Administration ========================
+  id: 15384412551350296351
+  identification: 
+    name: Go To Administration
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:settings:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: SETTINGS
+
+  comments: 
+    comments: 'Created 06-JAN-2012 15:08 by MIKE'
+

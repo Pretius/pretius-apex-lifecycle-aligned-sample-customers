@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="1f4050f9ead85e40511dcfae4344c161c85f4eac" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="EBA_CUST_PREFERENCES_BIU" objectType="TRIGGER" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SAMPLE_CUSTOMERS"."EBA_CUST_PREFERENCES_BIU" 
+before insert or update on eba_cust_preferences
+    for each row
+begin
+    if inserting and :new.id is null then
+        :new.id := eba_cust.gen_id();
+    end if;
+    if inserting then
+        :new.created_by := nvl(v('APP_USER'),USER);
+        :new.created_on := current_timestamp;
+    end if;
+    if updating then
+        :new.updated_by := nvl(v('APP_USER'),USER);
+        :new.updated_on := current_timestamp;
+    end if;
+    :new.preference_name := upper(:new.preference_name);
+end;
+
+ALTER TRIGGER "SAMPLE_CUSTOMERS"."EBA_CUST_PREFERENCES_BIU" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

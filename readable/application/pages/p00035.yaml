@@ -1,0 +1,702 @@
+---
+# ====== Page: Access Control Configuration ==================
+id: 35
+identification: 
+  name: Access Control Configuration
+  alias: ACCESS-CONTROL-CONFIGURATION
+  title: Access Control Configuration
+  page-group: ACL # 14718650004109368475
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: |
+    <p><strong>Enabling Access Control</strong> allows the application and its features to be controlled by the <strong>Access Control List</strong>, as defined by the application administrator. This application has 3 access levels available that can be granted to a user; Administrator, Contributor and Reader. Please see the Manage Access Control List page for further details on what each level provides.</p>
+    
+    <p>In addition, if you want to make every authenticated user a 'Reader' of your application, you can select Reader access for any authenticated user from the Access Control Scope configuration option. Similarly, selecting Contributor access for any authenticated user will provide contributor access to any user who can authenticate into your application.</p>
+    
+    <br>
+    <p><b>Disabling Access Control</b> means that access to the application and all of its features including Administration are open to any user who can authenticate to the application.</p>
+    <br>
+    <p>Note: Irrespective of whether Access Control is enabled or disabled, a user still has to authenticate successfully into the application.</p>
+
+regions: 
+- # ====== Region: Access Control Configuration ================
+  id: 15964411192008122358
+  identification: 
+    title: Access Control Configuration
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: About Access Control ========================
+  id: 15964412392099122364
+  identification: 
+    title: About Access Control
+    type: PL/SQL Dynamic Content
+
+  source: 
+    pl/sql-code: |
+      htp.prn(replace(
+          apex_lang.message('ACL_CONFIGURATION_INFO'),
+          '#IMAGE_PREFIX'||'#',
+          :image_prefix));
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: AC_ENABLED
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+- # ====== Region: Access Control Configuration ================
+  id: 15964412600374122365
+  identification: 
+    title: Access Control Configuration
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P35_HIDDEN_AC_ENABLED ====================
+  id: 15964411791308122359
+  identification: 
+    name: P35_HIDDEN_AC_ENABLED
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Access Control Configuration # 15964411192008122358
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: return eba_cust_fw.get_preference_value('ACCESS_CONTROL_ENABLED');
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_AC_ENABLED ===========================
+  id: 15964412177081122363
+  identification: 
+    name: P35_AC_ENABLED
+    type: Checkbox
+
+  label: 
+    label: Enable Access Control
+    alignment: Left
+
+  settings: 
+    use-defaults: true
+
+  layout: 
+    sequence: 10
+    region: Access Control Configuration # 15964411192008122358
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: return eba_cust_fw.get_preference_value('ACCESS_CONTROL_ENABLED');
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P35_ACCESS_CONTROL_SCOPE =================
+  id: 16584325185112032840
+  identification: 
+    name: P35_ACCESS_CONTROL_SCOPE
+    type: Radio Group
+
+  label: 
+    label: Access Control Scope
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+    page-action-on-selection: None
+
+  layout: 
+    sequence: 20
+    region: Access Control Configuration # 15964411192008122358
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ACCESS CONTROL SCOPE # 16584323906668020114
+    display-extra-values: true
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: eba_cust_fw.get_preference_value('ACCESS_CONTROL_SCOPE');
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: APPLY_CHANGES ===============================
+  id: 15964411404089122358
+  identification: 
+    button-name: APPLY_CHANGES
+    label: Apply Changes
+
+  layout: 
+    sequence: 20
+    region: Access Control Configuration # 15964412600374122365
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: CANCEL ======================================
+  id: 15964411599080122358
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Access Control Configuration # 15964412600374122365
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.:::'
+      page: 12 # Administration
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: APPLY CHANGES WHEN AC UNCHANGED =====
+  id: 15964413678855122370
+  identification: 
+    name: APPLY CHANGES WHEN AC UNCHANGED
+
+  execution-options: 
+    sequence: 40
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: APPLY_CHANGES # 15964411404089122358
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: |
+      ($v('P35_HIDDEN_AC_ENABLED') === $v('P35_AC_ENABLED'))
+      
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_SUBMIT_PAGE ==========================
+    id: 15964413985769122370
+    identification: 
+      action: Submit Page
+
+    settings: 
+      request-/-button-name: APPLY_CHANGES_AC_UNCHANGED
+      show-processing: false
+
+    execution-options: 
+      sequence: 10
+      event: APPLY CHANGES WHEN AC UNCHANGED # 15964413678855122370
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: APPLY CHANGES WHEN AC ENABLED =======
+  id: 15964414081055122371
+  identification: 
+    name: APPLY CHANGES WHEN AC ENABLED
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: APPLY_CHANGES # 15964411404089122358
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: |
+      ($v('P35_HIDDEN_AC_ENABLED') !== $v('P35_AC_ENABLED') &&
+       $v('P35_AC_ENABLED') === 'Y')
+      
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_SUBMIT_PAGE ==========================
+    id: 15964414403421122371
+    identification: 
+      action: Submit Page
+
+    settings: 
+      request-/-button-name: APPLY_CHANGES_AC_ENABLED
+      show-processing: false
+
+    execution-options: 
+      sequence: 10
+      event: APPLY CHANGES WHEN AC ENABLED # 15964414081055122371
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: APPLY CHANGES WHEN AC DISABLED ======
+  id: 15964414490413122371
+  identification: 
+    name: APPLY CHANGES WHEN AC DISABLED
+
+  execution-options: 
+    sequence: 30
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: APPLY_CHANGES # 15964411404089122358
+
+  client-side-condition: 
+    type: JavaScript expression
+    javascript-expression: |
+      ($v('P35_HIDDEN_AC_ENABLED') !== $v('P35_AC_ENABLED') &&
+       $v('P35_AC_ENABLED') === 'N')
+      
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_CONFIRM ==============================
+    id: 15964414791664122371
+    identification: 
+      action: Confirm
+
+    settings: 
+      message: Disabling Access Control means that all application features are available to any user who can authenticate. Are you sure you want to disable Access Control?
+      style: Default
+
+    execution-options: 
+      sequence: 10
+      event: APPLY CHANGES WHEN AC DISABLED # 15964414490413122371
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: NATIVE_SUBMIT_PAGE ==========================
+    id: 15964414996460122371
+    identification: 
+      action: Submit Page
+
+    settings: 
+      request-/-button-name: APPLY_CHANGES_AC_DISABLED
+      show-processing: false
+
+    execution-options: 
+      sequence: 20
+      event: APPLY CHANGES WHEN AC DISABLED # 15964414490413122371
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: ENABLE ACCESS CONTROL CHANGED =======
+  id: 15964415077506122371
+  identification: 
+    name: ENABLE ACCESS CONTROL CHANGED
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CHANGE
+    selection-type: Item(s)
+    item(s): 
+    - P35_AC_ENABLED
+
+  client-side-condition: 
+    type: Item = Value
+    item: P35_AC_ENABLED
+    value: Y
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_HIDE =================================
+    id: 15964415406941122371
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P35_ACCESS_CONTROL_SCOPE
+
+    execution-options: 
+      sequence: 10
+      event: ENABLE ACCESS CONTROL CHANGED # 15964415077506122371
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+  - # ====== Action: NATIVE_SHOW =================================
+    id: 15964415604013122372
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P35_ACCESS_CONTROL_SCOPE
+
+    execution-options: 
+      sequence: 10
+      event: ENABLE ACCESS CONTROL CHANGED # 15964415077506122371
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+processes: 
+- # ====== Process: ACCESS CONTROL ENABLED =====================
+  id: 15964413106894122369
+  identification: 
+    name: ACCESS CONTROL ENABLED
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'ACCESS_CONTROL_ENABLED',
+              p_preference_value => :P35_AC_ENABLED);
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'ACCESS_CONTROL_SCOPE',
+              p_preference_value => (case 
+                                         when :P35_AC_ENABLED = 'Y' then :P35_ACCESS_CONTROL_SCOPE
+                                         else 'ACL_ONLY' 
+                                     end) );
+      
+          -- Seed user table with current user as an administrator or set the current user as administrator
+          declare
+             l_count number;
+          begin
+              select count(*) 
+                  into l_count 
+              from eba_cust_users
+              where username = :APP_USER;
+              if l_count = 0 then
+                  insert into eba_cust_users(username, access_level_id) values (:APP_USER, 3);   
+              else
+                  update eba_cust_users
+                  set access_level_id = 3
+                  where username = :APP_USER;
+              end if;
+          end;
+      end;
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: 'Access Control enabled. Access to the application and its features are defined by an administrator in the <a href="f?p=&APP_ID.:MANAGE_ACL:&APP_SESSION.:::RP::">Access Control List</a>.'
+
+  error: 
+    error-message: Error trying to enable Access Control.
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request = Value
+    value: APPLY_CHANGES_AC_ENABLED
+
+- # ====== Process: ACCESS CONTROL DISABLED ====================
+  id: 15964413285277122370
+  identification: 
+    name: ACCESS CONTROL DISABLED
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'ACCESS_CONTROL_ENABLED',
+              p_preference_value => :P35_AC_ENABLED);
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'ACCESS_CONTROL_SCOPE',
+              p_preference_value => (case 
+                                         when :P35_AC_ENABLED = 'Y' then :P35_ACCESS_CONTROL_SCOPE
+                                         else 'ACL_ONLY' 
+                                     end) );
+      end;
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Access Control disabled. All application features are now available to any user who can authenticate.
+
+  error: 
+    error-message: Error trying to disable Access Control.
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request = Value
+    value: APPLY_CHANGES_AC_DISABLED
+
+- # ====== Process: ACCESS CONTROL UNCHANGED ===================
+  id: 15964413495163122370
+  identification: 
+    name: ACCESS CONTROL UNCHANGED
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      begin
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'ACCESS_CONTROL_ENABLED',
+              p_preference_value => :P35_AC_ENABLED);
+          eba_cust_fw.set_preference_value (
+              p_preference_name  => 'ACCESS_CONTROL_SCOPE',
+              p_preference_value => (case 
+                                         when :P35_AC_ENABLED = 'Y' then :P35_ACCESS_CONTROL_SCOPE
+                                         else 'ACL_ONLY' 
+                                     end) );
+      end;
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Access Control Configuration saved.
+
+  error: 
+    error-message: Error trying to save Access Control Configuration.
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request = Value
+    value: APPLY_CHANGES_AC_UNCHANGED
+
+branches: 
+- # ====== Branch: Go To Page 12 ===============================
+  id: 15964415799773122372
+  identification: 
+    name: Go To Page 12
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 12 # Administration
+
+  comments: 
+    comments: 'Created 18-NOV-2011 11:02 by ANTHONY'
+

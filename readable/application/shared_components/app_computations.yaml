@@ -1,0 +1,153 @@
+---
+- # ====== Application Computation: APPLICATION_TITLE ==========
+  id: 14735806283023818035
+  identification: 
+    item-name: APPLICATION_TITLE
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      declare
+          l_app_name varchar2(255);
+      begin
+          select nvl(preference_value,:APP_NAME)
+            into l_app_name
+            from eba_cust_preferences
+           where preference_name = 'APPLICATION_TITLE';
+          return l_app_name;
+      exception
+          when others then
+              return :APP_NAME;
+      end;
+
+- # ====== Application Computation: CUSTOMER_TYPE_HELP =========
+  id: 17000514442031361592
+  identification: 
+    item-name: CUSTOMER_TYPE_HELP
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('CUSTOMER_TYPE_HELP');
+
+- # ====== Application Computation: CUSTOMER_USE_CASE_HELP =====
+  id: 17125160947542845303
+  identification: 
+    item-name: CUSTOMER_USE_CASE_HELP
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('CONTACT_USE_CASE_HELP');
+
+- # ====== Application Computation: CREATE_MSG =================
+  id: 17831401946227381712
+  identification: 
+    item-name: CREATE_MSG
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('CREATE');
+
+- # ====== Application Computation: UNLINK_CONFIRM_MSG =========
+  id: 17833527641035444233
+  identification: 
+    item-name: UNLINK_CONFIRM_MSG
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('UNLINK_CONFIRMATION');
+
+- # ====== Application Computation: ACTIVE_MSG =================
+  id: 17834261242012248210
+  identification: 
+    item-name: ACTIVE_MSG
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('ACTIVE');
+
+- # ====== Application Computation: INACTIVE_MSG ===============
+  id: 17834261951362250867
+  identification: 
+    item-name: INACTIVE_MSG
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('INACTIVE');
+
+- # ====== Application Computation: CATEGORY_HELP ==============
+  id: 17834285638483417448
+  identification: 
+    item-name: CATEGORY_HELP
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('CATEGORY_HELP');
+
+- # ====== Application Computation: CUSTOMER_STATUS_HELP =======
+  id: 17834286353721421844
+  identification: 
+    item-name: CUSTOMER_STATUS_HELP
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('CUSTOMER_STATUS_HELP');
+
+- # ====== Application Computation: CONTACT_TYPES_HELP =========
+  id: 17834286759262423437
+  identification: 
+    item-name: CONTACT_TYPES_HELP
+
+  execution-options: 
+    sequence: 10
+    point: New Session
+
+  computation: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: htmldb_lang.message('CONTACT_TYPES_HELP');
+

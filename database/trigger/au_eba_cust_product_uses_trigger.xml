@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="870491afd809e6f8dd237b17c9d2f0d70ae0ba66" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="AU_EBA_CUST_PRODUCT_USES" objectType="TRIGGER" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SAMPLE_CUSTOMERS"."AU_EBA_CUST_PRODUCT_USES" 
+    after update on eba_cust_product_uses
+    for each row
+declare
+    ov varchar2(4000) := null;
+    nv varchar2(4000) := null;
+begin
+    -- PRODUCT_ID (foreign key)
+    if nvl(:old.product_id,-999) != nvl(:new.product_id,-999) then
+        ov := null; nv := null;
+        for c1 in (select product_name val from eba_cust_products t where t.id = :old.product_id) loop
+            ov := c1.val;
+        end loop;
+        for c1 in (select product_name val from eba_cust_products t where t.id = :new.product_id) loop
+            nv := c1.val;
+        end loop;
+        insert into eba_cust_history (table_name, component_rowkey, component_id, column_name, old_value, new_value) values
+            ('PRODUCT_USES', null, :new.customer_id, 'PRODUCT_ID', ov, nv);
+    end if;
+end au_eba_cust_product_uses;
+
+ALTER TRIGGER "SAMPLE_CUSTOMERS"."AU_EBA_CUST_PRODUCT_USES" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

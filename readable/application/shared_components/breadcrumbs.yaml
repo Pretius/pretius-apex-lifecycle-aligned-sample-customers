@@ -1,0 +1,1960 @@
+---
+- # ====== Breadcrumb: Breadcrumb1 =============================
+  id: 17796549046858957939
+  identification: 
+    name: Breadcrumb1
+
+  entries: 
+  - # ====== Entry: User Details =================================
+    id: 15827586883502185028
+    identification: 
+      name: User Details
+      page-number: 58
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Access Control List # 15688829880691441227
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:58:&SESSION.::&DEBUG.:::'
+        page: 58 # User Details
+
+  - # ====== Entry: Customer Details =============================
+    id: 17796758941149994121
+    identification: 
+      name: Customer Details
+      page-number: 2
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customers # 17796783650341110332
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&SESSION.:HOME_CUSTOMER_DETAILS:&DEBUG.:RP,7::'
+        page: 2 # Customer Details
+        request: HOME_CUSTOMER_DETAILS
+        clear-cache: RP,7
+
+  - # ====== Entry: Customers ====================================
+    id: 17796783650341110332
+    identification: 
+      name: Customers
+      page-number: 1
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:::'
+        page: 1 # Dashboard
+
+- # ====== Breadcrumb: Breadcrumb ==============================
+  id: 17838614244403304417
+  identification: 
+    name: Breadcrumb
+
+  entries: 
+  - # ====== Entry: ACL Features =================================
+    id: 1358989418611241086
+    identification: 
+      name: ACL Features
+      page-number: 123
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:123:&SESSION.'
+        page: 123 # ACL Features
+
+  - # ====== Entry: Application Timeline =========================
+    id: 2028305898122286405
+    identification: 
+      name: Application Timeline
+      page-number: 124
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:124:&SESSION.::&DEBUG.:::'
+        page: 124 # Timeline
+
+  - # ====== Entry: Customer Issues ==============================
+    id: 2564670524217735083
+    identification: 
+      name: Customer Issues
+      page-number: 131
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:131:&SESSION.::&DEBUG.:::'
+        page: 131 # Customer Issues
+
+  - # ====== Entry: Issue Statuses ===============================
+    id: 2564933644460628799
+    identification: 
+      name: Issue Statuses
+      page-number: 132
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:132:&SESSION.'
+        page: 132 # Issue Statuses
+
+  - # ====== Entry: Issues =======================================
+    id: 2565087457930497947
+    identification: 
+      name: Issues
+      page-number: 134
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:134:&SESSION.'
+        page: 134 # Issues
+
+  - # ====== Entry: All Customers ================================
+    id: 13541309988714233437
+    identification: 
+      name: All Customers
+      page-number: 93
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:93:&SESSION.'
+        page: 93 # All Customers
+
+  - # ====== Entry: Reference Statuses ===========================
+    id: 14279129287086320856
+    identification: 
+      name: Reference Statuses
+      page-number: 94
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:94:&SESSION.::&DEBUG.:::'
+        page: 94 # Product Reference Statuses
+
+  - # ====== Entry: Page Privileges ==============================
+    id: 14718656601148384287
+    identification: 
+      name: Page Privileges
+      page-number: 26
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.:::'
+        page: 26 # Page Privileges
+
+  - # ====== Entry: Application Settings =========================
+    id: 14735810403716843183
+    identification: 
+      name: Application Settings
+      page-number: 28
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:28:&SESSION.::&DEBUG.:::'
+        page: 28 # Application Settings
+
+  - # ====== Entry: Username Format ==============================
+    id: 14813840484773713135
+    identification: 
+      name: Username Format
+      page-number: 16
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:16:&SESSION.'
+        page: 16 # Username Format
+
+  - # ====== Entry: Add Multiple Users ===========================
+    id: 14813850606689734909
+    identification: 
+      name: Add Multiple Users
+      page-number: 73
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:73:&SESSION.::&DEBUG.:::'
+        page: 73 # Add Multiple Users
+
+  - # ====== Entry: Add Multiple Users ===========================
+    id: 14813868679556773922
+    identification: 
+      name: Add Multiple Users
+      page-number: 74
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:74:&SESSION.::&DEBUG.:::'
+        page: 74 # Add Multiple Users
+
+  - # ====== Entry: Industries ===================================
+    id: 14846403202768349542
+    identification: 
+      name: Industries
+      page-number: 27
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:27:&SESSION.::&DEBUG.:::'
+        page: 27 # Industry
+
+  - # ====== Entry: Industry =====================================
+    id: 14846403896969349549
+    identification: 
+      name: Industry
+      page-number: 30
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Industries # 14846403202768349542
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:30:&SESSION.::&DEBUG.:::'
+        page: 30 # Industries
+
+  - # ====== Entry: Customers ====================================
+    id: 14863055679416863444
+    identification: 
+      name: Customers
+      page-number: 59
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:::'
+        page: 59 # Customers
+
+  - # ====== Entry: Preferences ==================================
+    id: 14872172515001562663
+    identification: 
+      name: Preferences
+      page-number: 65
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:65:&SESSION.'
+        page: 65 # Preferences
+
+  - # ====== Entry: Validate Customer ============================
+    id: 14932467594806786871
+    identification: 
+      name: Validate Customer
+      page-number: 10
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10:&SESSION.'
+        page: 10 # Validate Customer
+
+  - # ====== Entry: Build Options ================================
+    id: 14935281779327410812
+    identification: 
+      name: Build Options
+      page-number: 11
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:11:&SESSION.'
+        page: 11 # Build Options
+
+  - # ====== Entry: Customer Usage Metrics =======================
+    id: 14938150504066440957
+    identification: 
+      name: Customer Usage Metrics
+      page-number: 13
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:13:&SESSION.'
+        page: 13 # Customer Usage Metrics
+
+  - # ====== Entry: Application Activity by Page =================
+    id: 14954633295706363268
+    identification: 
+      name: Application Activity by Page
+      page-number: 24
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:24:&SESSION.'
+        page: 24 # Application Activity by Page
+
+  - # ====== Entry: Application Activity =========================
+    id: 14964757898810172609
+    identification: 
+      name: Application Activity
+      page-number: 46
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:46:&SESSION.'
+        page: 46 # Application Activity
+
+  - # ====== Entry: Welcome Text =================================
+    id: 15066474103911997675
+    identification: 
+      name: Welcome Text
+      page-number: 14
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:14:&SESSION.'
+        page: 14 # Welcome Text
+
+  - # ====== Entry: Application Theme Style ======================
+    id: 15233721079860692158
+    identification: 
+      name: Application Theme Style
+      page-number: 70
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:70:&SESSION.'
+        page: 70 # Application Theme Style
+
+  - # ====== Entry: Manage Sample Data ===========================
+    id: 15384411083039296347
+    identification: 
+      name: Manage Sample Data
+      page-number: 77
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:77:&SESSION.::&DEBUG.:::'
+        page: 77 # Manage Sample Data
+
+  - # ====== Entry: Reference Types ==============================
+    id: 15640295362421397027
+    identification: 
+      name: Reference Types
+      page-number: 78
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:78:&SESSION.'
+        page: 78 # Reference Types
+
+  - # ====== Entry: Reference Type Details =======================
+    id: 15640311474626460314
+    identification: 
+      name: Reference Type Details
+      page-number: 79
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reference Types # 15640295362421397027
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:79:&SESSION.'
+        page: 79 # Reference Type Details
+
+  - # ====== Entry: Access Control List ==========================
+    id: 15688829880691441227
+    identification: 
+      name: Access Control List
+      page-number: 57
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:57:&SESSION.::&DEBUG.:::'
+        page: 57 # Access Control List
+
+  - # ====== Entry: Customers by Category ========================
+    id: 15769483407204263818
+    identification: 
+      name: Customers by Category
+      page-number: 32
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.:::'
+        page: 32 # Customers by Category
+
+  - # ====== Entry: Geographies ==================================
+    id: 15769488786737313541
+    identification: 
+      name: Geographies
+      page-number: 85
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customers # 14863055679416863444
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:85:&SESSION.::&DEBUG.:::'
+        page: 85 # Geographies
+
+  - # ====== Entry: Referenceability =============================
+    id: 15770404230121423815
+    identification: 
+      name: Referenceability
+      page-number: 86
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customers # 14863055679416863444
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:86:&SESSION.::&DEBUG.:::'
+        page: 86 # Referenceability
+
+  - # ====== Entry: Reference Phases =============================
+    id: 15817740458968058328
+    identification: 
+      name: Reference Phases
+      page-number: 87
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:87:&SESSION.'
+        page: 87 # Reference Phases
+
+  - # ====== Entry: Reference Phase ==============================
+    id: 15817741702923058330
+    identification: 
+      name: Reference Phase
+      page-number: 88
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reference Phases # 15817740458968058328
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:88:&SESSION.'
+        page: 88 # Reference Phase
+
+  - # ====== Entry: Sales Channels ===============================
+    id: 15842635912772917414
+    identification: 
+      name: Sales Channels
+      page-number: 89
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:89:&SESSION.::&DEBUG.:::'
+        page: 89 # Sales Channel
+
+  - # ====== Entry: Sales Channel ================================
+    id: 15842637715264926252
+    identification: 
+      name: Sales Channel
+      page-number: 90
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:90:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 90
+
+  - # ====== Entry: User Details =================================
+    id: 15854973595048933213
+    identification: 
+      name: User Details
+      page-number: 58
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Access Control List # 15688829880691441227
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:58:&SESSION.::&DEBUG.:::'
+        page: 58 # User Details
+
+  - # ====== Entry: Referenceability Report ======================
+    id: 15867949494382960943
+    identification: 
+      name: Referenceability Report
+      page-number: 91
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Referenceability # 15770404230121423815
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:91:&SESSION.::&DEBUG.:::'
+        page: 91 # Referenceability Report
+
+  - # ====== Entry: Products =====================================
+    id: 15868578458982783134
+    identification: 
+      name: Products
+      page-number: 92
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:92:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 92
+
+  - # ====== Entry: Data Loading =================================
+    id: 15886225276504010164
+    identification: 
+      name: Data Loading
+      page-number: 60
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Contacts' # 17838751067258011107
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:60:&SESSION.'
+        page: 60 # Data Load Source
+
+  - # ====== Entry: Data Loading =================================
+    id: 15886233000788010187
+    identification: 
+      name: Data Loading
+      page-number: 61
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Contacts' # 17838751067258011107
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:61:&SESSION.'
+        page: 61 # Data / Table Mapping
+
+  - # ====== Entry: Data Loading =================================
+    id: 15886235199778010190
+    identification: 
+      name: Data Loading
+      page-number: 62
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Contacts' # 17838751067258011107
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:62:&SESSION.'
+        page: 62 # Data Validation
+
+  - # ====== Entry: Data Loading =================================
+    id: 15886242107398010199
+    identification: 
+      name: Data Loading
+      page-number: 63
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Contacts' # 17838751067258011107
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:63:&SESSION.'
+        page: 63 # Data Load Results
+
+  - # ====== Entry: Access Control Configuration =================
+    id: 15964413000413122367
+    identification: 
+      name: Access Control Configuration
+      page-number: 35
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:35:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 35
+
+  - # ====== Entry: Search Results ===============================
+    id: 16307719689273137056
+    identification: 
+      name: Search Results
+      page-number: 15
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:15:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 15
+
+  - # ====== Entry: Notifications ================================
+    id: 16345100576125862561
+    identification: 
+      name: Notifications
+      page-number: 34
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:34:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 34
+
+  - # ====== Entry: Notification =================================
+    id: 16345578597262943023
+    identification: 
+      name: Notification
+      page-number: 36
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Notifications # 16345100576125862561
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:36:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 36
+
+  - # ====== Entry: &CUSTOMER. ===================================
+    id: 16421161788842818188
+    identification: 
+      name: '&CUSTOMER.'
+      page-number: 50
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customers # 14863055679416863444
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.:::'
+        page: 50 # Customer
+
+  - # ====== Entry: Customer Updates =============================
+    id: 16422222203142021414
+    identification: 
+      name: Customer Updates
+      page-number: 47
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.:::'
+        page: 47 # Customer Updates
+
+  - # ====== Entry: Customer Links ===============================
+    id: 16422364799229042564
+    identification: 
+      name: Customer Links
+      page-number: 51
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:51:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 51
+
+  - # ====== Entry: Customer Attachments =========================
+    id: 16422401085888045610
+    identification: 
+      name: Customer Attachments
+      page-number: 52
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:52:&SESSION.::&DEBUG.:::'
+        page: 52 # Customer Attachments
+
+  - # ====== Entry: Customer Attachment ==========================
+    id: 16588587606139303107
+    identification: 
+      name: Customer Attachment
+      page-number: 64
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Attachments # 16422401085888045610
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:64:&SESSION.::&DEBUG.:::'
+        page: 64 # Customer Attachment
+
+  - # ====== Entry: Link =========================================
+    id: 16589868578982378432
+    identification: 
+      name: Link
+      page-number: 66
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Links # 16422364799229042564
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:66:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 66
+
+  - # ====== Entry: Customer Products ============================
+    id: 16592489077396535351
+    identification: 
+      name: Customer Products
+      page-number: 67
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:67:&SESSION.::&DEBUG.:::'
+        page: 67 # Products
+
+  - # ====== Entry: Product ======================================
+    id: 16592489397744535353
+    identification: 
+      name: Product
+      page-number: 68
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Products # 16592489077396535351
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:68:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 68
+
+  - # ====== Entry: Customer Contacts ============================
+    id: 16592627892209512300
+    identification: 
+      name: Customer Contacts
+      page-number: 25
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:25:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 25
+
+  - # ====== Entry: Customer Contact =============================
+    id: 16592628200813512301
+    identification: 
+      name: Customer Contact
+      page-number: 37
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Contacts # 16592627892209512300
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:37:&SESSION.::&DEBUG.:::'
+        page: 37 # Customer Contact
+
+  - # ====== Entry: Time Zone ====================================
+    id: 16609878805868275302
+    identification: 
+      name: Time Zone
+      page-number: 76
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Preferences # 14872172515001562663
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:76:&SESSION.::&DEBUG.:::'
+        page: 76 # Preferences
+
+  - # ====== Entry: Maintain Update ==============================
+    id: 16632598377986603661
+    identification: 
+      name: Maintain Update
+      page-number: 7
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Updates # 16422222203142021414
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:7:&SESSION.::&DEBUG.:::'
+        page: 7 # Maintain Update
+
+  - # ====== Entry: Application Error Log ========================
+    id: 16708133203552282871
+    identification: 
+      name: Application Error Log
+      page-number: 175
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:175:&SESSION.::&DEBUG.:::'
+        page: 175 # Application Error Log
+
+  - # ====== Entry: Activity Calendar ============================
+    id: 16736101677574614972
+    identification: 
+      name: Activity Calendar
+      page-number: 21
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:21:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 21
+
+  - # ====== Entry: Countries ====================================
+    id: 16926217881878928467
+    identification: 
+      name: Countries
+      page-number: 98
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:98:&SESSION.'
+        page: 98 # Countries
+
+  - # ====== Entry: Customer Statuses ============================
+    id: 17000123779101232486
+    identification: 
+      name: Customer Statuses
+      page-number: 102
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:102:&SESSION.'
+        page: 102 # Customer Statuses
+
+  - # ====== Entry: Status Details ===============================
+    id: 17000163054610197603
+    identification: 
+      name: Status Details
+      page-number: 103
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Statuses # 17000123779101232486
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:103:&SESSION.'
+        page: 103 # Status Details
+
+  - # ====== Entry: Customer Use Cases ===========================
+    id: 17124940129794770497
+    identification: 
+      name: Customer Use Cases
+      page-number: 104
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:104:&SESSION.'
+        page: 104 # Customer Use Cases
+
+  - # ====== Entry: Use Case Details =============================
+    id: 17125327986444825069
+    identification: 
+      name: Use Case Details
+      page-number: 105
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Use Cases # 17124940129794770497
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:105:&SESSION.'
+        page: 105 # Use Case Details
+
+  - # ====== Entry: Implementation Partners ======================
+    id: 17714132127440925439
+    identification: 
+      name: Implementation Partners
+      page-number: 106
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:106:&SESSION.'
+        page: 106 # Implementation Partners
+
+  - # ====== Entry: Implementation Partner Details ===============
+    id: 17714134179947925451
+    identification: 
+      name: Implementation Partner Details
+      page-number: 107
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Implementation Partners # 17714132127440925439
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:107:&SESSION.'
+        page: 107 # Implementation Partner Details
+
+  - # ====== Entry: Competitors ==================================
+    id: 17714572386179094228
+    identification: 
+      name: Competitors
+      page-number: 108
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:108:&SESSION.'
+        page: 108 # Competitors
+
+  - # ====== Entry: Competitor Details ===========================
+    id: 17714573734107094244
+    identification: 
+      name: Competitor Details
+      page-number: 109
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Competitors # 17714572386179094228
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:109:&SESSION.'
+        page: 109 # Competitor Details
+
+  - # ====== Entry: Product Families =============================
+    id: 17761001937181986832
+    identification: 
+      name: Product Families
+      page-number: 112
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:112:&SESSION.'
+        page: 112 # Product Families
+
+  - # ====== Entry: Product Family Details =======================
+    id: 17761003112507986844
+    identification: 
+      name: Product Family Details
+      page-number: 113
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Product Families # 17761001937181986832
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:113:&SESSION.'
+        page: 113 # Product Family Details
+
+  - # ====== Entry: Partners =====================================
+    id: 17776551540916127501
+    identification: 
+      name: Partners
+      page-number: 115
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:115:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 115
+
+  - # ====== Entry: Competitors ==================================
+    id: 17776618433000147680
+    identification: 
+      name: Competitors
+      page-number: 116
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:116:&SESSION.'
+        page: 116 # Competitors
+
+  - # ====== Entry: Search Results ===============================
+    id: 17791337599448080391
+    identification: 
+      name: Search Results
+      page-number: 33
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:33:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 33
+
+  - # ====== Entry: Updates ======================================
+    id: 17793456621592449038
+    identification: 
+      name: Updates
+      page-number: 22
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:22:&SESSION.::&DEBUG.:::'
+        page: 22 # Updates
+
+  - # ====== Entry: Help =========================================
+    id: 17794754614213323783
+    identification: 
+      name: Help
+      page-number: 31
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:31:&SESSION.::&DEBUG.:::'
+        page: 31 # Help
+
+  - # ====== Entry: Products =====================================
+    id: 17803087103393302529
+    identification: 
+      name: Products
+      page-number: 42
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:42:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 42
+
+  - # ====== Entry: Product ======================================
+    id: 17803087306648302530
+    identification: 
+      name: Product
+      page-number: 43
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Products # 17803087103393302529
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:43:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 43
+
+  - # ====== Entry: Products and Services ========================
+    id: 17803500215693450621
+    identification: 
+      name: Products and Services
+      page-number: 44
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:::'
+        page: 44 # Products
+
+  - # ====== Entry: Customer Product Use =========================
+    id: 17803526800840036422
+    identification: 
+      name: Customer Product Use
+      page-number: 19
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Products and Services # 17803500215693450621
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:19:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 19
+
+  - # ====== Entry: Activity =====================================
+    id: 17803930512397391359
+    identification: 
+      name: Activity
+      page-number: 45
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:45:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 45
+
+  - # ====== Entry: Geographies ==================================
+    id: 17804115506785660531
+    identification: 
+      name: Geographies
+      page-number: 48
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:48:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 48
+
+  - # ====== Entry: Geography ====================================
+    id: 17805422722671942079
+    identification: 
+      name: Geography
+      page-number: 49
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Geographies # 17804115506785660531
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:49:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 49
+
+  - # ====== Entry: Tags =========================================
+    id: 17810896901992595994
+    identification: 
+      name: Tags
+      page-number: 40
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&FLOW_ID.:40:&SESSION.'
+        app: '&FLOW_ID.'
+        page: 40
+
+  - # ====== Entry:  Administration ==============================
+    id: 17838617357478327115
+    identification: 
+      name: ' Administration'
+      page-number: 12
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.:::'
+        page: 12 # Administration
+
+  - # ====== Entry: Categories ===================================
+    id: 17838631065151783396
+    identification: 
+      name: Categories
+      page-number: 3
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:3:&SESSION.::&DEBUG.:::'
+        page: 3 # Categories
+
+  - # ====== Entry: Category Details =============================
+    id: 17838631551776788986
+    identification: 
+      name: Category Details
+      page-number: 4
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Categories # 17838631065151783396
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:4:&SESSION.::&DEBUG.:::'
+        page: 4 # Category Details
+
+  - # ====== Entry: Contact Types ================================
+    id: 17838741259882876531
+    identification: 
+      name: Contact Types
+      page-number: 8
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:8:&SESSION.::&DEBUG.:::'
+        page: 8 # Contact Types
+
+  - # ====== Entry:  Contact Type Details ========================
+    id: 17838741639581880118
+    identification: 
+      name: ' Contact Type Details'
+      page-number: 9
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Contact Types # 17838741259882876531
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:9:&SESSION.::&DEBUG.:::'
+        page: 9 # Contact Type Details
+
+  - # ====== Entry: Customer Types ===============================
+    id: 17838742052048883690
+    identification: 
+      name: Customer Types
+      page-number: 5
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:::'
+        page: 5 # Customer Types
+
+  - # ====== Entry: Customer Type Code ===========================
+    id: 17838742464646896810
+    identification: 
+      name: Customer Type Code
+      page-number: 6
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Types # 17838742052048883690
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:6:&SESSION.::&DEBUG.:::'
+        page: 6 # Status Details
+
+  - # ====== Entry:  Contacts ====================================
+    id: 17838751067258011107
+    identification: 
+      name: ' Contacts'
+      page-number: 18
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:18:&SESSION.::&DEBUG.:::'
+        page: 18 # Contacts
+
+  - # ====== Entry:  Contact Details =============================
+    id: 17838751446610014600
+    identification: 
+      name: ' Contact Details'
+      page-number: 20
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Contacts' # 17838751067258011107
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:20:&SESSION.::&DEBUG.:::'
+        page: 20 # Contact Details
+
+  - # ====== Entry:  Dashboard ===================================
+    id: 17838752661979028520
+    identification: 
+      name: ' Dashboard'
+      page-number: 1
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:::'
+        page: 1 # Dashboard
+
+  - # ====== Entry: Customer =====================================
+    id: 17838753045834033319
+    identification: 
+      name: Customer
+      page-number: 2
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&SESSION.::&DEBUG.:::'
+        page: 2 # Customer Details
+
+  - # ====== Entry: Reports ======================================
+    id: 17838759355408102288
+    identification: 
+      name: Reports
+      page-number: 17
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: 0 # 0
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.:::'
+        page: 17 # Reports
+
+  - # ====== Entry: Recent Updates ===============================
+    id: 17838763839525126033
+    identification: 
+      name: Recent Updates
+      page-number: 29
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.:::'
+        page: 29 # Recent Activities
+
+  - # ====== Entry: Top Users ====================================
+    id: 17838764857187131147
+    identification: 
+      name: Top Users
+      page-number: 23
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Reports # 17838759355408102288
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:23:&SESSION.::&DEBUG.:::'
+        page: 23 # User Activities
+
+  - # ====== Entry: Upload Customers =============================
+    id: 18133504219684778355
+    identification: 
+      name: Upload Customers
+      page-number: 125
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:125:&SESSION.'
+        page: 125 # Data Load Source
+
+  - # ====== Entry: Upload Customers =============================
+    id: 18133520505418778389
+    identification: 
+      name: Upload Customers
+      page-number: 126
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:126:&SESSION.'
+        page: 126 # Data / Table Mapping
+
+  - # ====== Entry: Upload Customers =============================
+    id: 18133524797252778393
+    identification: 
+      name: Upload Customers
+      page-number: 127
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:127:&SESSION.'
+        page: 127 # Data Validation
+
+  - # ====== Entry: Upload Customers =============================
+    id: 18133547455594778432
+    identification: 
+      name: Upload Customers
+      page-number: 128
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:128:&SESSION.'
+        page: 128 # Data Load Results
+
+  - # ====== Entry: Activity Types ===============================
+    id: 18137343372819594935
+    identification: 
+      name: Activity Types
+      page-number: 53
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:53:&SESSION.'
+        page: 53 # Activity Types
+
+  - # ====== Entry: Activity Type ================================
+    id: 18137344641901594940
+    identification: 
+      name: Activity Type
+      page-number: 54
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Activity Types # 18137343372819594935
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:54:&SESSION.'
+        page: 54 # Activity Type
+
+  - # ====== Entry: Activities ===================================
+    id: 18144239459798877089
+    identification: 
+      name: Activities
+      page-number: 55
+
+    execution-options: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:55:&SESSION.'
+        page: 55 # Activities
+
+  - # ====== Entry: Activity Details =============================
+    id: 18144240604735877102
+    identification: 
+      name: Activity Details
+      page-number: 56
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Activities # 18144239459798877089
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:56:&SESSION.'
+        page: 56 # Activity Details
+
+  - # ====== Entry: &P145_ACTIVITY. ==============================
+    id: 18166681970603540205
+    identification: 
+      name: '&P145_ACTIVITY.'
+      page-number: 145
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Activities # 18144239459798877089
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:145:&SESSION.::&DEBUG.:::'
+        page: 145 # &P145_ACTIVITY.
+
+  - # ====== Entry: Customer Activities ==========================
+    id: 18179606292833975574
+    identification: 
+      name: Customer Activities
+      page-number: 149
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: '&CUSTOMER.' # 16421161788842818188
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:149:&SESSION.'
+        page: 149 # Customer Activities
+
+  - # ====== Entry: Customer Activity ============================
+    id: 18179607472339975586
+    identification: 
+      name: Customer Activity
+      page-number: 150
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Customer Activities # 18179606292833975574
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:150:&SESSION.'
+        page: 150 # Customer Activity
+
+  - # ====== Entry: Review Feedback ==============================
+    id: 18730201641674652158
+    identification: 
+      name: Review Feedback
+      page-number: 119
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:119:&SESSION.::&DEBUG.:::'
+        page: 119 # Review Feedback
+
+  - # ====== Entry: Email Log ====================================
+    id: 18733863019643515474
+    identification: 
+      name: Email Log
+      page-number: 121
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: ' Administration' # 17838617357478327115
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:121:&SESSION.'
+        page: 121 # Email Log
+
+  - # ====== Entry: Referenceability =============================
+    id: 20245439865334758558
+    identification: 
+      name: Referenceability
+      page-number: 100
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Products # 15868578458982783134
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:100:&SESSION.'
+        page: 100 # Referenceability
+
+  - # ====== Entry: Referenceability Report ======================
+    id: 20308017780525095676
+    identification: 
+      name: Referenceability Report
+      page-number: 122
+
+    execution-options: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Referenceability # 20245439865334758558
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:122:&SESSION.'
+        page: 122 # Referenceability Report
+

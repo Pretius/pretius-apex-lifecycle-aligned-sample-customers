@@ -1,0 +1,583 @@
+---
+# ====== Page: Competitors ===================================
+id: 116
+identification: 
+  name: Competitors
+  alias: COMPETITORS2
+  title: Competitors
+  page-group: Products # 14718650684154372230
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: View Competitors # 1359020134342521718
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: |
+    
+        Click the <strong>Reset</strong> button to reset the interactive Competitors report. Click the <strong>Actions</strong> button to define the number of rows displayed per page, filter, format, download, and/or save the interactive Competitors report.
+
+configuration: 
+  build-option: Competitors # 1335351478967749597
+
+regions: 
+- # ====== Region: Competitors =================================
+  id: 17776614559006147669
+  identification: 
+    title: Competitors
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select c.id ,
+          c.name competitor,
+          c.website,
+          c.description,
+          (select count(*) from EBA_CUST_CUST_COMPETITOR_REF   r where r.competitor_ID = c.id) customers,
+      (select listagg(customer_id,',') within group (order by customer_id desc) from EBA_CUST_CUST_COMPETITOR_REF r where r.competitor_ID = c.id) as cust_ids
+      from 
+           EBA_CUST_COMPETITORS  c
+      
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    static-id: COMP
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 17776614883529147671
+    link: 
+      link-column: Exclude Link Column
+
+    appearance: 
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 10000
+
+    messages: 
+      when-no-data-found: No competitors found.
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 17776617019954147675
+      identification: 
+        name: Primary Report
+        alias: 167210821
+
+    columns: 
+    - # ====== Column: CUST_IDS ====================================
+      id: 146348719791819470
+      identification: 
+        column-name: CUST_IDS
+        type: Hidden Column
+
+      heading: 
+        heading: Cust ids
+
+      layout: 
+        sequence: 40
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: DESCRIPTION =================================
+      id: 17776614976333147672
+      identification: 
+        column-name: DESCRIPTION
+        type: Plain Text
+
+      heading: 
+        heading: Description
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: WEBSITE =====================================
+      id: 17776616194483147674
+      identification: 
+        column-name: WEBSITE
+        type: Plain Text
+
+      heading: 
+        heading: Website
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMERS ===================================
+      id: 17776616574542147675
+      identification: 
+        column-name: CUSTOMERS
+        type: Link
+
+      heading: 
+        heading: Customers
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.:RP,RIR,CIR:P59_COMPETITOR,IRIN_ID:#ID#,\#CUST_IDS#\'
+          page: 59 # Customers
+          clear-cache: RP,RIR,CIR
+          values: 
+            p59_competitor: '#ID#'
+            irin_id: '#CUST_IDS#'
+
+        link-text: '#CUSTOMERS#'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ID ==========================================
+      id: 17776653745615216804
+      identification: 
+        column-name: ID
+        type: Link
+
+      heading: 
+        heading: Edit
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:109:&SESSION.::&DEBUG.:RP,109:P109_ID:#ID#'
+          page: 109 # Competitor Details
+          clear-cache: RP,109
+          values: 
+            p109_id: '#ID#'
+
+        link-text: '<img src="#IMAGE_PREFIX#app_ui/img/icons/apex-edit-pencil.png" class="apex-edit-pencil" alt="Edit #COMPETITOR#">'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        authorization-scheme: Edit Competitors # 1358982675546222610
+        escape-special-characters: true
+
+    - # ====== Column: COMPETITOR ==================================
+      id: 17776654407564216806
+      identification: 
+        column-name: COMPETITOR
+        type: Plain Text
+
+      heading: 
+        heading: Competitor
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+- # ====== Region: Breadcrumb ==================================
+  id: 17776617951033147678
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+buttons: 
+- # ====== Button: CREATE_COMPETITOR ===========================
+  id: 1158033531389551961
+  identification: 
+    button-name: CREATE_COMPETITOR
+    label: Create Competitor
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 17776617951033147678
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:109:&SESSION.::&DEBUG.:RP,109::'
+      page: 109 # Competitor Details
+      clear-cache: RP,109
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: Edit Competitors # 1358982675546222610
+
+- # ====== Button: RESET_REPORT ================================
+  id: 17776617484631147676
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Competitors # 17776614559006147669
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:116:&SESSION.::&DEBUG.:RP,RIR::'
+      page: 116 # Competitors
+      clear-cache: RP,RIR
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refresh IR after add ================
+  id: 1158033920752551965
+  identification: 
+    name: Refresh IR after add
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Button
+    button: CREATE_COMPETITOR # 1158033531389551961
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 1158034024060551966
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Competitors # 17776614559006147669
+
+    execution-options: 
+      sequence: 10
+      event: Refresh IR after add # 1158033920752551965
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refresh IR after edit ===============
+  id: 1158034104255551967
+  identification: 
+    name: Refresh IR after edit
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Competitors # 17776614559006147669
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 1158034174075551968
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Competitors # 17776614559006147669
+
+    execution-options: 
+      sequence: 10
+      event: Refresh IR after edit # 1158034104255551967
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: LAST_VIEW ==============================
+  id: 17776618667207147682
+  identification: 
+    item-name: LAST_VIEW
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Static Value
+    static-value: 44
+

@@ -1,0 +1,352 @@
+---
+# ====== Page: Confirm Enabling Access =======================
+id: 75
+identification: 
+  name: Confirm Enabling Access
+  alias: CONFIRM-ENABLING-ACCESS
+  title: Confirm Enabling Access
+  page-group: Administration # 14718649902724368096
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+css: 
+  inline: |
+    .acl-Info {
+      display: block;
+      overflow: hidden;
+    }
+    .acl-Info-statusBox,
+    .acl-Info-usersBox {
+      display: block;
+      float: left;
+      width: 50%;
+    }
+    .acl-Info-statusBox {
+      text-align: center;
+    }
+    .acl-Info-heading {
+      display: block;
+      font-size: 16px;
+      margin: 16px 16px 8px 16px;
+      font-weight: bold;
+      color: #404040;
+    }
+    .acl-Info-heading span {
+      color: #707070;
+      font-weight: normal;
+    }
+    .acl-Info-status {
+      display: block;
+      width: 50%;
+      margin: 0 auto 8px auto;
+      padding: 12px 0;
+      border: 1px solid #D0D0D0;
+      border-radius: 2px;
+      font-size: 20px;
+      line-height: 20px;
+      color: #404040;
+      font-weight: bold;
+      background-color: #F0F0F0;
+    }
+    .authScheme .acl-Info-status {
+      font-size: 16px;
+      width: 70%
+    }
+    .acl-Info-status.is-enabled {
+      background-color: #40C230;
+      border-color: #37A62A;
+      color: #FFF;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    }
+    .acl-Info-status.is-disabled {
+      background-color: #DE3038;
+      border-color: #A0242A;
+      color: #FFF;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    }
+    .acl-Info-changeStatusLink {
+      display: inline-block;
+      padding: 8px 0;
+      color: #404040;
+      text-decoration: none;
+      font-size: 11px;
+      background-color: #F0F0F0;
+      border: 1px solid #D0D0D0;
+      margin: 0 16px 16px 16px;
+      border-radius: 2px;
+      width: 50%;
+    }
+    .acl-Info-changeStatusLink:hover {
+      background-color: #fff;
+      border-color: #C0C0C0;
+      box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    }
+    .acl-Info-changeStatusLink:active {
+      background-color: #E0E0E0;
+      border-color: #C0C0C0;
+      box-shadow: 0 1px 1px rgba(0,0,0,.25) inset;
+    }
+    .acl-Info-users {
+      margin: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-left: 1px solid #F0F0F0;
+    }
+    .acl-Info-user {
+      border-top: 1px solid #F0F0F0;
+    }
+    .acl-Info-userLink {
+      text-decoration: none;
+      display: block;
+      padding: 8px;
+    }
+    .acl-Info-userLink:hover {
+      background-color: #689AD8;
+    }
+    .acl-Info-user:first-child {
+      border-top: none;
+    }
+    .acl-Info-userType,
+    .acl-Info-userCount {
+      display: block;
+      font-size: 14px;
+    }
+    .acl-Info-userType {
+      font-weight: bold;
+      float: left;
+      margin-right: 8px;
+      line-height: 32px;
+    }
+    .acl-Info-userLink:hover .acl-Info-userType {
+      color: #FFF;
+    }
+    .acl-Info-userCount {
+      display: block;
+      overflow: hidden;
+      text-align: right;
+    }
+    .acl-Info-userCount span {
+      display: inline-block;
+      padding: 8px;
+      background-color: #F8F8F8;
+      color: #404040;
+      line-height: 16px;
+      min-width: 36px;
+      text-decoration: none;
+      text-align: right;
+      border-radius: 2px;
+    }
+    .acl-Info-desc {
+        padding: 16px;
+        border-top: 1px solid #E0E0E0;
+        border-bottom: 1px solid #E0E0E0;
+        background: #F8F8F8;
+        font-size: 14px;
+        clear: both;
+    }
+    .acl-Info-desc>p:last-child {
+      margin-bottom: 0;
+    }
+    
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Confirm Enabling Access Control =============
+  id: 14371170602463458563
+  identification: 
+    title: Confirm Enabling Access Control
+    type: Static Content
+
+  source: 
+    html-code: <p>Enabling Access Control allows access to the application and its features to be controlled by an Access Control List (ACL).  Until access control is enabled all authenticated users are administrators.</p>
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Wizard Container # 14857738569295769861
+    template-options: 
+    - '#DEFAULT#'
+    - t-Wizard--hideStepsSmall
+    render-components: Above Content
+
+  advanced: 
+    static-id: confirmEnableACL
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 14371170793849458563
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+buttons: 
+- # ====== Button: ENABLE_ACCESS_CONTROL =======================
+  id: 14371170983700458564
+  identification: 
+    button-name: ENABLE_ACCESS_CONTROL
+    label: Enable Access Control
+
+  layout: 
+    sequence: 20
+    region: Buttons # 14371170793849458563
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+processes: 
+- # ====== Process: ENABLE_ACCESS_CONTROL ======================
+  id: 14371171210556458565
+  identification: 
+    name: ENABLE_ACCESS_CONTROL
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      -- Set AC flag
+      eba_cust_fw.set_preference_value('ACCESS_CONTROL_ENABLED','Y');
+      
+      -- Seed user table with current user as an administrator or set the current user as administrator
+      declare
+         l_count number;
+      begin
+          select count(*)
+            into l_count
+            from eba_cust_users
+           where username = :APP_USER
+             and access_level_id = 3;
+          if l_count = 0 then
+              insert into eba_cust_users(username, access_level_id) values (:APP_USER, 3);
+          end if;
+      end;
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: "Access Control enabled and the current user '&APP_USER.' has been set to be an Administrator. "
+
+  error: 
+    error-message: Error
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: ENABLE_ACCESS_CONTROL # 14371170983700458564
+
+  security: 
+    authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+
+- # ====== Process: CLose Modal ================================
+  id: 14371171379351458566
+  identification: 
+    name: CLose Modal
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+

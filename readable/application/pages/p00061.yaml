@@ -1,0 +1,302 @@
+---
+# ====== Page: Data / Table Mapping ==========================
+id: 61
+identification: 
+  name: Data / Table Mapping
+  alias: DATA-TABLE-MAPPING
+  title: Data / Table Mapping
+  page-group: Contacts # 14718650583115371840
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Standard # 14857692229054769793
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+html-header: 
+  html-header: |
+    <style>
+      .rc-content-main {height: 400px; overflow: auto !important;}
+    </style> 
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 15886232783730010186
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Data Load Process Train =====================
+  id: 15886233181150010187
+  identification: 
+    title: Data Load Process Train
+    type: List
+
+  source: 
+    list: Data Load Process Train - contacts # 15886223102730010155
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Wizard Container # 14857738569295769861
+    template-options: 
+    - '#DEFAULT#'
+    - t-Wizard--hideStepsSmall
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress # 14857751378983769894
+      template-options: 
+      - '#DEFAULT#'
+      - t-WizardSteps--displayLabels
+
+- # ====== Region: Data / Table Mapping ========================
+  id: 15886233292887010187
+  identification: 
+    title: Data / Table Mapping
+    type: Data Upload Column Mapping [Legacy]
+
+  layout: 
+    sequence: 20
+    parent-region: Data Load Process Train # 15886233181150010187
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    render-components: Above Content
+
+  advanced: 
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      data-load-definition: contacts # 15886222586957010136
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 15886233576354010188
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 20
+    region: Data Load Process Train # 15886233181150010187
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:18:&SESSION.::&DEBUG.:::'
+      page: 18 # Contacts
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: PREVIOUS ====================================
+  id: 15886233805561010188
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 10
+    region: Data Load Process Train # 15886233181150010187
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:60:&SESSION.::&DEBUG.:::'
+      page: 60 # Data Load Source
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: NEXT ========================================
+  id: 15886233883368010188
+  identification: 
+    button-name: NEXT
+    label: Next
+
+  layout: 
+    sequence: 30
+    region: Data Load Process Train # 15886233181150010187
+    position: NEXT
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconRight
+    - t-Button--large
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+processes: 
+- # ====== Process: Prepare Uploaded Data ======================
+  id: 15886234197903010188
+  identification: 
+    name: Prepare Uploaded Data
+    type: Prepare Uploaded Data [Legacy]
+
+  settings: 
+    data-load-definition: contacts # 15886222586957010136
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 15886233883368010188
+
+branches: 
+- # ====== Branch: Go To Page 62 ===============================
+  id: 15886234378827010188
+  identification: 
+    name: Go To Page 62
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:62:&SESSION.&success_msg=#SUCCESS_MSG#'
+      page: 62 # Data Validation
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 15886233883368010188
+

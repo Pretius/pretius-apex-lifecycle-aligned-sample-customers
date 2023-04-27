@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+############ 2023.04.17.11.48.45 #################################
+############ ddl.parms  ########################################
+BODY                           : ON
+COLLATION_CLAUSE               : NEVER
+CONSTRAINTS                    : ON
+CONSTRAINTS_AS_ALTER           : ON
+EMIT_SCHEMA                    : OFF
+FORCE                          : ON
+INHERIT                        : ON
+INSERT                         : ON
+OID                            : ON
+PARTITIONING                   : OFF
+PRETTY                         : ON
+REF_CONSTRAINTS                : ON
+SEGMENT_ATTRIBUTES             : OFF
+SIZE_BYTE_KEYWORD              : ON
+SPECIFICATION                  : ON
+SQLTERMINATOR                  : ON
+STORAGE                        : OFF
+TABLESPACE                     : OFF
+
+############ lb.parameters ########################################
+basecommand                    : lb
+command                        : generate-schema
+database-changelog-table-name  : DATABASECHANGELOG
+fail-on-error                  : false
+grants                         : true
+log                            : false
+replace                        : true
+runalways                      : false
+runonchange                    : true
+split                          : true
+sqlclversion                   : 23.1.0.0
+synonyms                       : true
+############ End Parameters #######################################
+-->
+<databaseChangeLog 
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+  <include file="context\logger_user_logctx_context.xml"/>
+  <include file="sequence\logger_logs_seq_sequence.xml"/> 
+  <include file="sequence\logger_apx_items_seq_sequence.xml"/> 
+  <include file="table\logger_logs_table.xml"/> 
+  <include file="table\logger_prefs_table.xml"/> 
+  <include file="table\logger_prefs_by_client_id_table.xml"/> 
+  <include file="table\logger_logs_apex_items_table.xml"/> 
+  <include file="view\logger_logs_5_min_view.xml"/> 
+  <include file="view\logger_logs_60_min_view.xml"/> 
+  <include file="view\logger_logs_terse_view.xml"/> 
+  <include file="package_spec\logger_package_spec.xml"/> 
+  <include file="procedure\logger_configure_procedure.xml"/> 
+  <include file="index\logger_apex_items_idx1_index.xml"/> 
+  <include file="index\logger_logs_idx1_index.xml"/> 
+  <include file="trigger\biu_logger_prefs_trigger.xml"/> 
+  <include file="trigger\biu_logger_apex_items_trigger.xml"/> 
+  <include file="package_body\package_body_noparse_0.xml"/> 
+  <include file="job\logger_purge_job_job.xml"/> 
+  <include file="job\logger_unset_prefs_by_client_job.xml"/> 
+  <include file="comment\logger_prefs_by_client_id_comments.xml"/> 
+  <include file="object_grant\object_grant_0.xml"/> 
+  <include file="object_grant\object_grant_1.xml"/> 
+  <include file="object_grant\object_grant_2.xml"/> 
+  <include file="object_grant\object_grant_3.xml"/> 
+  <include file="object_grant\object_grant_4.xml"/> 
+  <include file="object_grant\object_grant_5.xml"/> 
+  <include file="object_grant\object_grant_6.xml"/> 
+  <include file="object_grant\object_grant_7.xml"/> 
+  <include file="object_grant\object_grant_8.xml"/> 
+  <include file="object_grant\object_grant_9.xml"/>
+  <include file="data\logger-data.xml"/>
+</databaseChangeLog> 

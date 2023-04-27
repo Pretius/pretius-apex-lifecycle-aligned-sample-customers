@@ -1,0 +1,918 @@
+---
+# ====== Page: Data / Table Mapping ==========================
+id: 126
+identification: 
+  name: Data / Table Mapping
+  alias: DATA-TABLE-MAPPING2
+  title: Data / Table Mapping
+  page-group: Administration # 14718649902724368096
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+html-header: 
+  html-header: |
+    <style>
+      .rc-content-main {height: 400px; overflow: auto !important;}
+    </style> 
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: <p>Map this applications customer column names with your data to be uploaded.  The <strong>Customer Name</strong> column is required.  For <strong>Category</strong> columns choose "CATEGORY_ID" (a numeric column) but load data that is a valid (character string) category name (case-sensitivity matters). For <strong>Type</strong> columns choose "TYPE_ID" (a numeric column) but load data that is a valid (character string) type name (case-sensitivity matters).  For <strong>Status</strong> columns choose "STATUS_ID" (a numeric column) but load data that is a valid (character string) status name (case-sensitivity matters).  Expand the valid categories, types, and statuses below to verify your values.  Select <strong>Do Not Load</strong> column mapping for columns you do not wish to load.</p>
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 18133520068648778388
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Data Load Process Train =====================
+  id: 18133520853957778389
+  identification: 
+    title: Data Load Process Train
+    type: List
+
+  source: 
+    list: Data Load Process Train - Customers # 18133484926490775577
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Wizard Container # 14857738569295769861
+    template-options: 
+    - '#DEFAULT#'
+    - t-Wizard--hideStepsXSmall
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: true
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress # 14857751378983769894
+
+- # ====== Region: Data / Table Mapping ========================
+  id: 18133521142706778389
+  identification: 
+    title: Data / Table Mapping
+    type: Data Upload Column Mapping [Legacy]
+
+  layout: 
+    sequence: 20
+    parent-region: Data Load Process Train # 18133520853957778389
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard # 14857735341511769856
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    custom-attributes: 
+    - 'style="width:100%;max-width:none;"'
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      data-load-definition: Customers # 18133481160311775568
+
+- # ====== Region: Valid Customer Statuses  ====================
+  id: 18133811540850838160
+  identification: 
+    title: 'Valid Customer Statuses '
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select status customer_status,
+          description,
+          decode(is_active,'Y',:ACTIVE_MSG,:INACTIVE_MSG) status
+      from eba_cust_status
+      order by upper(status)
+
+  layout: 
+    sequence: 40
+    parent-region: Data Load Process Train # 18133520853957778389
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    css-classes: 
+    - infoTextRegion
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: <p>Customer status values must be one of the valid status values listed below.  Administrators of this application can extend and modify customer status values from application administration.</p>
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 14857742002178769869
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: CUSTOMER_STATUS =============================
+    id: 18133811783808838162
+    identification: 
+      column-name: CUSTOMER_STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Customer Status
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DESCRIPTION =================================
+    id: 18133822239213838163
+    identification: 
+      column-name: DESCRIPTION
+      type: Plain Text
+
+    heading: 
+      heading: Description
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATUS ======================================
+    id: 18133822591617838164
+    identification: 
+      column-name: STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Status
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Valid Customer Types  =======================
+  id: 18133824188999839123
+  identification: 
+    title: 'Valid Customer Types '
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select type,
+          description,
+          decode(is_active,'Y',:ACTIVE_MSG,:INACTIVE_MSG) status
+      from eba_cust_type
+      order by upper(type)
+
+  layout: 
+    sequence: 30
+    parent-region: Data Load Process Train # 18133520853957778389
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    css-classes: 
+    - infoTextRegion
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: <p>Customer status values must be one of the valid status values listed below.  Administrators of this application can extend and modify customer status values from application administration.</p>
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 14857742002178769869
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1500
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: DESCRIPTION =================================
+    id: 18133824477765839125
+    identification: 
+      column-name: DESCRIPTION
+      type: Plain Text
+
+    heading: 
+      heading: Description
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATUS ======================================
+    id: 18133824903929839127
+    identification: 
+      column-name: STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Status
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TYPE ========================================
+    id: 18133825313549839127
+    identification: 
+      column-name: TYPE
+      type: Plain Text
+
+    heading: 
+      heading: Type
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Valid Customer Categories ===================
+  id: 18133827559218840040
+  identification: 
+    title: Valid Customer Categories
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select category,
+          description,
+          decode(is_active,'Y',:ACTIVE_MSG,:INACTIVE_MSG) status
+      from eba_cust_categories
+      order by upper(category)
+
+  layout: 
+    sequence: 50
+    parent-region: Data Load Process Train # 18133520853957778389
+    position: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: <p>Customer categories must be one of the valid values from the list below.  Application administrators can extend this list of values from the administrative console.</p>
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 1500
+
+    appearance: 
+      template-type: Theme
+      template: Standard # 14857742002178769869
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--stretch
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      show-null-values-as: ' - '
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    messages: 
+      when-no-data-found: no data found
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: true
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: CATEGORY ====================================
+    id: 18133827827523840040
+    identification: 
+      column-name: CATEGORY
+      type: Plain Text
+
+    heading: 
+      heading: Category
+      alignment: start
+
+    layout: 
+      sequence: 1
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DESCRIPTION =================================
+    id: 18133828169849840041
+    identification: 
+      column-name: DESCRIPTION
+      type: Plain Text
+
+    heading: 
+      heading: Description
+      alignment: start
+
+    layout: 
+      sequence: 2
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: STATUS ======================================
+    id: 18133828615850840042
+    identification: 
+      column-name: STATUS
+      type: Plain Text
+
+    heading: 
+      heading: Status
+      alignment: start
+
+    layout: 
+      sequence: 3
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 18133521491965778389
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Data Load Process Train # 18133520853957778389
+    position: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.'
+      page: 12 # Administration
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: PREVIOUS ====================================
+  id: 18133522028192778390
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 30
+    region: Data Load Process Train # 18133520853957778389
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:125:&SESSION.::&DEBUG.'
+      page: 125 # Data Load Source
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: NEXT ========================================
+  id: 18133522351955778390
+  identification: 
+    button-name: NEXT
+    label: Next
+
+  layout: 
+    sequence: 20
+    region: Data Load Process Train # 18133520853957778389
+    position: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon # 14857752615928769901
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--iconRight
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+processes: 
+- # ====== Process: Prepare Uploaded Data ======================
+  id: 18133522846634778390
+  identification: 
+    name: Prepare Uploaded Data
+    type: Prepare Uploaded Data [Legacy]
+
+  settings: 
+    data-load-definition: Customers # 18133481160311775568
+    insert-count-item: P128_INSERT_COUNT
+    update-count-item: P128_UPDATE_COUNT
+    error-count-item: P128_ERROR_COUNT
+    review-count-item: P128_REVIEW_COUNT
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 18133522351955778390
+
+branches: 
+- # ====== Branch: Go To Page 127 ==============================
+  id: 18133523195385778391
+  identification: 
+    name: Go To Page 127
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:127:&SESSION.&success_msg=#SUCCESS_MSG#'
+      page: 127 # Data Validation
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 18133522351955778390
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |2
+                         begin
+                                  for c1 in (select skip_validation
+                                            from apex_appl_load_tables
+                                            where name = 'Customers' and application_id = apex_application.g_flow_id )
+                                  loop
+                                      if c1.skip_validation = 'N' then return true;
+                                      else return false;
+                                      end if;
+                                  end loop;
+                              end;
+
+- # ====== Branch: Go To Page 128 ==============================
+  id: 18133523567097778391
+  identification: 
+    name: Go To Page 128
+
+  execution-options: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:128:&SESSION.&success_msg=#SUCCESS_MSG#'
+      page: 128 # Data Load Results
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 18133522351955778390
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |2
+                         begin
+                                  for c1 in (select skip_validation
+                                            from apex_appl_load_tables
+                                            where name = 'Customers' and application_id = apex_application.g_flow_id )
+                                  loop
+                                      if c1.skip_validation = 'Y' then return true;
+                                      else return false;
+                                      end if;
+                                  end loop;
+                              end;
+

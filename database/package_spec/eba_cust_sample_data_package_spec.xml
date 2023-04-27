@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="a3656e3c2d61d358211b5f501865e3bc839ed186" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOraclePackageSpec objectName="EBA_CUST_SAMPLE_DATA" objectType="PACKAGE_SPEC" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SAMPLE_CUSTOMERS"."EBA_CUST_SAMPLE_DATA" as
+    -------------------------------------------------------------------------
+    procedure create_sample_data;
+    
+    -------------------------------------------------------------------------
+    procedure remove_sample_data;
+        
+end eba_cust_sample_data;
+]]></n0:source>
+		</n0:createOraclePackageSpec>
+	</changeSet>
+</databaseChangeLog>

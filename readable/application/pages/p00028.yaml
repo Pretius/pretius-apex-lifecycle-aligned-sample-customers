@@ -1,0 +1,396 @@
+---
+# ====== Page: Application Settings ==========================
+id: 28
+identification: 
+  name: Application Settings
+  alias: APPLICATION-SETTINGS
+  title: Application Settings
+  page-group: Administration # 14718649902724368096
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: The preferences on this page are used to affect several aspects of the application. Click the item-level help icons to learn what each preference does.
+
+regions: 
+- # ====== Region: Rename Application ==========================
+  id: 14735808980392843180
+  identification: 
+    title: Rename Application
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 14735810183260843182
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P28_APPLICATION_TITLE ====================
+  id: 14735809585515843182
+  identification: 
+    name: P28_APPLICATION_TITLE
+    type: Text Field
+
+  label: 
+    label: Application Name
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Rename Application # 14735808980392843180
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 265257292236847853
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Static Value
+    static-value: '&APPLICATION_TITLE.'
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Static
+    static-value: '&APP_NAME.'
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: false
+    restricted-characters: Blocklist HTML command characters (<>")
+
+  help: 
+    help-text: The text entered here is used throughout the application, most notably, in the upper left-hand corner of every page. By default, the application name is "&APP_NAME.". The change will take effect immediately for the administrator making the change, but other users will only see the change when they get a new session (e.g. at next login).
+
+- # ====== Page Item: P28_FEEDBACK_RECIPIENTS ==================
+  id: 18002945067518734206
+  identification: 
+    name: P28_FEEDBACK_RECIPIENTS
+    type: Textarea
+
+  label: 
+    label: Feedback Recipients
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 20
+    region: Rename Application # 14735808980392843180
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 265257658145847858
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+    height: 4
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    post-text-: '&nbsp;<a href="f?p=&APP_ID.:119:&APP_SESSION.">Review/Manage Feedback</a>'
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      if eba_cust_fw.get_preference_value(p_preference_name  => 'FEEDBACK_RECIPIENTS') = 'Preference does not exist' then
+          return null;
+      else
+          return eba_cust_fw.get_preference_value(p_preference_name  => 'FEEDBACK_RECIPIENTS');
+      end if;
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: <p>Provide a comma-separated list of the email addresses you would like feedback submissions emailed to. When feedback is submitted, the feedback will be emailed to the addresses in this list.</p>
+
+  configuration: 
+    build-option: Feedback # 18729811502462578449
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 14735809192836843180
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 14735810183260843182
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: SAVE ========================================
+  id: 14735809390516843182
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 20
+    region: Buttons # 14735810183260843182
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: CNX =================================
+  id: 332747952763269081
+  identification: 
+    name: CNX
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.BROWSER.CLICK
+    selection-type: Button
+    button: CANCEL # 14735809192836843180
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_DIALOG_CANCEL ========================
+    id: 332747976849269082
+    identification: 
+      action: Cancel Dialog
+
+    execution-options: 
+      sequence: 10
+      event: CNX # 332747952763269081
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Save Preferences ===========================
+  id: 14735810506743843183
+  identification: 
+    name: Save Preferences
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      :APPLICATION_TITLE := :P28_APPLICATION_TITLE;
+      
+      eba_cust_fw.set_preference_value( 'APPLICATION_TITLE',   apex_escape.html(:P28_APPLICATION_TITLE) );
+      eba_cust_fw.set_preference_value( 'FEEDBACK_RECIPIENTS', apex_escape.html(:P28_FEEDBACK_RECIPIENTS) );
+      
+      eba_cust_fw.set_preference_value(
+          p_preference_name => 'HOST_URL',
+          p_preference_value => nvl( wwv_flow_utilities.host_url(),
+                                     nvl( wwv_flow_utilities.get_protocol(), 'http' )
+                                         ||'://'|| owa_util.get_cgi_env( 'HTTP_HOST' )
+                                   )
+      );
+
+  execution-options: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Application settings saved.
+
+  error: 
+    error-message: '#SQLERRM#'
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 14735809390516843182
+
+branches: 
+- # ====== Branch: Go To Page settings =========================
+  id: 14735810804927843183
+  identification: 
+    name: Go To Page settings
+
+  execution-options: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:settings:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: SETTINGS
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 14735809390516843182
+

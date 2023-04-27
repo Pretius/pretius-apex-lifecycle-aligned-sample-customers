@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="99172d81081009c88882ef2d11f8051deb241179" author="(LOGGER_USER)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createSxmlObject objectName="LOGGER_APEX_ITEMS_IDX1" objectType="INDEX" ownerName="LOGGER_USER"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  <INDEX xmlns="http://xmlns.oracle.com/ku" version="1.0">
+   <SCHEMA>LOGGER_USER</SCHEMA>
+   <NAME>LOGGER_APEX_ITEMS_IDX1</NAME>
+   <TABLE_INDEX>
+      <ON_TABLE>
+         <SCHEMA>LOGGER_USER</SCHEMA>
+         <NAME>LOGGER_LOGS_APEX_ITEMS</NAME>
+      </ON_TABLE>
+      <COL_LIST>
+         <COL_LIST_ITEM>
+            <NAME>LOG_ID</NAME>
+         </COL_LIST_ITEM>
+      </COL_LIST>
+      <INDEX_ATTRIBUTES>
+         <PCTFREE>10</PCTFREE>
+         <INITRANS>2</INITRANS>
+         <MAXTRANS>255</MAXTRANS>
+         <TABLESPACE>USERS</TABLESPACE>
+         <LOGGING>Y</LOGGING>
+      </INDEX_ATTRIBUTES>
+   </TABLE_INDEX>
+</INDEX>]]></n0:source>
+		</n0:createSxmlObject>
+	</changeSet>
+</databaseChangeLog>

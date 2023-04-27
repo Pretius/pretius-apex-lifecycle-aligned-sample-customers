@@ -1,0 +1,12 @@
+---
+- # ====== Classic Navigation Bar Entrie: Logout ===============
+  id: 16618445384961646338
+  label: 
+    label: Logout
+
+  layout: 
+    sequence: 10
+
+  link: 
+    target: '&LOGOUT_URL.'
+

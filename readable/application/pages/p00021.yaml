@@ -1,0 +1,145 @@
+---
+# ====== Page: Activity Calendar =============================
+id: 21
+identification: 
+  name: Activity Calendar
+  alias: ACTIVITY-CALENDAR
+  title: Activity Calendar
+  page-group: Reports # 14718650376536369951
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: This is a monthly calendar of application activity, reporting distinct users and their total page views by day. Click the <strong><</strong> button to go to the previous month and the <strong>></strong> button to go forward a month. Switch between the calendar view to the list view by clicking the <strong>list</strong> button.
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 16736101401185614970
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Activity Calendar ===========================
+  id: 16736101897892617453
+  identification: 
+    title: Activity Calendar
+    type: Calendar
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select
+      lower(USERID) ||' - '||
+      trim(to_char(count(*),'999G999G999G990')) Page_Events,
+      trunc(time_stamp) the_day
+      from apex_activity_log l
+      where flow_id = :app_id and userid is not null and userid != 'nobody'
+      group by trunc(time_stamp), lower(USERID)
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    render-components: Above Content
+
+  advanced: 
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      version: FullCalendar 3 [Deprecated]
+      display-column: PAGE_EVENTS
+      start-date-column: THE_DAY
+      show-time: false
+      multiple-line-events: true
+      show-tooltip: true
+      additional-calendar-views: 'list:navigation'
+      maximum-events-/-day: 15
+      show-weekend: true
+
+    performance: 
+      lazy-loading: true
+

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="0ca3b336f4a1827556d1245884f94f9e4176913f" author="(LOGGER_USER)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createSxmlObject objectName="LOGGER_PREFS_BY_CLIENT_ID" objectType="TABLE" ownerName="LOGGER_USER"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  <TABLE xmlns="http://xmlns.oracle.com/ku" version="1.0">
+   <SCHEMA>LOGGER_USER</SCHEMA>
+   <NAME>LOGGER_PREFS_BY_CLIENT_ID</NAME>
+   <RELATIONAL_TABLE>
+      <COL_LIST>
+         <COL_LIST_ITEM>
+            <NAME>CLIENT_ID</NAME>
+            <DATATYPE>VARCHAR2</DATATYPE>
+            <LENGTH>64</LENGTH>
+            <COLLATE_NAME>USING_NLS_COMP</COLLATE_NAME>
+            <NOT_NULL></NOT_NULL>
+         </COL_LIST_ITEM>
+         <COL_LIST_ITEM>
+            <NAME>LOGGER_LEVEL</NAME>
+            <DATATYPE>VARCHAR2</DATATYPE>
+            <LENGTH>20</LENGTH>
+            <COLLATE_NAME>USING_NLS_COMP</COLLATE_NAME>
+            <NOT_NULL></NOT_NULL>
+         </COL_LIST_ITEM>
+         <COL_LIST_ITEM>
+            <NAME>INCLUDE_CALL_STACK</NAME>
+            <DATATYPE>VARCHAR2</DATATYPE>
+            <LENGTH>5</LENGTH>
+            <COLLATE_NAME>USING_NLS_COMP</COLLATE_NAME>
+            <NOT_NULL></NOT_NULL>
+         </COL_LIST_ITEM>
+         <COL_LIST_ITEM>
+            <NAME>CREATED_DATE</NAME>
+            <DATATYPE>DATE</DATATYPE>
+            <DEFAULT>sysdate</DEFAULT>
+            <NOT_NULL></NOT_NULL>
+         </COL_LIST_ITEM>
+         <COL_LIST_ITEM>
+            <NAME>EXPIRY_DATE</NAME>
+            <DATATYPE>DATE</DATATYPE>
+            <NOT_NULL></NOT_NULL>
+         </COL_LIST_ITEM>
+      </COL_LIST>
+      <CHECK_CONSTRAINT_LIST>
+         <CHECK_CONSTRAINT_LIST_ITEM>
+            <NAME>LOGGER_PREFS_BY_CLIENT_ID_CK1</NAME>
+            <CONDITION>logger_level in ('OFF','PERMANENT','ERROR','WARNING','INFORMATION','DEBUG','TIMING', 'APEX', 'SYS_CONTEXT')</CONDITION>
+         </CHECK_CONSTRAINT_LIST_ITEM>
+         <CHECK_CONSTRAINT_LIST_ITEM>
+            <NAME>LOGGER_PREFS_BY_CLIENT_ID_CK2</NAME>
+            <CONDITION>expiry_date >= created_date</CONDITION>
+         </CHECK_CONSTRAINT_LIST_ITEM>
+         <CHECK_CONSTRAINT_LIST_ITEM>
+            <NAME>LOGGER_PREFS_BY_CLIENT_ID_CK3</NAME>
+            <CONDITION>include_call_stack in ('TRUE', 'FALSE')</CONDITION>
+         </CHECK_CONSTRAINT_LIST_ITEM>
+      </CHECK_CONSTRAINT_LIST>
+      <PRIMARY_KEY_CONSTRAINT_LIST>
+         <PRIMARY_KEY_CONSTRAINT_LIST_ITEM>
+            <NAME>LOGGER_PREFS_BY_CLIENT_ID_PK</NAME>
+            <COL_LIST>
+               <COL_LIST_ITEM>
+                  <NAME>CLIENT_ID</NAME>
+               </COL_LIST_ITEM>
+            </COL_LIST>
+            <USING_INDEX>
+               <INDEX_ATTRIBUTES>
+                  <PCTFREE>10</PCTFREE>
+                  <INITRANS>2</INITRANS>
+                  <MAXTRANS>255</MAXTRANS>
+                  <TABLESPACE>USERS</TABLESPACE>
+                  <LOGGING>Y</LOGGING>
+               </INDEX_ATTRIBUTES>
+            </USING_INDEX>
+         </PRIMARY_KEY_CONSTRAINT_LIST_ITEM>
+      </PRIMARY_KEY_CONSTRAINT_LIST>
+      <DEFAULT_COLLATION>USING_NLS_COMP</DEFAULT_COLLATION>
+      <PHYSICAL_PROPERTIES>
+         <HEAP_TABLE>
+            <SEGMENT_ATTRIBUTES>
+               <SEGMENT_CREATION_DEFERRED></SEGMENT_CREATION_DEFERRED>
+               <PCTFREE>10</PCTFREE>
+               <PCTUSED>40</PCTUSED>
+               <INITRANS>1</INITRANS>
+               <MAXTRANS>255</MAXTRANS>
+               <TABLESPACE>USERS</TABLESPACE>
+               <LOGGING>Y</LOGGING>
+            </SEGMENT_ATTRIBUTES>
+            <COMPRESS>N</COMPRESS>
+         </HEAP_TABLE>
+      </PHYSICAL_PROPERTIES>
+   </RELATIONAL_TABLE>
+</TABLE>]]></n0:source>
+		</n0:createSxmlObject>
+	</changeSet>
+</databaseChangeLog>

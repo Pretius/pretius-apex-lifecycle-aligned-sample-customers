@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="60d81cfb383137a3c6deca1a1147fc363375725e" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false" runOnChange="true" runAlways="true"  >
+		<n0:createOraclePackageSpec objectName="UT_EBA_CUST_FW" objectType="PACKAGE_SPEC" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE PACKAGE "SAMPLE_CUSTOMERS"."UT_EBA_CUST_FW" AS 
+ --%suite(Conversion Tests)
+
+ --%test
+ procedure try_conv_urls_links;
+ --%test
+ procedure try_conv_txt_html;
+  
+END ut_eba_cust_fw;]]></n0:source>
+		</n0:createOraclePackageSpec>
+	</changeSet>
+</databaseChangeLog>

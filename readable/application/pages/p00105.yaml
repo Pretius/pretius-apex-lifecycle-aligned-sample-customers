@@ -1,0 +1,867 @@
+---
+# ====== Page: Use Case Details ==============================
+id: 105
+identification: 
+  name: Use Case Details
+  alias: USE-CASE-DETAILS
+  title: Use Case Details
+  page-group: Administration # 14718649902724368096
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: false
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+html-header: 
+  html-header: |
+    <script language="JavaScript" type="text/javascript">
+    <!--
+    
+     htmldb_delete_message='"DELETE_CONFIRM_MSG"';
+    
+    //-->
+    </script>
+
+security: 
+  authorization-scheme: ADMINISTRATION RIGHTS # 15674223689230729537
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+configuration: 
+  build-option: Customer Use Case # 17116199856807611850
+
+regions: 
+- # ====== Region: Customer Use Case Code ======================
+  id: 17125298993800825043
+  identification: 
+    title: Customer Use Case Code
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes # 14857721646117769833
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 17125321953165825055
+  identification: 
+    title: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    position: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container # 14857721930057769835
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Audit Information ===========================
+  id: 17125323903033825060
+  identification: 
+    title: Audit Information
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible # 14857732229615769850
+    template-options: 
+    - '#DEFAULT#'
+    - is-collapsed
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P105_ID
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P105_ID ==================================
+  id: 17125299342388825046
+  identification: 
+    name: P105_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Customer Use Case Code # 17125298993800825043
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: ID
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P105_USE_CASE ============================
+  id: 17125299670372825049
+  identification: 
+    name: P105_USE_CASE
+    type: Text Field
+
+  label: 
+    label: Use Case
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Customer Use Case Code # 17125298993800825043
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating # 265257292236847853
+    template-options: 
+    - '#DEFAULT#'
+    width: 48
+
+  validation: 
+    value-required: true
+    maximum-length: 60
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: USE_CASE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: A Use Case can be associated with each customer.
+
+- # ====== Page Item: P105_DESCRIPTION =========================
+  id: 17125300601453825052
+  identification: 
+    name: P105_DESCRIPTION
+    type: Textarea
+
+  label: 
+    label: Description
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 40
+    region: Customer Use Case Code # 17125298993800825043
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating # 265257658145847858
+    template-options: 
+    - '#DEFAULT#'
+    width: 64
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: DESCRIPTION
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: Enter short description.
+
+- # ====== Page Item: P105_IS_ACTIVE ===========================
+  id: 17125301529351825053
+  identification: 
+    name: P105_IS_ACTIVE
+    type: Checkbox Group
+
+  label: 
+    alignment: Left
+
+  settings: 
+    number-of-columns: 1
+
+  layout: 
+    sequence: 30
+    region: Customer Use Case Code # 17125298993800825043
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Hidden # 14857752070773769895
+    template-options: 
+    - '#DEFAULT#'
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:Active;Y'
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: IS_ACTIVE
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  default: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: "case when :P105_ID is null then 'Y' end;"
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    escape-special-characters: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P105_CREATED =============================
+  id: 17125324268466825061
+  identification: 
+    name: P105_CREATED
+    type: Display Only
+
+  label: 
+    label: '<b>Created On:</b>'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: false
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 50
+    region: Audit Information # 17125323903033825060
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: '&APP_DATE_FORMAT.'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CREATED
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The date on which the Customer Type was created.
+
+- # ====== Page Item: P105_CREATED_BY ==========================
+  id: 17125325212158825062
+  identification: 
+    name: P105_CREATED_BY
+    type: Display Only
+
+  label: 
+    label: '<b>Created By:</b>'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: false
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 60
+    region: Audit Information # 17125323903033825060
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: CREATED_BY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The User who created this Customer Type.
+
+- # ====== Page Item: P105_UPDATED =============================
+  id: 17125326118178825063
+  identification: 
+    name: P105_UPDATED
+    type: Display Only
+
+  label: 
+    label: '<b>Updated On:</b>'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: false
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 70
+    region: Audit Information # 17125323903033825060
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: '&APP_DATE_FORMAT.'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: UPDATED
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The date on which the Customer Type details was last Updated.
+
+- # ====== Page Item: P105_UPDATED_BY ==========================
+  id: 17125326978503825064
+  identification: 
+    name: P105_UPDATED_BY
+    type: Display Only
+
+  label: 
+    label: '<b>Updated By:</b>'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: false
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 80
+    region: Audit Information # 17125323903033825060
+    position: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional # 14857752201300769897
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Database Column
+    database-column: UPDATED_BY
+    used: Always, replacing any existing value in session state
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: The User who last updated the Customer Type Details.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 17125322318527825056
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 17125321953165825055
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:&LAST_VIEW.:&SESSION.::&DEBUG.:::'
+      page: '&LAST_VIEW.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 17125322702475825058
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Buttons # 17125321953165825055
+    position: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+    - t-Button--simple
+
+  behavior: 
+    action: Redirect to URL
+    target: "javascript:apex.confirm(htmldb_delete_message,'DELETE');"
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P105_ID
+
+- # ====== Button: SAVE ========================================
+  id: 17125323083858825059
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Buttons # 17125321953165825055
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P105_ID
+
+- # ====== Button: CREATE ======================================
+  id: 17125323487818825060
+  identification: 
+    button-name: CREATE
+    label: Add Use Case Code
+
+  layout: 
+    sequence: 40
+    region: Buttons # 17125321953165825055
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--gapLeft
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P105_ID
+
+validations: 
+- # ====== Validation: P105_USE_CASE unique ====================
+  id: 17125328342242825071
+  identification: 
+    name: P105_USE_CASE unique
+
+  execution-options: 
+    sequence: 10
+
+  validation: 
+    type: No Rows returned
+    sql-query: |
+      select null
+      from eba_cust_use_case
+      where upper(use_case) = upper(:P105_TYPE)
+          and (:P105_ID is null or id <> :P105_ID )
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# already exists.'
+    display-location: Inline with Field and in Notification
+    associated-item: P105_USE_CASE # 17125299670372825049
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE
+
+- # ====== Validation: Check Dependencies ======================
+  id: 17125328696078825073
+  identification: 
+    name: Check Dependencies
+
+  execution-options: 
+    sequence: 20
+
+  validation: 
+    type: No Rows returned
+    sql-query: 'Select 1 from eba_cust_customers where type_id = :P105_ID and rownum = 1'
+    always-execute: false
+
+  error: 
+    error-message: Cannot Delete this Type, Customers exists with this Type.
+    display-location: Inline with Field and in Notification
+    associated-item: P105_USE_CASE # 17125299670372825049
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 17125322702475825058
+
+processes: 
+- # ====== Process: Close Dialog ===============================
+  id: 336881150445043943
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+
+  execution-options: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Fetch Row from EBA_CUST_USE_CASE ===========
+  id: 17125328983437825073
+  identification: 
+    name: Fetch Row from EBA_CUST_USE_CASE
+    type: Automatic Row Fetch [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_USE_CASE
+    primary-key-column-: ID
+    primary-key-item: P105_ID
+
+  execution-options: 
+    sequence: 10
+    point: After Header
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    error-message: Unable to fetch row.
+
+- # ====== Process: Process Row of EBA_CUST_USE_CASE ===========
+  id: 17125329442133825074
+  identification: 
+    name: Process Row of EBA_CUST_USE_CASE
+    type: Automatic Row Processing (DML) [Legacy]
+
+  settings: 
+    table-owner: PARSING SCHEMA
+    table-name: EBA_CUST_USE_CASE
+    primary-key-column-: ID
+    primary-key-item: P105_ID
+    lock-row: true
+    supported-operations: 'I:U:D'
+
+  execution-options: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Action Processed.
+
+  error: 
+    error-message: Unable to process row of table EBA_CUST_TYPE.
+    display-location: On Error Page
+
+- # ====== Process: reset page =================================
+  id: 17125329774005825075
+  identification: 
+    name: reset page
+    type: Clear Session State
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution-options: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: On Error Page
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 17125322702475825058
+
+- # ====== Process: Load data ==================================
+  id: 17125330243100825075
+  identification: 
+    name: Load data
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      if :REQUEST = 'HOME' then
+         :LAST_VIEW := 100 ;
+      else
+         :LAST_VIEW := 104 ;
+      end if;
+
+  execution-options: 
+    sequence: 40
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+

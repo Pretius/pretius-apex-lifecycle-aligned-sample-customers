@@ -1,0 +1,1074 @@
+---
+# ====== Page: Products ======================================
+id: 67
+identification: 
+  name: Products
+  alias: PRODUCTS2
+  title: Products
+  page-group: Customers # 14718650480691371224
+
+appearance: 
+  user-interface: DESKTOP # 14542516592926628312
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: On
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: No help is available for this page.
+
+regions: 
+- # ====== Region: Products ====================================
+  id: 16592487198616535344
+  identification: 
+    title: Products
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select u.id,
+          p.id id2,
+          u.product_id,
+          p.product_name,
+          p.description,
+          p.tags,
+          p.is_active,
+          u.valid_from,
+          u.valid_to,
+          nvl(u.updated, u.created) last_updated,
+          lower(nvl(u.updated_by, u.created_by)) last_updated_by,
+          u.reference_status_id,
+          '#' delete_link,
+          (
+              select listagg(rt.reference_type,', ') within group (order by rt.reference_type)
+                from eba_cust_reference_types rt
+               where ':'||u.reference_type_ids||':' like '%:'||rt.id||':%'
+          ) as reference_types,
+          decode( u.customer_contact_id, null, null, (select decode(email, null, name, '<a href="mailto:'
+                                                                    || apex_escape.html(email) || '">'
+                                                                    || apex_escape.html(name) || '</a>')
+                                                      from EBA_CUST_CONTACTS where id = u.customer_contact_id) ) as customer_contact,
+             case when instr(nvl(u.internal_contact,'xxx'), '@') = 0 then apex_escape.html(u.internal_contact)
+                 else '<a href="mailto:' || apex_escape.html(u.internal_contact) || '">'
+                         || apex_escape.html(u.internal_contact) || '</a>' end as internal_contact
+      from eba_cust_product_uses u,
+          eba_cust_products p
+      where u.customer_id = :P67_ID
+          and u.product_id = p.id
+      order by u.created desc
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    position: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report # 14857734898739769853
+    template-options: 
+    - '#DEFAULT#'
+    - js-showMaximizeButton
+    render-components: Above Content
+
+  advanced: 
+    static-id: PRODUCTS
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 16592487394499535344
+    link: 
+      link-column: Exclude Link Column
+
+    appearance: 
+      show-null-values-as: '-'
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 100000
+
+    messages: 
+      when-no-data-found: No products found
+      when-more-data-found: 'This query returns more than #MAX_ROW_COUNT# rows, please filter your data to ensure complete results.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: true
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 16592489904397619161
+      identification: 
+        name: Primary Report
+        alias: 25285091
+
+    columns: 
+    - # ====== Column: REFERENCE_STATUS_ID =========================
+      id: 11998103955903920109
+      identification: 
+        column-name: REFERENCE_STATUS_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: PRODUCT STATUSES # 14279675779419505523
+
+      heading: 
+        heading: Status
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 273
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: |
+          APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Product Referencability') = 'INCLUDE'
+
+    - # ====== Column: REFERENCE_TYPES =============================
+      id: 11998104050508920110
+      identification: 
+        column-name: REFERENCE_TYPES
+        type: Plain Text
+
+      heading: 
+        heading: Reference Assets
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 283
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: |
+          APEX_UTIL.GET_BUILD_OPTION_STATUS(
+              P_APPLICATION_ID => :APP_ID,
+              P_BUILD_OPTION_NAME => 'Product Referencability') = 'INCLUDE'
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CUSTOMER_CONTACT ============================
+      id: 11998104141277920111
+      identification: 
+        column-name: CUSTOMER_CONTACT
+        type: Plain Text
+
+      heading: 
+        heading: Customer Contact
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 293
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: INTERNAL_CONTACT ============================
+      id: 11998104241900920112
+      identification: 
+        column-name: INTERNAL_CONTACT
+        type: Plain Text
+
+      heading: 
+        heading: Internal Contact
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 303
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: LAST_UPDATED ================================
+      id: 11998104724176920117
+      identification: 
+        column-name: LAST_UPDATED
+        type: Plain Text
+
+      heading: 
+        heading: Last Updated
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 313
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: SINCE
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LAST_UPDATED_BY =============================
+      id: 11998104856640920118
+      identification: 
+        column-name: LAST_UPDATED_BY
+        type: Plain Text
+
+      heading: 
+        heading: Last Updated By
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 323
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALID_FROM ==================================
+      id: 14286687263570243022
+      identification: 
+        column-name: VALID_FROM
+        type: Plain Text
+
+      heading: 
+        heading: Valid From
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 261
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: DD-MON-YYYY
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALID_TO ====================================
+      id: 14286687920543243025
+      identification: 
+        column-name: VALID_TO
+        type: Plain Text
+
+      heading: 
+        heading: Valid To
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 262
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: DD-MON-YYYY
+
+      column-filter: 
+        type: Default Based on Column Type
+        date-ranges: All
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ID2 =========================================
+      id: 14286729431211302745
+      identification: 
+        column-name: ID2
+        type: Link
+
+      heading: 
+        heading: Edit
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 263
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:68:&SESSION.::&DEBUG.:RP,68:P68_CUSTOMER_ID,P68_ID,P68_PRODUCT_ID:&P67_ID.,#ID#,#PRODUCT_ID#'
+          page: 68 # Customer Product(s)
+          clear-cache: RP,68
+          values: 
+            p68_customer_id: '&P67_ID.'
+            p68_id: '#ID#'
+            p68_product_id: '#PRODUCT_ID#'
+
+        link-text: <img src="#IMAGE_PREFIX#menu/pencil16x16.gif" alt="">
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+        escape-special-characters: true
+
+    - # ====== Column: ID ==========================================
+      id: 14871622162597119435
+      identification: 
+        column-name: ID
+        type: Hidden Column
+
+      heading: 
+        heading: ID
+
+      layout: 
+        sequence: 10
+
+      security: 
+        escape-special-characters: false
+
+    - # ====== Column: PRODUCT_NAME ================================
+      id: 16592487588197535349
+      identification: 
+        column-name: PRODUCT_NAME
+        type: Plain Text
+
+      heading: 
+        heading: Product Name
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: DESCRIPTION =================================
+      id: 16592487679934535349
+      identification: 
+        column-name: DESCRIPTION
+        type: Plain Text
+
+      heading: 
+        heading: Description
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TAGS ========================================
+      id: 16592487789832535349
+      identification: 
+        column-name: TAGS
+        type: Plain Text
+
+      heading: 
+        heading: Tags
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: IS_ACTIVE ===================================
+      id: 16592487887295535350
+      identification: 
+        column-name: IS_ACTIVE
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: Y_OR_N # 17800927397335229149
+
+      heading: 
+        heading: Is Active
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: DELETE_LINK =================================
+      id: 16593971705046303217
+      identification: 
+        column-name: DELETE_LINK
+        type: Link
+
+      heading: 
+        heading: Remove
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      appearance: 
+        format-mask: '&nbsp;'
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:67:&SESSION.:DELETE_PRODUCT:&DEBUG.::P67_DELETE_PROD_ID:#PRODUCT_ID#'
+          page: 67 # Products
+          request: DELETE_PRODUCT
+          values: 
+            p67_delete_prod_id: '#PRODUCT_ID#'
+
+        link-text: <span class="t-Icon fa fa-trash-o" aria-hidden="true"></span>
+        link-attributes: 'class="t-Button t-Button--danger t-Button--simple t-Button--small" title="Delete Product: #PRODUCT_NAME#"'
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: true
+
+      security: 
+        authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+        escape-special-characters: true
+
+    - # ====== Column: PRODUCT_ID ==================================
+      id: 16593972478643314571
+      identification: 
+        column-name: PRODUCT_ID
+        type: Hidden Column
+
+      heading: 
+        heading: Product ID
+
+      layout: 
+        sequence: 20
+
+      security: 
+        escape-special-characters: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 16592488702071535351
+  identification: 
+    title: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 17838614244403304417
+
+  layout: 
+    sequence: 1
+    parent-region: No Parent
+    position: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar # 14857737874998769858
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb # 14857753375097769903
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P67_ID ===================================
+  id: 16592491204874628686
+  identification: 
+    name: P67_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Products # 16592487198616535344
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P67_DELETE_PROD_ID =======================
+  id: 16594085805655322367
+  identification: 
+    name: P67_DELETE_PROD_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Products # 16592487198616535344
+    position: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+    maintain-session-state: Per Session (Disk)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: false
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: ADD_PRODUCT =================================
+  id: 16592488596261535350
+  identification: 
+    button-name: ADD_PRODUCT
+    label: Add Product
+
+  layout: 
+    sequence: 10
+    region: Breadcrumb # 16592488702071535351
+    position: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text # 14857753145098769902
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:68:&SESSION.::&DEBUG.:68:P68_CUSTOMER_ID:&P67_ID.'
+      page: 68 # Customer Product(s)
+      clear-cache: 68
+      values: 
+        p68_customer_id: '&P67_ID.'
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+
+- # ====== Button: RESET_REPORT ================================
+  id: 16592491390114633937
+  identification: 
+    button-name: RESET_REPORT
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Products # 16592487198616535344
+    position: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon # 14857752341936769899
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-undo-alt
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refresh IRR on Edit Close ===========
+  id: 11998104365833920113
+  identification: 
+    name: Refresh IRR on Edit Close
+
+  execution-options: 
+    sequence: 20
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Region
+    region: Products # 16592487198616535344
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 11998104422756920114
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Products # 16592487198616535344
+
+    execution-options: 
+      sequence: 10
+      event: Refresh IRR on Edit Close # 11998104365833920113
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refresh IRR on close ================
+  id: 13525275079119760529
+  identification: 
+    name: Refresh IRR on close
+
+  execution-options: 
+    sequence: 10
+
+  when: 
+    event: EVENT.EVENT.FAMEWORK.APEXAFTERCLOSEDIALOG
+    selection-type: Button
+    button: ADD_PRODUCT # 16592488596261535350
+
+  advanced: 
+    event-scope: Static
+
+  actions: 
+  - # ====== Action: NATIVE_REFRESH ==============================
+    id: 13525275173813760530
+    identification: 
+      action: Refresh
+
+    affected-elements: 
+      selection-type: Region
+      region: Products # 16592487198616535344
+
+    execution-options: 
+      sequence: 10
+      event: Refresh IRR on close # 13525275079119760529
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+computations: 
+- # ====== Computation: P50_ID =================================
+  id: 16593356288333423296
+  identification: 
+    item-name: P50_ID
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+
+  computation: 
+    type: Item
+    item-name: P67_ID
+
+processes: 
+- # ====== Process: delete product =============================
+  id: 16594086382714334663
+  identification: 
+    name: delete product
+    type: Execute Code
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      delete from eba_cust_product_uses
+      where product_id = :P67_DELETE_PROD_ID
+      and customer_id = :P67_ID;
+
+  execution-options: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Product deleted
+
+  server-side-condition: 
+    type: Request = Value
+    value: DELETE_PRODUCT
+
+  security: 
+    authorization-scheme: CONTRIBUTION RIGHTS # 15965151882280271883
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="e6c0ae8fbfb88ef3c79d4093e7e911f460da0e76" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="BD_EBA_CUST_PRODUCTS" objectType="TRIGGER" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SAMPLE_CUSTOMERS"."BD_EBA_CUST_PRODUCTS" 
+    before delete on eba_cust_products
+    for each row
+begin
+    eba_cust_fw.tag_sync(
+        p_new_tags      => null,
+        p_old_tags      => :old.tags,
+        p_content_type  => 'PRODUCT',
+        p_content_id    => :old.id );
+end;
+
+ALTER TRIGGER "SAMPLE_CUSTOMERS"."BD_EBA_CUST_PRODUCTS" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

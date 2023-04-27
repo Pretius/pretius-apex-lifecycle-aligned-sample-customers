@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="54f879303dc4eac013002f2de8e7e94d75586e1e" author="(SAMPLE_CUSTOMERS)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleTrigger objectName="BIU_EBA_CUST_HISTORY" objectType="TRIGGER" ownerName="SAMPLE_CUSTOMERS"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SAMPLE_CUSTOMERS"."BIU_EBA_CUST_HISTORY" 
+   before insert or update on EBA_CUST_HISTORY
+   for each row
+begin
+   if :new."ID" is null then
+     select to_number(sys_guid(),'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX') into :new.id from dual;
+   end if;
+   if inserting then
+       :new.change_date := current_timestamp;
+       :new.changed_by := nvl(wwv_flow.g_user,user);
+       :new.row_version_number := 1;
+   elsif updating then
+       :new.row_version_number := :new.row_version_number + 1;
+   end if;
+end;
+
+ALTER TRIGGER "SAMPLE_CUSTOMERS"."BIU_EBA_CUST_HISTORY" ENABLE]]></n0:source>
+		</n0:createOracleTrigger>
+	</changeSet>
+</databaseChangeLog>

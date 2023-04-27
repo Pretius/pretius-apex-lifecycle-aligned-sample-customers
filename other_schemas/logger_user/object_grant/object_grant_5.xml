@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:n0="http://www.oracle.com/xml/ns/dbchangelog-ext" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+	<changeSet id="a6b14653ab73d3fb3b94a6bdb49afb6909fa015a" author="(LOGGER_USER)-Generated" failOnError="false"   runOnChange="true" runAlways="false"  >
+		<n0:createOracleGrant objectName="object_grant5" objectType="OBJECT_GRANT" ownerName="LOGGER_USER"  replaceIfExists="true" >
+			<n0:source><![CDATA[
+  GRANT SELECT ON "LOGGER_USER"."LOGGER_PREFS_BY_CLIENT_ID" TO "SAMPLE_CUSTOMERS"]]></n0:source>
+		</n0:createOracleGrant>
+	</changeSet>
+</databaseChangeLog>
